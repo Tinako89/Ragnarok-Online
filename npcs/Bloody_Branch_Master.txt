@@ -1,4 +1,4 @@
-// NPC Creador de Blody Branch.
+// NPC Creador de Bloody Branch.
 
 prontera,60,140,5	script	Bloody Branch Master::Beisball122	47,{
 	mes "Hi Adventurer! Do you want to create a Bloody Branch?";
