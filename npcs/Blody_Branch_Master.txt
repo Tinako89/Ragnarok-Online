@@ -1,0 +1,55 @@
+prontera,60,140,5	script	Bloody Branch Master::Beisball122	47,{
+	mes "Hi Adventurer! Do you want to create a Bloody Branch?";
+	next;
+	switch(select("^3355FFMake Bloody Branch.^000000:Deliver ^3355FFBloody Branch^000000.:Nothing.")) {
+	case 1:
+		mes "[Bloody Branch Master]";
+		mes "List the Items.";
+		mes "^3355FF300 Dead Branch^000000";
+		mes "^3355FF200 Trunks^000000";
+		mes "^3355FF300 Strong Branch^000000";
+		mes "^3355FF25 Poring Coin^000000";
+		mes "^3355FF10.000.000 Zenys^000000";
+		//mes "Come back with them!";
+		next;
+		mes "[Bloody Branch Master]";
+		mes "With those Items I will give you a Bloody Branch.";
+		close;
+	case 2:
+		if (countitem(604) >= 300 && countitem(1019) >= 200 && countitem(7203) >= 300 && countitem(7539) >= 25 && zeny >= 10000000) {
+			//mes "[Bloody Branch Master]";
+			//mes "Listado de Items.";
+			next;
+			delitem 604,300; //Dead branch
+			delitem 1019,200; //Trunk
+			delitem 7203,300; //Strong Branch
+			delitem 7539,25; //Poring Coin
+			getitem 12103,1; //Bloody branch
+			set zeny,Zeny-10000000; //Los zenys
+			//mes "[Bloody Branch Master]";
+			//mes "Here you have!";
+			next;
+			mes "Return with the same items if you want another Bloody Branch.";
+			close;
+		}
+		else {
+			mes "[Bloody Branch Master]";
+			//mes "Please bring me these items!";
+			mes "List the Items";
+			mes "^3355FF300 Dead Branch^000000";
+			mes "^3355FF200 Trunks^000000";
+			mes "^3355FF300 Strong Branch^000000";
+			mes "^3355FF25 Poring Coin^000000";
+			mes "^3355FF10.000.000 Zenys^000000";
+			//mes "Con esos Items te entregaré una Bloody Branch.";
+			close;
+		}
+	case 3:
+		mes "[Bloody Branch Master]";
+		//mes "Ok! Lucky!";
+		//next;
+		//mes "[Bloody Branch Master]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}
