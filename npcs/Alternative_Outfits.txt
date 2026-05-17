@@ -1,0 +1,85 @@
+prontera,167,200,5	script	Dinorah Lacostt	878,{
+	disable_items;
+	function change_check;
+	mes "[ ^0000FF"+.npc$+"^000000 ]";
+	mes "Hello. I can change your costume to the Alternate Style if you are a 3rd job.";
+	next;
+	change_check();
+	mes "[ ^0000FF"+.npc$+"^000000 ]";
+	mes "Are you sure you want change your costume?";
+	next;
+	if(select("Yes:No") == 2){
+		next;
+		mes "[ ^0000FF"+.npc$+"^000000 ]";
+		mes "Comeback if you change your mind!";
+		end;
+	}
+	change_check();
+	delitem .item_requirement,.item_amount;
+	setlook LOOK_BODY2,!(getlook(LOOK_BODY2));
+	alternate_style = 1;
+	announce "["+strcharinfo(0)+"] has successfully changed Alternative Outfit to ["+jobname(Class)+"]", bc_all,0x9cbedc;
+	mes "[ ^0000FF"+.npc$+"^000000 ]";
+	mes "I changed your costume to alternate style! Thank you for your patronage.";
+	end;
+	
+
+OnInit:
+	.item_requirement = 42000;
+	.item_amount = 1;
+	.npc$ = "Dinorah Lacostt";
+	end;
+	
+function	change_check	{
+	switch(Class){
+		case Job_Guillotine_Cross:
+		case Job_Guillotine_Cross_T:
+		case Job_Genetic:
+		case Job_Genetic_T:
+		case Job_Royal_Guard:
+		case Job_Royal_Guard_T:
+		case Job_Arch_Bishop:
+		case Job_Arch_Bishop_T:
+		case Job_Mechanic:
+		case Job_Mechanic_T:
+		case Job_Ranger:
+		case Job_Ranger_T:
+		case Job_Minstrel:
+		case Job_Minstrel_T:
+		case Job_Wanderer:
+		case Job_Wanderer_T:
+		case Job_Warlock:
+		case Job_Warlock_T:
+		case Job_Sorcerer:
+		case Job_Sorcerer_T:
+		case Job_Sura:
+		case Job_Sura_T:
+		case Job_Rune_Knight:
+		case Job_Rune_Knight_T:
+		case Job_Shadow_Chaser:
+		case Job_Shadow_Chaser_T:
+			break;
+			
+		default:
+			mes "[ ^0000FF"+.npc$+"^000000 ]";
+			mes "Sorry. I only do costume changes for 3rd job classes.";
+			end;
+	}
+	if(countitem(.item_requirement) < .item_amount){
+		mes "[ ^0000FF"+.npc$+"^000000 ]";
+		mes "You need ^0000FF"+.item_amount+"^000000 - <ITEM>"+getitemname(.item_requirement)+"<INFO>"+.item_requirement+"</INFO></ITEM>.";
+		end;
+	}
+	if(alternate_style){
+		mes "[ ^0000FF"+.npc$+"^000000 ]";
+		mes "You are already changed to your alternate style. Do you want to revert to the original?";
+		next;
+		if(select("Revert:Cancel") == 2) end;
+		mes "[ ^0000FF"+.npc$+"^000000 ]";
+		mes "You reverted your alternate costume.";
+		setlook LOOK_BODY2,0;
+		end;
+	}	
+	return;
+	}	
+}

@@ -1,0 +1,70 @@
+abyss_01,28,47,5	script	Wandering Merchant::Prueba8788	542,{
+	mes "Whatcha doing around these places?";
+	next;
+	switch(select("^3355FFI want to get the Metal Dragon Hat^000000:Give me ^3355FFCostume Metal Dragon Hat^000000:Nothing")) {
+	case 1:
+		mes "[Wandering Merchant]";
+		mes "Hello!";
+		next;
+		mes "[Wandering Merchant]";
+		mes "I will give the Costume Metal Dragon Hat if you bring me some things.";
+		next;
+		mes "[Wandering Merchant]";
+		mes "These are the items I need";
+		mes "^3355FF100 Blue Bijou^000000";
+		mes "^3355FF100 Red Bijou^000000";
+		mes "^3355FF100 Yellow Bijou^000000";
+		mes "^3355FF100 Dragon Skin^000000";
+ 		mes "^3355FF1 Fire Dragon Scale^000000";
+		mes "^3355FF300 Feather ^000000";
+		mes "^3355FF50 Steel^000000";
+		mes "^3355FF2.000.000 Zenys^000000";
+		mes "Come back when you gathered them.";
+		next;
+		mes "[Wandering Merchant]";
+		mes "And I will give to you the Costume Metal Dragon Hat!";
+		close;
+	case 2:
+		if (countitem(7446) >= 100 && countitem(7447) >= 100 && countitem(7448) >= 100 && countitem(7123) >= 100 && countitem(7451) >= 1 && countitem(949) >= 300 && countitem(999) >= 50 && zeny >= 2000000) {
+			mes "[Wandering Merchant]";
+			mes "Let's see...";
+			next;
+			delitem 7446,100; //Blue Bijou
+			delitem 7447,100; //Red Bijou
+			delitem 7448,100; //Yellow Bijou
+			delitem 7123,100; //Dragon Skin 
+			delitem 7451,1; //Fire Dragon Scale
+			delitem 949,300; //Feather
+			delitem 999,50; //Steel
+			getitem 20082,1; //Costume Metal Dragon Hat
+			//getexp 20000,20000;
+			set zeny,Zeny-2000000; //Los zenys
+			mes "[Wandering Merchant]";
+			mes "Here you have!";
+			next;
+			mes "Thank you for your help. If you got more items come back again!";
+			close;
+		}
+		else {
+			mes "[Wandering Merchant]";
+			mes "Good, These are the items I need";
+			mes "^3355FF100 Blue Bijou^000000";
+			mes "^3355FF100 Red Bijou^000000";
+			mes "^3355FF100 Yellow Bijou^000000";
+			mes "^3355FF100 Dragon Skin^000000";
+ 			mes "^3355FF1 Fire Dragon Scale ^000000";
+			mes "^3355FF300 Feather ^000000";
+			mes "^3355FF50 Steel ^000000";
+			mes "^3355FF2.000.000Zenys^000000";
+			mes "Come back when you gathered them.";
+			close;
+		}
+	case 3:
+		mes "[Wandering Merchant]";
+		mes "Not interested?";
+		next;
+		mes "[Wandering Merchant]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

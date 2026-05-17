@@ -1,0 +1,71 @@
+lroom00,68,165,4	script	Gypsy::Bird	70,{
+	mes "What do you want?";
+	next;
+	switch(select("^3355FFI want the Bird Nest^000000:Deliver me ^3355FFBird Nest^000000:I'll think about it")) {
+	case 1:
+		mes "[Gypsy]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		//next;
+		next;
+		mes "[Gypsy]";
+		mes "The items are as follows.";
+		mes "^3355FF300 Bill of Birds^000000";
+		mes "^3355FF300 Feather of Birds^000000";
+		mes "^3355FF50 Dead Branch ^000000";
+		mes "^3355FF100 Shoot^000000";
+ 		mes "^3355FF50 Strong Branch^000000";
+		mes "^3355FF5 Gemstone^000000";
+		mes "^3355FF100 Stem^000000";
+		mes "^3355FF8.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Gypsy]";
+		mes "With these I will give you my Bird Nest. ";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(925) >= 300 && countitem(916) >= 300 && countitem(604) >= 50 && countitem(711) >= 100 && countitem(7203) >= 50 && countitem(7300) >= 5 && countitem(905) >= 100 && zeny >= 8000000) {
+			mes "[Gypsy]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 925,300; //Bill of Birds 
+			delitem 916,300; //Feather of Birds
+			delitem 604,50; //Dead Branch  
+			delitem 711,100; //Shoot
+			delitem 7203,50; //Strong Branch
+			delitem 7300,5; //Gemstone
+			delitem 905,100; //Stem
+			getitem 5129,1; //Bird Nest
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-5000000; //Los zenys
+			mes "[Henry]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Bird Nest.";
+			close;
+		}
+		else {
+			mes "[Gypsy]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "The items are as follows.";
+			mes "^3355FF300 Bill of Birds^000000";
+			mes "^3355FF300 Feather of Birds^000000";
+			mes "^3355FF50 Dead Branch ^000000";
+			mes "^3355FF100 Shoot^000000";
+ 			mes "^3355FF50 Strong Branch^000000";
+			mes "^3355FF5 Gemstone^000000";
+			mes "^3355FF100 Stem^000000";
+			mes "^3355FF8.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Gypsy]";
+		mes "Ok! Lucky!";
+		next;
+		mes "[Gypsy]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

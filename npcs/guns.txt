@@ -1,0 +1,72 @@
+veins,125,64,4	script	Gunslinger::Prueba2545	632,{
+	mes "Hey Foreigner! Welcome to the Grand Canyon of Veins!";
+	mes "The city geologist is studying the volcano, and perhaps he will be in need of your assistance.";
+	mes "At this very moment I need you to deliver me these things, and I will give you a Costume Drooping Gunslinger.";
+	next;
+	switch(select("^3355FFGet Drooping Gunslinger!^000000:Give me ^3355FFC Drooping Gunslinger^000000:Nothing")) {
+	case 1:
+		mes "[Gunslinger]";
+		mes "I will teach you how to get Costume Drooping Gunslinger.";
+		next;
+		mes "[Gunslinger]";
+		mes "Bring me these items. ";
+		next;
+		mes "[Gunslinger]";
+		mes "These are the items I need.";
+		mes "^3355FF80 Candys^000000";
+		mes "^3355FF80 Candy Cane^000000";
+		mes "^3355FF15 Glass Bead^000000";
+		mes "^3355FF1 Geek Glasses^000000";
+ 		mes "^3355FF1 Black Cat Doll^000000";
+		mes "^3355FF1 Little Ghost Doll ^000000";
+		mes "^3355FF20 Honey^000000";
+		mes "^3355FF2.500.000 Zenys^000000";
+		//mes "Regresa cuando los tengas.";
+		next;
+		mes "[Gunslinger]";
+		mes "¡I will give your the Costume Drooping Gunslinger for them!";
+		close;
+	case 2:
+		if (countitem(529) >= 80 && countitem(530) >= 80 && countitem(746) >= 15 && countitem(2243) >= 1 && countitem(7206) >= 1 && countitem(7268) >= 1 && countitem(518) >= 20 && zeny >= 2500000) {
+			mes "[Gunslinger]";
+			mes "Let's see...";
+			next;
+			delitem 529,80; //Candy
+			delitem 530,80; //Candy Cane  
+			delitem 746,15; //Glass Bead
+			delitem 2243,1; //Geek Glasses 
+			delitem 7206,1; //Black Cat Doll
+			delitem 7268,1; //Little Ghost Doll 
+			delitem 518,20; //Honey
+			getitem 20434,1; //Costume Metal Dragon Hat
+			//getexp 20000,20000;
+			set zeny,Zeny-2500000; //Los zenys
+			mes "[Gunslinger]";
+			mes "Here you have!";
+			next;
+			mes "Thank you for your help, If you want another one talk to me again, and bring me the same items.";
+			close;
+		}
+		else {
+			mes "[Gunslinger]";
+			mes "Good, these are the items I need";
+			mes "^3355FF80 Candys^000000";
+			mes "^3355FF80 Candy Cane^000000";
+			mes "^3355FF15 Glass Bead^000000";
+			mes "^3355FF1 Geek Glasses^000000";
+ 			mes "^3355FF1 Black Cat Doll^000000";
+			mes "^3355FF1 Little Ghost Doll ^000000";
+			mes "^3355FF20 Honey^000000";
+			mes "^3355FF2.500.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Gunslinger]";
+		mes "Okay... You don't know what you are missing.";
+		next;
+		mes "[Gunslinger]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

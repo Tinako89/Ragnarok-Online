@@ -1,0 +1,84 @@
+moc_fild11,199,216,5	script	Elisa::Prueba87101	575,{
+	mes "Este clima es tan sumamente arido...";
+	mes "Te contaré una historia sobre la Ciudad de Morroc... solo si escuchas mi historia te intercambiaré un ''Syringe in Mouth'' por 7 sencillos materiales.";
+	next;
+	switch(select("^3355FFEscuchar Historia de Elisa^000000:Adquirir ^3355FFSyringe in Mouth^000000:Nada.")) {
+	case 1:
+		mes "[Elisa]";
+		mes "Ahora atento y escucha.";
+		next;
+		mes "Hace mucho mucho tiempo atrás... el caballero mágico Thanatos batalló y selló al enorme demonio Satan Morroc, las leyendas dicen que la batalla destruyó la parte Sureste del Reino de Rune Midgard, creando lo que ahora es conocido como el Desierto Sograt.";
+		next;
+		mes "Para proteger el sello y mantener atrapado el demonio, la gente de Rune Midgard decidió construir un castillo sobre el mismo. Con el tiempo, tiendas y construcciones fueron agregadas a este castillo y sus alrededores, y esta nueva ciudad tomó el nombre del demonio que una vez destruyó la zona, Morroc...";
+		next;
+		mes "Pero ahora que pasaron mil años, Satan Morroc ha despertado de nuevo. Su liberación causó grandes daños a la ciudad de Morroc, y el continente de Midgard una vez más enfrente una crisis sin precedente.";
+		next;
+		mes "Supongo que ahora tu también tendrás los pelos de punta...";
+		next;
+		mes "...Gracias por escuchar mi historia Joven,.. ahora necesito estos Items";
+		//mes "[Elisa]";
+		//mes "Quiero los siguientes Items.";
+		//mes "¡wof wof!";
+		next;
+		mes "[Elisa]";
+		mes "Este es el Listado de Materiales que necesito.";
+		mes "^3355FF200 Cactus Needle^000000";
+		mes "^3355FF50 Broken Needle^000000";
+		mes "^3355FF100 Orange^000000";
+		mes "^3355FF5 Gold^000000";
+ 		mes "^3355FF20 Holy Water^000000";
+		mes "^3355FF100 Animal Skin ^000000";
+		mes "^3355FF100 feather^000000";
+		mes "^3355FF50.000 Zenys^000000";
+		mes "¡Vuelve con ellos!";
+		next;
+		mes "[Elisa]";
+		mes "Y te entregaré el Syringe in Mouth";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(952) >= 200 && countitem(7215) >= 50 && countitem(582) >= 100 && countitem(969) >= 5 && countitem(523) >= 20 && countitem(919) >= 100 && countitem(949) >= 100 && zeny >= 50000) {
+			mes "[Elisa]";
+			mes "Aquí tienes.";
+			next;
+			delitem 952,200; //Cactus Needle
+			delitem 7215,50; //Broken Needle
+			delitem 582,100; //Orange
+			delitem 969,5; //Gold
+			delitem 523,20; //Holy Water
+			delitem 919,100; //Animal Skin
+			delitem 949,100; //Feather
+			getitem 18697,1; //Syringe in Mouth
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-50000; //Los zenys
+			mes "[Elisa]";
+			mes "¡Aquí tienes!";
+			mes "Has conseguido un Item muy Valioso.";
+			next;
+			mes "Si quieres crear otro Syringe in Mouth vuelve con los mismos materiales.";
+			close;
+		}
+		else {
+			mes "[Elisa]";
+			mes "¡Por favor tráeme estos materiales!";
+			mes "^3355FF200 Cactus Needle^000000";
+			mes "^3355FF50 Broken Needle^000000";
+			mes "^3355FF100 Orange^000000";
+			mes "^3355FF5 Gold^000000";
+ 			mes "^3355FF20 Holy Water^000000";
+			mes "^3355FF100 Animal Skin ^000000";
+			mes "^3355FF100 feather^000000";
+			mes "^3355FF50.000 Zenys^000000";
+			mes "Regresa cuando consigas todos estos Items.";
+			//mes "¡wof wof!";
+			close;
+		}
+	case 3:
+		mes "[Elisa]";
+		mes "¿No lo quieres?";
+		next;
+		mes "[Elisa]";
+		mes "Ya regresarás...";
+		close;
+	}
+}

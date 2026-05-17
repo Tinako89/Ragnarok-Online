@@ -1,0 +1,71 @@
+lroom00,36,154,5	script	Henry::Prueba85487	64,{
+	mes "What do you want?";
+	next;
+	switch(select("^3355FFI want the Koneko Hat^000000:Deliver me ^3355FFKoneko Hat^000000:I'll think about it")) {
+	case 1:
+		mes "[Henry]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		//next;
+		next;
+		mes "[Henry]";
+		mes "The items are as follows.";
+		mes "^3355FF500 Harpy Talon^000000";
+		mes "^3355FF250 Slick Paper^000000";
+		mes "^3355FF50 Soft Feather^000000";
+		mes "^3355FF10 White Dyestuffs^000000";
+ 		mes "^3355FF100 White Mask^000000";
+		mes "^3355FF6 Agate^000000";
+		mes "^3355FF1 Skeletal Armor Piece^000000";
+		mes "^3355FF50.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Henry]";
+		mes "With these I will give you my Koneko Hat!";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(7116) >= 500 && countitem(7111) >= 200 && countitem(7063) >= 50 && countitem(982) >= 10 && countitem(7568) >= 100 && countitem(7291) >= 6 && countitem(7450) >= 1 && zeny >= 50000000) {
+			mes "[Henry]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 7116,500; //Harpy Talon
+			delitem 7111,200; //Slick Paper
+			delitem 7063,50; //Soft Feather
+			delitem 982,10; //White Dyestuffs
+			delitem 7568,100; //White Mask
+			delitem 7291,6; //Agate
+			delitem 7450,1; //Skeletal Armor Piece
+			getitem 5372,1; //Koneko Hat
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-50000000; //Los zenys
+			mes "[Henry]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Koneko Hat.";
+			close;
+		}
+		else {
+			mes "[Henry]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "The items are as follows.";
+			mes "^3355FF500 Harpy Talon^000000";
+			mes "^3355FF250 Slick Paper^000000";
+			mes "^3355FF50 Soft Feather^000000";
+			mes "^3355FF10 White Dyestuffs^000000";
+ 			mes "^3355FF100 White Mask^000000";
+			mes "^3355FF6 Agate^000000";
+			mes "^3355FF1 Skeletal Armor Piece^000000";
+			mes "^3355FF50.00.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Henry]";
+		mes "Ok! Lucky!";
+		next;
+		mes "[Henry]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

@@ -1,0 +1,72 @@
+lroom00,68,165,4	script	Kiro::Prueba8711	946,{
+	mes "I know why you have come!";
+	next;
+	switch(select("^3355FFI want the Gangster Scarf^000000:Deliver me ^3355FFGangster Scarf^000000:Nothing")) {
+	case 1:
+		mes "[Kiro]";
+		mes "Bring me these to make you a Gangster Scarf";
+		//next;
+		//mes "[Alexa]";
+		//mes "Jijijij ~.";
+		next;
+		mes "[Kiro]";
+		mes "The items are as follows.";
+		mes "^3355FF300 Rotten Bandage^000000";
+		mes "^3355FF300 Red Muffler ^000000";
+		mes "^3355FF200 Tongue^000000";
+		mes "^3355FF50 Flame Heart^000000";
+ 		mes "^3355FF5 Shackles^000000";
+		mes "^3355FF5 Tiger's Skin^000000";
+		mes "^3355FF5 Soft Apron^000000";
+		mes "^3355FF15.000.000 Zenys^000000";
+		mes "Come back with them! ~";
+		next;
+		mes "[Kiro]";
+		mes "With these I will give you my Gangster Scarf!";
+		close;
+	case 2:
+		if (countitem(930) >= 300 && countitem(7216) >= 300 && countitem(1015) >= 200 && countitem(994) >= 50 && countitem(2408) >= 5 && countitem(1029) >= 5 && countitem(661) >= 5 && zeny >= 15000000) {
+			mes "[Kiro]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 930,300; //Rotten Bandage
+			delitem 7216,300; //Red Muffler
+			delitem 1015,200; //Tongue
+			delitem 994,50; //Flame Heart
+			delitem 2408,5; //Shackles
+			delitem 1029,5; //Tiger's Skin
+			delitem 661,5; //Soft Apron
+			getitem 5361,1; //Gangster Scarf
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-15000000; //Los zenys
+			mes "[Kiro]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Gangster Scarf.";
+			close;
+		}
+		else {
+			mes "[Kiro]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF300 Rotten Bandage^000000";
+			mes "^3355FF300 Red Muffler ^000000";
+			mes "^3355FF200 Tongue^000000";
+			mes "^3355FF50 Flame Heart^000000";
+ 			mes "^3355FF5 Shackles^000000";
+			mes "^3355FF5 Tiger's Skin^000000";
+			mes "^3355FF5 Soft Apron^000000";
+			mes "^3355FF15.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			//mes "¡wof wof!";
+			close;
+		}
+	case 3:
+		mes "[Kiro]";
+		mes "Ok...";
+		next;
+		mes "[Kiro]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

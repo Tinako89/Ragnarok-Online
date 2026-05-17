@@ -1,0 +1,61 @@
+alberta,205,75,4	script	Kid Merchant::Merchant10	962,{
+	mes "Hi!! I want your coins!!";
+	next;
+	switch(select("^3355FFI want the C Poster Girl Hat^000000:Deliver me ^3355FFC Poster Girl Hat^000000:I'll think about it")) {
+	case 1:
+		mes "[Kid Merchant]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		//next;
+		next;
+		mes "[Kid Merchant]";
+		mes "The items are as follows.";
+		mes "^3355FF2 Old Album Card^000000";
+		mes "^3355FF90 Poring Coin^000000";
+		mes "^3355FF60 Gold Coin^000000";
+		mes "^3355FF15 WoE Coin^000000";
+		mes "^3355FF6.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Kid Merchant]";
+		mes "With these I will give you my BC Poster Girl Hat!";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(616) >= 2 && countitem(7539) >= 90 && countitem(7720) >= 60 && countitem(677) >= 15 && zeny >= 6000000) {
+			mes "[Kid Merchant]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 616,2; //Old Album card
+			delitem 7539,90; //Poring Coin
+			delitem 7720,60; //Gold Coin
+			delitem 677,15; //WoE Coin
+			getitem 20508,1; //C Poster Girl Hat
+			set zeny,Zeny-6000000; //Los zenys
+			mes "[Kid Merchant]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another C Poster Girl Hat.";
+			close;
+		}
+		else {
+			mes "[Kid Merchant]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "The items are as follows.";
+			mes "^3355FF2 Old Album Card^000000";
+			mes "^3355FF90 Poring Coin^000000";
+			mes "^3355FF60 Gold Coin^000000";
+			mes "^3355FF15 WoE Coin^000000";
+			mes "^3355FF6.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Kid Merchant";
+		mes "Ok! Lucky!";
+		next;
+		mes "[Kid Merchant]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

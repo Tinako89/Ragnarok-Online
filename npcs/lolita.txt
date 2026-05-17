@@ -1,0 +1,70 @@
+mjolnir_02,345,110,4	script	Lolita::lolita	558,{
+	mes "Are you lost? How can I help you?";
+	next;
+	switch(select("^3355FFI want the Lolita Ten Gallon Hat^000000:Deliver me ^3355FFLolita Ten Gallon Hat^000000:I'll think about it")) {
+	case 1:
+		mes "[Lolita]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		//next;
+		next;
+		mes "[Lolita]";
+		mes "The items are as follows.";
+		mes "^3355FF1 Western Grace^000000";
+		mes "^3355FF4 Scarlet Dyestuffs^000000";
+		mes "^3355FF20 Soft Silk^000000";
+		mes "^3355FF50 Yarn^000000";
+ 		//mes "^3355FF100 White Mask^000000";
+		//mes "^3355FF6 Agate^000000";
+		//mes "^3355FF150 feather^000000";
+		mes "^3355FF5.500.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Lolita]";
+		mes "With these I will give you my Lolita Ten Gallon Hat!";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(2248) >= 1 && countitem(975) >= 4 && countitem(7166) >= 20 && countitem(7038) >= 50 && zeny >= 5500000) {
+			mes "[Lolita]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 2248,1; //Western Grace
+			delitem 975,4; //Scarlet Dyestuffs
+			delitem 7166,20; //Soft Silk
+			delitem 7038,50; //Yarn
+			//delitem 978,5; //Cobaltblue Dyestuffs
+			//delitem 7291,6; //Agate
+			//delitem 949,150; //Feather
+			getitem 19815,1; //Costume Lolita Ten Gallon Hat 
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-5500000; //Los zenys
+			mes "[Lolita]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Lolita Ten Gallon Hat.";
+			close;
+		}
+		else {
+			mes "[Lolita]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF1 Western Grace^000000";
+			mes "^3355FF4 Scarlet Dyestuffs^000000";
+			mes "^3355FF20 Soft Silk^000000";
+			mes "^3355FF50 Yarn^000000";
+ 			//mes "^3355FF100 White Mask^000000";
+			//mes "^3355FF6 Agate^000000";
+			//mes "^3355FF150 feather^000000";
+			mes "^3355FF5.500.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Lolita]";
+		mes "Ok! Lucky!";
+		next;
+		mes "[Lolita]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

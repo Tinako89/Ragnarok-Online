@@ -1,0 +1,70 @@
+cus_in03,58,47,3	script	Kali::Prueba874110	655,{
+	mes "Hi, Do you like my hat";
+	next;
+	switch(select("^3355FFI want the Black Khalitzburg^000000:Deliver me ^3355FFBlack Khalitzburg^000000:Bye!")) {
+	case 1:
+		mes "[Kali]";
+		mes "Do you like my helmet? it is a Costume!!";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		next;
+		mes "[Kali]";
+		mes "The items are as follows.";
+		mes "^3355FF50 Elunium^000000";
+		mes "^3355FF100 Skel-Bone^000000";
+		mes "^3355FF50 Reins^000000";
+		mes "^3355FF50 Brigan^000000";
+ 		mes "^3355FF100 Fabric^000000";
+		mes "^3355FF15 Coal^000000";
+		mes "^3355FF50 feather^000000";
+		mes "^3355FF5.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Kali]";
+		mes "With these I will give you my Black Khalitzburg!";
+		close;
+	case 2:
+		if (countitem(985) >= 50 && countitem(932) >= 100 && countitem(1064) >= 50 && countitem(7054) >= 50 && countitem(1059) >= 100 && countitem(1003) >= 15 && countitem(949) >= 50 && zeny >= 5000000) {
+			mes "[Kali]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 985,50; //Elunium
+			delitem 932,100; //Skel Bone
+			delitem 1064,50; //Reins
+			delitem 7054,50; //Brigan
+			delitem 1059,50; //Fabric
+			delitem 1003,15; //Coal
+			delitem 949,50; //Feather
+			getitem 31332,1; //Black Khalitzburg
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-5000000; //Los zenys
+			mes "[Kali]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Black Khalitzburg.";
+			close;
+		}
+		else {
+			mes "[Kali]";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF100 Well-baked Cookie^000000";
+			mes "^3355FF50 Elunium^000000";
+			mes "^3355FF100 Skel-Bone^000000";
+			mes "^3355FF50 Reins^000000";
+			mes "^3355FF50 Brigan^000000";
+ 			mes "^3355FF100 Fabric^000000";
+			mes "^3355FF15 Coal^000000";
+			mes "^3355FF50 feather^000000";
+			mes "^3355FF5.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			//mes "¡wof wof!";
+			close;
+		}
+	case 3:
+		mes "[Kali]";
+		mes "Bye!?";
+		next;
+		mes "[Kali]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

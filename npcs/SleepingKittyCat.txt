@@ -1,0 +1,65 @@
+lroom00,62,147,4	script	Oliver::Prue20	626,{
+	mes "Hi! Do you like cats?";
+	next;
+	switch(select("^3355FFI want the Sleeping Kitty Cat^000000:Deliver me ^3355FFSleeping Kitty Cat^000000:Bye")) {
+	case 1:
+		mes "[Oliver]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		next;
+		mes "[Oliver]";
+		mes "The items are as follows.";
+		mes "^3355FF100 Fig Leaf ^000000";
+		mes "^3355FF150 Nine Tails^000000";
+		mes "^3355FF100 Royal Jelly^000000";
+		mes "^3355FF10 Gold ^000000";
+ 		mes "^3355FF5 Fang of Hatii^000000";
+		mes "^3355FF50 Yellow Herb^000000";
+		mes "^3355FF100 Bill of Birds ^000000";
+		mes "^3355FF5.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Oliver]";
+		mes "With these I will give you my Sleeping Kitty Cat!";
+		close;
+	case 2:
+		if (countitem(7298) >= 100 && countitem(1022) >= 150 && countitem(526) >= 100 && countitem(969) >= 10 && countitem(7036) >= 5 && countitem(508) >= 50 && countitem(925) >= 100 && zeny >= 5000000) {
+			mes "[Oliver]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 7298,100; //Fig Leaf
+			delitem 1022,150; //Nine Tails  
+			delitem 526,100; //Royal Jelly
+			delitem 969,10; //Gold
+			delitem 7036,5; //Fang of Hatii
+			delitem 508,50; //Yellow Herb
+			delitem 925,100; //Bill of Birds
+			getitem 18693,1; //Sleeping Kitty Cat
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-5000000; //Los zenys
+			mes "[Oliver]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Sleeping Kitty Cat.";
+			close;
+		}
+		else {
+			mes "[Oliver]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF100 Fig Leaf ^000000";
+			mes "^3355FF150 Nine Tails^000000";
+			mes "^3355FF100 Royal Jelly^000000";
+			mes "^3355FF10 Gold ^000000";
+ 			mes "^3355FF5 Fang of Hatii^000000";
+			mes "^3355FF50 Yellow Herb^000000";
+			mes "^3355FF100 Bill of Birds ^000000";
+			mes "^3355FF5.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Oliver]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

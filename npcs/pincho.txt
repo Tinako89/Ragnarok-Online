@@ -1,0 +1,60 @@
+thor_v03,19,73,5	script	Eisheth::pincho	725,{
+	mes "Hi! What do you want?";
+	next;
+	switch(select("^3355FFI want the Redurchin^000000:Deliver me ^3355FFRedurchin^000000:I'll think about it")) {
+	case 1:
+		mes "[Eisheth]";
+		mes "Hey you!! what you do in this volcano?.";
+		mes "I am looking for these items. I will give you a gift.";
+		//next;
+		next;
+		mes "[Eisheth]";
+		mes "The items are as follows.";
+		mes "^3355FF200 Little Evil Horn^000000";
+		mes "^3355FF5 Blade Lost in Darkness^000000";
+		mes "^3355FF1 Deviruchi Card^000000";
+		mes "^3355FF250 Burning Heart^000000";
+		mes "^3355FF10.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Eisheth]";
+		mes "With these I will give you my Redurchin!";
+		close;
+	case 2:
+		if (countitem(1038) >= 200 && countitem(7023) >= 5 && countitem(4122) >= 1 && countitem(7097) >= 250 && zeny >= 10000000) {
+			mes "[Eisheth]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 1038,200; //Little Evil Horn
+			delitem 7023,5; //Blade Lost in Darkness
+			delitem 4122,1; //Deviruchi Card
+			delitem 7097,250; //Burning Heart
+			getitem 40014,1; //Redurchin
+			set zeny,Zeny-10000000; //Los zenys
+			mes "[Eisheth]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Baseball Cap.";
+			close;
+		}
+		else {
+			mes "[Eisheth]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF200 Little Evil Horn^000000";
+			mes "^3355FF5 Blade Lost in Darkness^000000";
+			mes "^3355FF1 Deviruchi Card^000000";
+			mes "^3355FF250 Burning Heart^000000";
+			mes "^3355FF10.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Eisheth]";
+		mes "Ok! Lucky!";
+		next;
+		mes "[Eisheth]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

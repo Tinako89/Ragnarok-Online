@@ -1,0 +1,73 @@
+lroom00,71,165,4	script	Carla::Prueba871054	862,{
+	mes "�What brings you here?";
+	next;
+	switch(select("^3355FFI want the Pink Night Cap^000000:Deliver me ^3355FFPink Night Cap^000000:Nothing")) {
+	case 1:
+		mes "[Carla]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		//next;
+		//mes "[Alexa]";
+		//mes "Jijijij ~.";
+		next;
+		mes "[Carla]";
+		mes "The items are as follows.";
+		mes "^3355FF200 Well-baked Cookie^000000";
+		mes "^3355FF100 Milk^000000";
+		mes "^3355FF250 Yarn^000000";
+		mes "^3355FF100 Blue Hair^000000";
+ 		mes "^3355FF5 Golden Bell^000000";
+		mes "^3355FF100 Fluff^000000";
+		mes "^3355FF100 Feather^000000";
+		mes "^3355FF10.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Carla]";
+		mes "With these I will give you my Pink Night Cap!";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(538) >= 200 && countitem(519) >= 100 && countitem(7038) >= 250 && countitem(1034) >= 100 && countitem(10016) >= 5 && countitem(914) >= 100 && countitem(949) >= 100 && zeny >= 10000000) {
+			mes "[Carla]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 538,100; //Well-baked Cookie
+			delitem 519,100; //Milk
+			delitem 7038,250; //Yarn
+			delitem 1034,100; //Blue Hair
+			delitem 10016,1; //GoldenBell
+			delitem 914,100; //Fluff
+			delitem 949,100; //Feather
+			getitem 5507,1; //Blue Night Cap
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-10000000; //Los zenys
+			mes "[Carla]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Blue Night Cap.";
+			close;
+		}
+		else {
+			mes "[Carla]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF200 Well-baked Cookie^000000";
+			mes "^3355FF100 Milk^000000";
+			mes "^3355FF250 Yarn^000000";
+			mes "^3355FF100 Blue Hair^000000";
+ 			mes "^3355FF5 Golden Bell^000000";
+			mes "^3355FF100 Fluff^000000";
+			mes "^3355FF100 Feather^000000";
+			mes "^3355FF10.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			//mes "¡wof wof!";
+			close;
+		}
+	case 3:
+		mes "[Carla]";
+		mes "Nothing?";
+		next;
+		mes "[Carla]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

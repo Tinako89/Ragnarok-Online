@@ -1,0 +1,70 @@
+cus_in03,58,41,4	script	William::Cowboy	731,{
+	mes "Welcome! What are you doing here?";
+	next;
+	switch(select("^3355FFI want the Costume Black Cowboy Hat^000000:Deliver me ^3355FFCostume Black Cowboy Hat^000000:I'll think about it")) {
+	case 1:
+		mes "[William]";
+		mes "I guessed so! You will have to bring me all the items of my list.";
+		//next;
+		next;
+		mes "[William]";
+		mes "The items are as follows.";
+		mes "^3355FF200 Fabric^000000";
+		mes "^3355FF5 Black Dyestuffs^000000";
+		mes "^3355FF50 Soft Feather^000000";
+		mes "^3355FF100 Great Nature^000000";
+ 		//mes "^3355FF100 White Mask^000000";
+		//mes "^3355FF6 Agate^000000";
+		//mes "^3355FF150 feather^000000";
+		mes "^3355FF5.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[William]";
+		mes "With these I will give you my Costume Black Cowboy Hat!";
+		//mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(1059) >= 200 && countitem(983) >= 5 && countitem(7063) >= 50 && countitem(997) >= 100 && zeny >= 5000000) {
+			mes "[William]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 1059,200; //Fabric
+			delitem 983,5; //Black Dyestuffs
+			delitem 7063,50; //Soft Feather
+			delitem 997,100; //Great Nature
+			//delitem 978,5; //Cobaltblue Dyestuffs
+			//delitem 7291,6; //Agate
+			//delitem 949,150; //Feather
+			getitem 31140,1; //Costume Black Cowboy Hat
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-5000000; //Los zenys
+			mes "[William]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Costume Black Cowboy Hat.";
+			close;
+		}
+		else {
+			mes "[William]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF200 Fabric^000000";
+			mes "^3355FF5 Black Dyestuffs^000000";
+			mes "^3355FF50 Soft Feather^000000";
+			mes "^3355FF100 Great Nature^000000";
+ 			//mes "^3355FF50 Great Nature^000000";
+			//mes "^3355FF6 Agate^000000";
+			//mes "^3355FF150 feather^000000";
+			mes "^3355FF5.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[William]";
+		mes "Ok! Lucky!";
+		next;
+		mes "[William]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

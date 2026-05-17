@@ -1,0 +1,73 @@
+lroom00,53,165,4	script	Doge::Prueba8789	513,{
+	mes "What? Is it the first time you hear a dog talking?";
+	next;
+	switch(select("^3355FFI want a Puppy Hat^000000:Give me the ^3355FFPuppy Hat^000000:Nothing.")) {
+	case 1:
+		mes "[Doge]";
+		mes "¡wof wof!";
+		next;
+		mes "[Doge]";
+		mes "I want the following items.";
+		mes "¡wof wof!";
+		next;
+		mes "[Doge]";
+		mes "This is the materials list that I need.";
+		mes "^3355FF3 Puppy Headband^000000";
+		mes "^3355FF300 Golden Hair^000000";
+		mes "^3355FF1 Hair Band^000000";
+		mes "^3355FF100 Yarn^000000";
+ 		mes "^3355FF100 Black Bear Skin^000000";
+		mes "^3355FF300 Animal Skin ^000000";
+		mes "^3355FF100 feather^000000";
+		mes "^3355FF10.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Doge]";
+		mes "And you will receive from me a... Puppy Hat!";
+		mes "¡wof wof!";
+		close;
+	case 2:
+		if (countitem(5118) >= 3 && countitem(1060) >= 300 && countitem(2210) >= 1 && countitem(7038) >= 100 && countitem(7161) >= 100 && countitem(919) >= 300 && countitem(949) >= 100 && zeny >= 10000000) {
+			mes "[Doge]";
+			mes "Ok...";
+			next;
+			delitem 5118,3; //Puppy Headband
+			delitem 1060,300; //Golden Hair
+			delitem 2210,1; //Hair Band
+			delitem 7038,100; //Yarn
+			delitem 7161,100; //Black Bear Skin
+			delitem 919,300; //Animal Skin
+			delitem 949,100; //Feather
+			getitem 5182,1; //Puppy Hat
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-10000000; //Los zenys
+			mes "[Doge]";
+			mes "¡Here you are!";
+			next;
+			mes "If you want another one, come back with the same things.";
+			close;
+		}
+		else {
+			mes "[Doge]";
+			mes "Please bring those things to me!";
+			mes "^3355FF3 Puppy Headband^000000";
+			mes "^3355FF300 Golden Hair^000000";
+			mes "^3355FF1 Hair Band^000000";
+			mes "^3355FF100 Yarn^000000";
+ 			mes "^3355FF100 Black Bear Skin^000000";
+			mes "^3355FF300 Animal Skin ^000000";
+			mes "^3355FF100 feather^000000";
+			mes "^3355FF10.000.000 Zenys^000000";
+			mes "Come back when you get all these items.";
+			mes "¡wof wof!";
+			close;
+		}
+	case 3:
+		mes "[Doge]";
+		mes "Not interested?";
+		next;
+		mes "[Doge]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}

@@ -1,0 +1,65 @@
+lroom00,59,147,5	script	Amelie::Prueba871522	724,{
+	mes "I know why you have come!";
+	next;
+	switch(select("^3355FFI want the Fish In Mouth^000000:Deliver me ^3355FFFish In Mouth^000000:Nothing")) {
+	case 1:
+		mes "[Amelie]";
+		mes "Bring me these to make you a Fish In Mouth";
+		next;
+		mes "[Amelie]";
+		mes "The items are as follows.";
+		mes "^3355FF300 Ancient Lips^000000";
+		mes "^3355FF20 Ancient Tooth^000000";
+		mes "^3355FF200 Fish Tail ^000000";
+		mes "^3355FF50 Fresh Fish^000000";
+ 		mes "^3355FF30 Crystal Blue^000000";
+		mes "^3355FF25 Mystic Frozen^000000";
+		mes "^3355FF80 Fin^000000";
+		mes "^3355FF15.000.000 Zenys^000000";
+		mes "Come back with them! ~";
+		next;
+		mes "[Amelie]";
+		mes "With these I will give you my Fish In Mouth!";
+		close;
+	case 2:
+		if (countitem(1054) >= 300 && countitem(1053) >= 20 && countitem(1023) >= 200 && countitem(579) >= 50 && countitem(991) >= 30 && countitem(995) >= 25 && countitem(951) >= 80 && zeny >= 15000000) {
+			mes "[Amelie]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 1054,300; //Ancient Lips
+			delitem 1053,20; //Ancient Tooth
+			delitem 1023,200; //Fish Tail
+			delitem 579,50; //Fresh Fish
+			delitem 991,30; //Crystal Blue
+			delitem 995,25; //Mystic Frozen
+			delitem 951,80; //Fin
+			getitem 5403,1; //Fish In Mouth
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-15000000; //Los zenys
+			mes "[Amelie]";
+			mes "Here you have!";
+			next;
+			mes "You can come back anytime you want for another Fish In Mouth.";
+			close;
+		}
+		else {
+			mes "[Amelie]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF300 Ancient Lips^000000";
+			mes "^3355FF20 Ancient Tooth^000000";
+			mes "^3355FF200 Fish Tail^000000";
+			mes "^3355FF50 Fresh Fish^000000";
+ 			mes "^3355FF30 Crystal Blue^000000";
+			mes "^3355FF25 Mystic Frozen^000000";
+			mes "^3355FF80 Fin^000000";
+			mes "^3355FF15.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Amelie]";
+		mes "Come back if you change your mind.";
+		close;
+	}
+}
