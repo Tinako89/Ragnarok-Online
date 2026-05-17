@@ -1,0 +1,458 @@
+//===============================
+//  SISTEMA DE PESCA - NPC
+//===============================
+
+
+//------- Viejo Pescador ---------
+//================================
+
+prt_in.gat,126,66,7	script	Viejo Pescador	120,{
+if (clubpescador == 1) goto siclub;
+if (clubpescador == 2) goto siclub2;
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Si vienes a vender pescado acá hay compradores, habla con ellos.";
+close;
+
+siclub:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Si lo que estás buscando es una buena caña hay un artesano en la misma sala que fabrica unas cañas estupendas.";
+next;
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Podrás llegar allí cogiendo un barco.";
+close;
+
+siclub2:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Vaya...";
+	mes "Un nuevo miembro ¿eh?";
+next;
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "¿En que te puedo ayudar?";
+next;
+	menu "Como Pescar",como,"Lugares de Pesca",lugares,"Nada",nada;
+
+como:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Para poder pescar vas a necesitar una ^0000CCCaña de Pescar^000000 y ^0000CCGusanos de Pesca^000000, una vez tengas todo esto deberás buscar un ^0000CCPunto de Pesca^000000.";
+next;
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Si se te acaba el cebo, puedes comprar más en la sala que está a mi izquierda.";
+close;
+
+lugares:
+set @lugarpesc,rand(1,4);
+if (@lugarpesc == 1) goto lugar1;
+if (@lugarpesc == 2) goto lugar2;
+if (@lugarpesc == 3) goto lugar3;
+if (@lugarpesc == 4) goto lugar4;
+close;
+
+lugar1:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Saliendo de ^0000CCProntera^000000 en dirección ^0000CCEste^000000 busca una pequeña islita, allí encontrarás un lugar donde poder pescar.";
+close;
+
+lugar2:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "En el bosque donde se reunen todos los ^0000CCPoison Spore^000000 allí encontrarás un lugar donde poder pescar.";
+close;
+
+lugar3:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Justo encima de un pequeño campamento orco está la primera tierra de ^0000CCGeffen^000000 allí encontrarás un lugar donde poder pescar.";
+close;
+
+lugar4:
+	mes "[^CC0000 Viejo Pescador ^000000]";
+	mes "Saliendo de ^0000CCMorocc^000000 en dirección ^0000CCOeste^000000 busca un pequeño lago, allí encontrarás un lugar donde poder pescar.";
+close;
+
+nada:
+close;
+}
+
+
+
+//------- Pescador 01 ---------
+//================================
+
+prt_in.gat,131,69,3	script	Pescador::pesc01	85,{
+if (clubpescador == 1) goto siclub;
+if (clubpescador == 2) goto siclub;
+	mes "[^CC0000 Pescador ^000000]";
+	mes "Bienvenido al Gremio de pescadores. Si quieres unirte a nosotros habla con la persona de detras del mostrador.";
+close;
+
+siclub:
+	mes "[^CC0000 Pescador ^000000]";
+	mes "Asi que has decidido unirte a nosotros.";
+next;
+	mes "[^CC0000 Pescador ^000000]";
+	mes "Aun recuerdo mi primera prueba, Tube que hacerme mi propia caña con madera que obtuve en los ^0000CCBosques de Payon^000000.";
+close;
+}
+
+
+//------- Pescador 02 ---------
+//================================
+
+prt_in.gat,125,70,4	script	Pescador::pesc02	49,{
+if (clubpescador == 1) goto siclub;
+if (clubpescador == 2) goto siclub;
+	mes "[^CC0000 Pescador ^000000]";
+	mes "Hoy he pescado 10 Atunes de una sola tirada!";
+	mes "Apuesto a que tu no podrias pescar tan solo uno pequeñajo.";
+close;
+
+siclub:
+	mes "[^CC0000 Pescador ^000000]";
+	mes "Ese anciano de ahí es una vieja leyenda de la pesca, Si quieres aprender más te vale llevarte bien con el.";
+close;
+}
+
+
+
+//-------- Líder de Gremio -------
+//================================
+
+prt_in.gat,130,65,4	script	Líder de Gremio::liderpescadores	98,{
+
+	if (clubpescador == 2) goto siclub2;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Bienvenido al Gremio de Pescadores.";
+next;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "¿Deseas algo?";
+next;
+menu "Información",info,"Deseo Inscribirme",inscri,"Nada en Especial",nada;
+
+info:
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Este es el centro de reunion de los pescadores de Midgard.";
+next;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Aquí podrás conseguir material y información sobre la pesca.";
+next;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Es dificil encontrar un buen lugar donde pescar si no te ayuda nadie.";
+close;
+
+inscri:
+if (clubpescador == 1) goto siclub;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Esta bien, si quieres unirte a nosotros deberás demostrar lo que vales.";
+next;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Consigue una buena ^0000CCCaña de Pescar^000000 y vuelve a hablar conmigo.";
+next;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Quizás algún pescador quiera ayudarte.";
+set clubpescador,1;
+close;
+
+siclub:
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "¿Has conseguido ya tu caña?";
+next;
+if(countitem(45001)>0)goto tienecana;
+nocana:
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Ya veo que no...";
+	mes "Hasta que no la consigas no podremos aceptarte en el Gremio.";
+close;
+
+tienecana:
+	atcommand "@me muestra la caña";
+	sleep2 1000;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Perfecto, Has hecho un buen trabajo.";
+next;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "A partir de ahora ya perteneces al Gremio de pescadores, si necesitas información puedes hablar con los demás.";
+next;
+	getitem 45002,5;
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "Ah, me olvidaba!.";
+	mes "Aqui tienes.";
+set clubpescador,2;
+close2;
+dispbottom "Experiencia Obtenida: ( Base: 100 / Job: 0 ).";
+getexp 100,0;
+set LstQuest,LstQuest+1;
+set LstQuest001,1;
+end;
+
+siclub2:
+	mes "[^CC0000 Líder de Gremio ^000000]";
+	mes "A partir de ahora ya perteneces al Gremio de pescadores, si necesitas información puedes hablar con los demás.";
+close;
+
+nada:
+close;
+}
+
+
+
+//-------- Artesano Pesca -------
+//================================
+
+prt_in.gat,129,75,4	script	Artesano::artesanopesca	54,{
+if(countitem(45001)>0)goto cana;
+if (clubpescador == 1) goto siclub;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Cada vez es más dificil encontrar Resina de buena calidad, Me pregunto cuando podre volver a usar resina de los ^0000CCBosques de Payon^000000.";
+close;
+
+siclub:
+	mes "[^CC0000 Artesano ^000000]";
+	mes "¿Una caña de pescar dices?";
+next;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Supongo que los del Gremio de Pescadores te mandaron para conseguir una caña.";
+next;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Pero parece ser que hoy no es tu dia de suerte, el cargamento de hoy se ha retrasado y no recibiré los materiales hasta mañana.";
+next;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Si quieres que te la fabrique hoy deberas conseguirme tu los siguientes materiales.";
+next;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Materiales Necesarios:";
+	mes "10 ^0000CCTrunks^000000";
+	mes "5 ^0000CCResins^000000";
+	mes "^0000CC1500 Zenny^000000";
+next;
+menu "Entregarle los materiales",entregar,"Volver más tarde",olvida;
+
+
+entregar:
+if(countitem(1019)<10)goto olvida;
+if(countitem(907)<5)goto olvida;
+if(Zeny <1500) goto olvida;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Que rapidez, Veo que lo tienes todo ya preparado.";
+next;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Ahora mismo empiezo a fabricarte la caña, será cuestión de segundos.";
+next;
+	specialeffect 101;
+	sleep2 2500;
+	set Zeny,Zeny -1500;
+	delitem 1019,10;
+	delitem 907,5;
+	getitem 45001,1;
+	mes "[^CC0000 Artesano ^000000]";
+	mes "Espero que te sea útil.";
+close;
+
+olvida:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Mejor ire a buscar los materiales.";
+close;
+
+cana:
+	mes "[^CC0000 Artesano ^000000]";
+	mes "¿Que tal te va tu nueva caña?";
+close;
+}
+
+//------- Vendedor Cebo ---------
+//================================
+prt_in.gat,118,81,5	script	Vendedor Cebos	50,{
+
+	mes "[^CC0000 Vendedor Cebos ^000000]";
+	mes "Nunca te habia visto por aqui.";
+	mes "¿Eres un nuevo miembro del gremio?";
+next;
+	mes "[^CC0000 Vendedor Cebos ^000000]";
+	mes "Bueno, no importa.";
+	mes "¿Quieres comprar algo de cebo para pescar?";
+next;
+menu "Comprar",comprar,"No Comprar",nocomprar;
+
+comprar:
+	mes "[^CC0000 Vendedor Cebos ^000000]";
+	mes "Si tienes dudas de donde usarlos puedes hablar con el ^0000CCViejo Pescador^000000 al lado de la entrada.";
+close2;
+	callshop "Cebos",1;
+end;
+
+nocomprar:
+close;
+
+}
+
+//------- Comprador Pescado ---------
+//================================
+prt_in.gat,114,62,7	script	Pescadero Canje	49,{
+
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Buenos dias.";
+	mes "¿Traes algo de pescado para venderme?";
+next;
+menu "Aquí lo tengo",aqui,"No tengo nada",nada;
+
+aqui:
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Enseñame que es lo que me traes.";
+next;
+menu "Atún - 400 Zeny / Unidad",atun,"Almejas - 200 Zeny / Unidad",almeja,"Gambas - 150 Zeny / Unidad",gamba,"Pescado Fresco - 100 Zeny / Unidad",pescado;
+close;
+
+atun:
+	set @numatun, countitem(45003);
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Tienes ^0000FF" +@numatun+"^000000 Atunes.";
+	mes "¿Cuantos me vas a vender?";
+	input @ventapez;
+	next;
+	if (@ventapez == 0 || @numatun < @ventapez ) goto NOTANTOS;
+	set @peztotal,400*@ventapez;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "De acuerdo, Eso serán ^0000FF "+@peztotal+" Zeny ^000000";
+	next;
+	delitem 45003,@ventapez;
+	set Zeny,Zeny+@peztotal;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Aqui tienes tu dinero.";
+close;
+
+almeja:
+	set @numalmeja, countitem(966);
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Tienes ^0000FF" +@numalmeja+"^000000 Almejas.";
+	mes "¿Cuantas me vas a vender?";
+	input @ventalmeja;
+	next;
+	if (@ventalmeja == 0 || @numalmeja < @ventalmeja ) goto NOTANTOS;
+	set @peztotal,200*@ventalmeja;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "De acuerdo, Eso serán ^0000FF "+@peztotal+" Zeny ^000000";
+	next;
+	delitem 966,@ventalmeja;
+	set Zeny,Zeny+@peztotal;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Aqui tienes tu dinero.";
+close;
+
+gamba:
+	set @numgamba, countitem(567);
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Tienes ^0000FF" +@numgamba+"^000000 Gambas.";
+	mes "¿Cuantas me vas a vender?";
+	input @ventagamba;
+	next;
+	if (@ventagamba == 0 || @numgamba < @ventagamba ) goto NOTANTOS;
+	set @peztotal,150*@ventagamba;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "De acuerdo, Eso serán ^0000FF "+@peztotal+" Zeny ^000000";
+	next;
+	delitem 567,@ventagamba;
+	set Zeny,Zeny+@peztotal;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Aqui tienes tu dinero.";
+close;
+
+pescado:
+	set @numfresh, countitem(579);
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Tienes ^0000FF" +@numfresh+"^000000 Pescados Frescos.";
+	mes "¿Cuantos me vas a vender?";
+	input @ventafresh;
+	next;
+	if (@ventafresh == 0 || @numfresh < @ventafresh ) goto NOTANTOS;
+	set @peztotal,100*@ventafresh;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "De acuerdo, Eso serán ^0000FF "+@peztotal+" Zeny ^000000";
+	next;
+	delitem 579,@ventafresh;
+	set Zeny,Zeny+@peztotal;
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "Aqui tienes tu dinero.";
+close;
+
+nada:
+close;
+
+notantos:
+	mes "[^CC0000 Pescatero ^000000]";
+	mes "No tienes tantas unidades de eso, revisalo bien.";
+close;
+}
+
+//------- Bolsa Vieja ---------
+//================================
+prt_in.gat,123,81,5	script	Vieja Bolsa::itm01	111,{
+
+	if (itm01 == 1) goto usado;
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Algo se mueve en el interior...";
+next;
+	menu "Mirar Dentro",mirar,"No Mirar",nomirar;
+
+mirar:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Hay un gusano dentro de la bolsa...";
+next;
+	set itm01,1;
+	getitem 45002,1;
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Lo cogeré, no creo que nadie lo heche en falta.";
+close;
+
+nomirar:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Mejor no tocar las cosas que no sean mias.";
+close;
+
+usado:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "No hay nada más de interés aquí dentro.";
+close;
+}
+
+//------- Barril ---------
+//================================
+prt_in.gat,110,66,5	script	Barril::itm02	111,{
+
+	if (itm02 == 1) goto usado;
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Algo se mueve en el interior...";
+next;
+	menu "Mirar Dentro",mirar,"No Mirar",nomirar;
+
+mirar:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Es un barril lleno de peces vivos...";
+close2;
+set itm02,1;
+emotion e_wah,1;
+//pctalk "WAAAAAAAAAHHH!!!";
+monster "prt_in",112,70,"Pez",1158,8,"";
+end;
+
+
+nomirar:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Mejor no tocar las cosas que no sean mias.";
+close;
+
+usado:
+	mes "[^CC0000 " +strcharinfo(0) + " ^000000]";
+	mes "Mejor que no toque nada más de por aquí.";
+close;
+}
+
+//------- Cartel Entrada ---------
+//================================
+prontera.gat,137,223,5	script	Gremio de Pescadores	837,{
+
+	npctalk "Bienvenido al Gremio de Pescadores!!";
+	npctalk "Entra aquí para saberlo todo sobre la pesca.";
+end;
+}
+
+// Tienda
+prt_in.gat,124,79,0	shop	Cebos	32767,45002:50
+
+

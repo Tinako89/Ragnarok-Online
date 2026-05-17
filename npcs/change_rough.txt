@@ -1,0 +1,35 @@
+prt_in,54,68,4	script	Change Roughs	47,{
+			mes "^404040[^808080Change Elunium/Oridecon^404040]^000000";
+			mes "Hello, I will exchange all the Rough you have in inventory.";
+			mes "Please choose which ones you want to change.";
+			next;
+			menu
+			"Change Rough Elunium",R_ELUS,
+			"Change Rough Oridecon",R_ORI,
+			"Cancel",-;
+			close;
+
+
+R_ELUS:
+if(countitem(757) < 5 )
+		{
+			mes "You need minimum 5 Rough Elunium.";
+			close;
+		}
+set .@elu,countitem(757)/5;
+delitem 757, .@elu * 5;
+getitem 985, .@elu;
+close;
+
+
+R_ORI:
+if(countitem(756) < 5 )
+		{
+			mes "You need minimum 5 Rough Oridecon.";
+			close;
+		}
+set .@ori,countitem(756)/5;
+delitem 756, .@ori * 5;
+getitem 984, .@ori;
+close;
+}

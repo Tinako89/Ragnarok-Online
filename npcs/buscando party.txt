@@ -1,0 +1,737 @@
+
+-	script	Buscador Party#0::BPartys	-,{ 
+		
+		
+
+	set .@nombre$,"[^0000FFBuscador^000000]";
+		donpcevent "ClearThings::OnClear";
+		
+		if (getgmlevel() >= 50) {
+		
+			mes .@nombre$;
+			mes "Bienvenido a las busquedas avanzadas de Partys ¿Qué deseas hacer?.";
+			next;
+			switch(select("Moderar:Usar NPC como Usuario:Salir")) {
+				case 2:
+					break;
+				
+				case 3:
+					close;
+				
+				case 1:
+					if (!getarraysize($@announce_name$)) {
+						mes .@nombre$;
+						mes "No hay anuncios por Moderar.";
+						close;
+					}
+					mes .@nombre$;
+					mes "Puedes aplicar sanciones a las personas que esten conectadas unicamente.";
+					next;
+					
+					for (set .@a, 0; .@a < getarraysize($@announce_name$); set .@a, .@a + 1) {
+						
+					mes .@nombre$;
+					mes "Nombre: [^0174DF"+ $@announce_name$[.@a]+"^000000]";
+					mes "Lugar: " + $@announce_ttl$[.@a];
+					mes $@announce_mes$[.@a];
+					
+					next;
+					switch(select( "Eliminar post "+( (isloggedin($@announce_aid[.@s],$@announce_cid[.@s])) ? " [^0174DFOnline^000000]" : "[^FF0000Offline^000000]") + ":Siguiente Post:Cancelar" )) {
+						case 1:
+							
+							deletearray $@announce_name$[.@a],1;
+							deletearray $@announce_cid[.@a],1;
+							deletearray $@announce_pid[.@a],1;
+							deletearray $@announce_aid[.@a],1;
+							deletearray $@announce_tim[.@a],1;
+							deletearray $@announce_ttl$[.@a],1;
+							deletearray $@announce_mes$[.@a],1;
+							break;
+						
+						case 2:
+							break;
+						
+						case 3:
+							close;
+					}
+					
+					}
+					
+					mes .@nombre$;
+					mes "Moderación completada.";
+					stopnpctimer;
+					initnpctimer;
+					delwaitingroom;
+                    waitingroom $@announce_ttl$[.pos],0;
+					close;
+				}
+		}
+		
+		mes .@nombre$;
+		mes "Bienvenido al Sistema de Encuentro de Parties. ¿En que necesitas ayuda?";
+		next;
+		set .@timeleft,((cooldown_announce-gettimetick(2)) / 60) + 1;
+		switch(select("Mostrar Anuncios:Dejar un anuncio ["+ ((cooldown_announce <= gettimetick(2)) ? "^0174DFDisponible^000000" : ((.@timeleft < 60) ? "^DF0101"+(.@timeleft) + " Minuto"+((.@timeleft > 1) ? "s":"")+" Restante"+((.@timeleft > 1) ? "s":"")+"^000000" : "^DF0101"+(.@timeleft/60) + " Hora"+(((.@timeleft/60) > 1) ? "s":"")+" Restante"+(((.@timeleft/60) > 1) ? "s":"")+"^000000")) + "]:Información:Quitar")) {
+			case 1:
+				if (getarraysize($@announce_name$)) {
+				for (set .@a, 0; .@a < getarraysize($@announce_name$); set .@a, .@a + 1)	set .@menu$, .@menu$ + $@announce_ttl$[.@a] + " [^0174DF" + $@announce_name$[.@a] + "^000000]:";
+				
+				mes .@nombre$;
+				mes "Selecciona un anuncio para conocer mas detalles al respecto.";
+				next;
+				set .@s, select(.@menu$) - 1;
+				
+				mes .@nombre$;
+				mes "Nick: [^0174DF"+ $@announce_name$[.@s]+"^000000]";
+				//mes ""+ $@announce_cid$[.@s];
+				//mes ""+ $@announce_pid$[.@s];
+				mes "Lugar: " + $@announce_ttl$[.@s];
+				//mes ""+ $@announce_aid$[.@s];
+				mes $@announce_mes$[.@s];
+				next;
+				set .@teleportleft,((cooldown_teleport-gettimetick(2)) / 60) + 1;
+				set .@mensajeleft ,((cooldown_mensaje-gettimetick(2)) / 60) + 1;
+				switch(select( (($@announce_aid[.@s] == getcharid(3)) ? ":::Eliminar Publicación:Cancelar" :"Mensaje de confirmación [" + ((isloggedin($@announce_aid[.@s],$@announce_cid[.@s])) ? ( (cooldown_mensaje <= gettimetick(2)) ? "^0174DFOnline^000000" : ((.@mensajeleft < 60) ? "^DF0101"+(.@mensajeleft) + " Minuto"+((.@mensajeleft > 1) ? "s":"")+" Restante"+((.@mensajeleft > 1) ? "s":"")+"^000000" : "^DF0101"+(.@mensajeleft/60) + " Hora"+(((.@mensajeleft/60) > 1) ? "s":"")+" Restante"+(((.@mensajeleft/60) > 1) ? "s":"")+"^000000") ) : "^FF0000Offline^000000") + "]:Cancelar") )) {
+					case 5:	//Hacer Teleport
+					close;
+					if (cooldown_teleport <= gettimetick(2)) {
+						if ((isloggedin($@announce_aid[.@s],$@announce_cid[.@s]))) {
+						mes .@nombre$;
+						mes "^FF0000Opcion desactivada por el equipo de Vortex Ro.^000000";
+						close;						
+						next;
+						if (select("Si:No") == 2) {
+							mes .@nombre$;
+							mes "La acción se ha cancelado.";
+							close;
+						}
+						
+						
+						close2;
+						set cooldown_teleport,gettimetick(2) + 86400;	//24 horas...
+						getmapxy(.@announce_mapa$,.@announce_x,.@announce_y,0,$@announce_name$[.@s]);
+						warp .@announce_mapa$,.@announce_x,.@announce_y;
+						end;
+						}
+						mes .@nombre$;
+						mes "Lo siento, pero el usuario no se encuentra disponible. No puedes realizar un Teleport a su localización.";
+						close;
+					}
+					mes .@nombre$;
+					mes "Tienes que esperar un tiempo antes de poder realizar un Teleport hacia ese usuario.";
+					close;
+					
+						
+					case 1:
+					if (cooldown_mensaje <= gettimetick(2)) {
+						if ((isloggedin($@announce_aid[.@s],$@announce_cid[.@s]))) {
+						mes .@nombre$;
+						mes "¿Estas seguro de que deseas enviar un mensaje de confirmación a este usuario? (^FF0000Solo puedes enviar una confirmación cada 5 minutos.^000000)";
+						
+						if (select("Si:No") == 2) {
+							mes .@nombre$;
+							mes "La acción se ha cancelado.";
+							close;
+						}
+						
+						next;
+						set cooldown_mensaje,gettimetick(2) + 300;	//5 minutos...
+						mes .@nombre$;
+						mes "Se ha enviado un mensaje a "+$@announce_name$[.@s]+", recibirá un mensaje con tu información de contacto.";
+						close2;
+						set .@temp_aid, getcharid(3);
+						set .@temp_name$,strcharinfo(0);
+                        set .@temp_baselevel,BaseLevel;
+                        set .@temp_joblevel,JobLevel;
+                        switch(Class){
+                            // basic class
+                            /*case Job_Novice_High:
+                                set .@temp_class$,"Novice High";
+                                break;*/
+                            case Job_Baby:
+                                set .@temp_class$,"Baby Novice";
+                                break;
+                            case Job_Novice:
+                                set .@temp_class$,"Novice";
+                                break;
+                            case Job_SuperNovice:
+                                set .@temp_class$,"Super Novice";
+                                break;
+                            case Job_Swordman:
+                                set .@temp_class$,"Swordman";
+                                break;
+                            /*case Job_Swordman_High:
+                                set .@temp_class$,"Swordman High";
+                                break;*/
+                            case Job_Mage:
+                                set .@temp_class$,"Mage";
+                                break;
+                           /* case Job_Mage_High:
+                                set .@temp_class$,"Mage High";
+                                break;*/
+                            case Job_Archer:
+                                set .@temp_class$,"Archer";
+                                break;
+                           /* case Job_Archer_High:
+                                set .@temp_class$,"Archer High";
+                                break;*/
+                            case Job_Acolyte:
+                                set .@temp_class$,"Acolyte";
+                                break;
+                            /*case Job_Acolyte_High:
+                                set .@temp_class$,"Acolyte High";
+                                break;*/
+                            case Job_Merchant:
+                                set .@temp_class$,"Merchant";
+                                break;
+                            /*case Job_Merchant_High:
+                                set .@temp_class$,"Merchant High";
+                                break;*/
+                            case Job_Thief:
+                                set .@temp_class$,"Thief";
+                                break;
+                            /*case Job_Thief_High:
+                                set .@temp_class$,"Thief High";
+                                break;
+                            case Job_Gunslinger:
+                                set .@temp_class$,"Gunslinger";
+                                break;
+                            case Job_Ninja:
+                                set .@temp_class$,"Ninja";
+                                break;
+                            case Job_Taekwon:
+                                set .@temp_class$,"Taekwon";
+                                break;
+        
+                                // second class
+                            case Job_Knight:
+                                set .@temp_class$,"Knight";
+                                break;
+                            case Job_Crusader:
+                                set .@temp_class$,"Crusader";
+                                break;
+                            case Job_Monk:
+                                set .@temp_class$,"Monk";
+                                break;
+                            case Job_Priest:
+                                set .@temp_class$,"Priest";
+                                break;
+                            case Job_Alchemist:
+                                set .@temp_class$,"Alchemist";
+                                break;
+                            case Job_Blacksmith:
+                                set .@temp_class$,"Blacksmith";
+                                break;
+                            case Job_Rogue:
+                                set .@temp_class$,"Rogue";
+                                break;
+                            case Job_Assassin:
+                                set .@temp_class$,"Assassin";
+                                break;
+                            case Job_Wizard:
+                                set .@temp_class$,"Wizard";
+                                break;
+                            case Job_Sage:
+                                set .@temp_class$,"Sage";
+                                break;
+                            case Job_Hunter:
+                                set .@temp_class$,"Hunter";
+                                break;
+                            case Job_Bard:
+                                set .@temp_class$,"Bard";
+                                break;
+                            case Job_Dancer:
+                                set .@temp_class$,"Dancer";
+                                break;
+                                        // baby second class
+                            case Job_Baby_Knight:
+                                set .@temp_class$,"Baby Knight";
+                                break;
+                            case Job_Baby_Crusader:
+                                set .@temp_class$,"Baby Crusader";
+                                break;
+                            case Job_Baby_Monk:
+                                set .@temp_class$,"Baby Monk";
+                                break;
+                            case Job_Baby_Priest:
+                                set .@temp_class$,"Baby Priest";
+                                break;
+                            case Job_Baby_Alchemist:
+                                set .@temp_class$,"Baby Alchemist";
+                                break;
+                            case Job_Baby_Blacksmith:
+                                set .@temp_class$,"Baby Blacksmith";
+                                break;
+                            case Job_Baby_Rogue:
+                                set .@temp_class$,"Baby Rogue";
+                                break;
+                            case Job_Baby_Assassin:
+                                set .@temp_class$,"Baby Assassin";
+                                break;
+                            case Job_Baby_Wizard:
+                                set .@temp_class$,"Baby Wizard";
+                                break;
+                            case Job_Baby_Sage:
+                                set .@temp_class$,"Baby Sage";
+                                break;
+                            case Job_Baby_Hunter:
+                                set .@temp_class$,"Baby Hunter";
+                                break;
+                            case Job_Baby_Bard:
+                                set .@temp_class$,"Baby Bard";
+                                break;
+                            case Job_Baby_Dancer:
+                                set .@temp_class$,"Baby Dancer";
+                                break;
+                                // second trans
+                            case Job_Lord_Knight:
+                                set .@temp_class$,"Lord Knight";
+                                break;
+                            case Job_Paladin:
+                                set .@temp_class$,"Paladin";
+                                break;
+                            case Job_Champion:
+                                set .@temp_class$,"Champion";
+                                break;
+                            case Job_High_Priest:
+                                set .@temp_class$,"High Priest";
+                                break;
+                            case Job_Creator:
+                                set .@temp_class$,"Creator";
+                                break;
+                            case Job_Whitesmith:
+                                set .@temp_class$,"Whitesmith";
+                                break;
+                            case Job_Stalker:
+                                set .@temp_class$,"Stalker";
+                                break;
+                            case Job_Assassin_Cross:
+                                set .@temp_class$,"Assassin Cross";
+                                break;
+                            case Job_High_Wizard:
+                                set .@temp_class$,"High Wizard";
+                                break;
+                            case Job_Professor:
+                                set .@temp_class$,"Professor";
+                                break;
+                            case Job_Sniper:
+                                set .@temp_class$,"Sniper";
+                                break;
+                            case Job_Clown:
+                                set .@temp_class$,"Clown";
+                                break;
+                            case Job_Gypsy:
+                                set .@temp_class$,"Gypsy";
+                                break;*/
+                        }
+
+						if($@announce_aid[.@s] && attachrid($@announce_aid[.@s])) {
+							//mes .@nombre$;
+							announce "[" + .@temp_name$ + " - "+ .@temp_class$ +" "+ .@temp_baselevel +"/"+ .@temp_joblevel + "] ha visto tu anuncio y desea comunicarse contigo.",bc_self,0x00BFFF;
+							//mes "[^0174DF" + .@temp_name$ + "^000000] ha visto tu anuncio y desea comunicarse contigo (^FF0000No hay necesidad para aceptar la oferta, pero se le enviara un mensaje de que has recivido este mensaje^000000)";
+						}
+						else {
+							mes .@nombre$;
+							mes "No se encuentra, por lo que no podrás dejar el mensaje.";
+							close;
+						}
+						
+						if(.@temp_aid && attachrid(.@temp_aid)) {
+							announce "[" + $@announce_name$[.@s] + "] ha recibido tu Mensaje de Confirmación.",bc_blue|bc_self;
+							
+						}
+						/*if(.@temp_aid && .@temp_aid) {
+							mes .@nombre$;
+							mes "Se ha enviado un mensaje a "+$@announce_name$[.@s]+", recivirá un mensaje con tu información de contacto.";
+							close;
+						}*/
+						end;
+						}
+						mes .@nombre$;
+						mes "Lo siento, pero actualmente ese usuario no se encuentra en linea. Por favor seleccione otro usuario.";
+						close;
+					}
+						mes .@nombre$;
+					mes "Tienes que esperar un tiempo antes de poder mandar un Mensaje de Confirmación a ese usuario.";
+					close;
+					case 2:
+						mes .@nombre$;
+						mes "Puedes ver todas las publicaciones que quieras.";
+						close;
+					
+					case 3:
+						mes .@nombre$;
+						mes "¿Estas seguro de que deseas eliminar la publicación? (^FF0000Una vez elimina no podrás restaurarla, y no podrás volver a publicar nada sino hasta pasado el Tiempo limite de publicaciones^000000)";
+						
+						next;
+						if (select("Si:No") == 2) {
+							mes .@nombre$;
+							mes "La acción se ha cancelado.";
+							close;
+						}
+						close2;
+						callfunc ("DeletePetition",getcharid(3));
+						close;
+					
+					case 4:
+						mes .@nombre$;
+						mes "Puedes ver las publicaciones de las demas personas para buscar gente.";
+						close;
+					}
+				close;
+				}
+				
+				mes .@nombre$;
+				mes "Actualmente no hay ningun anuncio disponible.";
+				close;
+			case 2:
+			    if(.timedelay == 1){
+                    mes .@nombre$;
+                    mes "Solo puedo mandar un anuncio cada 5 minutos, debes esperar.";
+                    close;
+                }
+                if(cooldown_announce > gettimetick(2)){
+                    mes .@nombre$;
+					mes "Debes esperar mas tiempo para volver a publicar.";
+					close;
+                }
+				
+				if (cooldown_announce <= gettimetick(2)) {
+				    // Ingreso de Mapa
+					mes .@nombre$;
+					mes "Selecciona un Mapa: ";
+					setarray .@map_name$[0],"Abyss Lakes Underground Cave",
+                                            "Amatsu Dungeon",
+                                            "Amatsu Field",
+                                            "Ant Hell",
+                                            "Ayothaya Fild",
+                                            "Beach Dungeon",
+                                            "Brasilia Field",
+                                            "Brasilia's Dungeon",
+                                            "Clock Tower",
+                                            "Comodo Fild",
+                                            "Cursed Abbey Dungeon",
+                                            "Einbroch Field",
+                                            "El Descates Field",
+                                            "Endless Tower",
+                                            "Geffen Dungeon",
+                                            "Geffen Fild",
+                                            "Geffenia",
+                                            "Glast Heim",
+                                            "Glast Heim Chivalry",
+                                            "Glast Heim Churchyard",
+                                            "Glast Heim Culvert",
+                                            "Glast Heim St. Abbey",
+                                            "Glast Heim Staircase Dungeon",
+                                            "Glast Heim Underprison",
+                                            "Gonryun Dungeon",
+                                            "Hugel Field",
+                                            "Ice Cave",
+                                            "Inside Pyramid",
+                                            "Juperos Core",
+                                            "Labyrinth Forest",
+                                            "Lighthalzen Biolab",
+                                            "Lighthalzen Field",
+                                            "Louyang Dungeon",
+                                            "Louyang Field",
+                                            "Lutie Field",
+                                            "Magma Dungeon",
+                                            "Manuk Field",
+                                            "Mine Dungeon",
+                                            "Morocc Field (Dimensional Gorge)",
+                                            "Moscovia Fild",
+                                            "Moskovia Dungeon",
+                                            "Nidhogg's Dungeon",
+                                            "Niflheim Fild",
+                                            "Odin Shirine",
+                                            "Orc Dungeon",
+                                            "Orcish Underground Caves Instance",
+                                            "Payon Cave",
+                                            "Payon Forest",
+                                            "Prontera Culvert",
+                                            "Rachel Dungeon",
+                                            "Rachel Fild",
+                                            "Robot Factory",
+                                            "Sealed Shrine Instance",
+                                            "Sograt Desert",
+                                            "Sphinx",
+                                            "Splendide Field",
+                                            "Sunken Ship",
+                                            "Thanatos Tower - Lower Level",
+                                            "Thanatos Tower - Upper Level",
+                                            "The Lowest Cave in Glast Heim",
+                                            "The Nameless Island",
+                                            "Thor's Volcano Dungeon",
+                                            "Toy Factory",
+                                            "Turtle Island Dungeon",
+                                            "Umbala Dungeon",
+                                            "Undersea Tunnel",
+                                            "Veins Field",
+                                            "Yuno Field";
+                    set .@map_menu$, "";
+                    for (set .@i, 0; .@i < getarraysize(.@map_name$); set .@i, .@i + 1)
+	                   set .@map_menu$, .@map_menu$ + .@map_name$[.@i] + ":";
+                    set .@s, select(.@map_menu$) - 1;
+                    set .@titleann$, .@map_name$[.@s];
+                    next;
+                    // Ingreso Lvl
+                    do{
+                        mes .@nombre$;
+                        mes "Ingresa level minimo: ";
+                        input .@level_minimo;
+                        next;
+                        }while( !(.@level_minimo > 0 && .@level_minimo < 100)  );
+                    set .@titleann$, .@titleann$ + " " +.@level_minimo + "+";
+                    // Seleccionar Jobs.
+                    
+                    setarray .@job_name$[0],"Terminar",
+                                            "Alchemist",
+                                            "Assassin",
+                                            "Assassin Cross",
+                                            "Bard",
+                                            "Blacksmith",
+                                            "Champion",
+                                            "Clown",
+                                            "Creator",
+                                            "Crusader",
+                                            "Dancer",
+                                            "Gunslinger",
+                                            "Gypsy",
+                                            "High Priest",
+                                            "High Wizard",
+                                            "Hunter",
+                                            "Knight",
+                                            "Lord Knight",
+                                            "Monk",
+                                            "Ninja",
+                                            "Paladin",
+                                            "Priest",
+                                            "Professor",
+                                            "Rogue",
+                                            "Sage",
+                                            "Sniper",
+                                            "Soul Linker",
+                                            "Stalker",
+                                            "Star Gladiator",
+                                            "Super Novice",
+                                            "Whitesmith",
+                                            "Wizard";
+                        
+
+                    set .@job_menu$, "";
+                    for (set .@i, 0; .@i < getarraysize(.@job_name$); set .@i, .@i + 1)
+                    	set .@job_menu$, .@job_menu$ + .@job_name$[.@i] + ":";
+
+                    mes "Selecciona que Jobs buscas:";
+                    set .@s, select("Cualquier Job:Seleccionar Job");
+                    next;
+                    if(.@s == 1){
+                        set .@announce$,"Cualquier Job.";
+                    }else{ // especificar jobs
+                        set .@cantidad_job,0;
+                        do{
+                            
+                            mes .@announce$;
+                            set .@s, select(.@job_menu$) - 1;
+                            if(.@s == 0) {next; break;}
+                            if(.@cantidad_job == 0){
+                                set .@announce$, "Jobs: "+ .@job_name$[.@s];
+                            }else{
+                                set .@announce$, .@announce$ + ", "+ .@job_name$[.@s];
+                            }
+                            set .@cantidad_job, .@cantidad_job + 1;
+                            next;
+                        }while(.@cantidad_job < 12);
+                    }
+					
+					mes .@nombre$;
+					mes "Su anuncio será publicado. No podrá volver a dejar un mensaje sino hasta dentro de 30 minutos.";
+
+                    announce "Party a "+.@titleann$+", creada por ["+strcharinfo(0)+"]. Mas información en el NPC Party.",bc_all,0xFE9A2E;
+					//npctalk "Party a "+.@titleann$+", mas información en el NPC Party.";
+					close2;
+					
+					set .@position, getarraysize($@announce_name$);
+					setarray $@announce_name$[.@position],strcharinfo(0);
+					setarray $@announce_cid[.@position], getcharid(0);
+					setarray $@announce_pid[.@position], getcharid(1);
+					setarray $@announce_aid[.@position], getcharid(3);
+					setarray $@announce_tim[.@position], gettimetick(2) + 1800; //30 minutos
+					setarray $@announce_ttl$[.@position], .@titleann$;
+					setarray $@announce_mes$[.@position], .@announce$;
+					set .timedelay, 1;
+					stopnpctimer;
+					initnpctimer;
+					delwaitingroom;
+                    waitingroom .@titleann$,0;
+					set cooldown_announce,gettimetick(2) + 1800; //30 minutos
+					end;
+				}
+				else {
+					mes .@nombre$;
+					mes "no puedes publicar nada...";
+					close;
+				}
+			
+			case 3:
+				mes .@nombre$;
+				mes "Este sistema sirve para facilitar la busqueda de Party/Personas, permitiendo dejar mensajes para que toda la gente los pueda ver.";
+				next;
+				mes .@nombre$;
+				mes "El anuncio (junto con los datos de la persona) podrán ser vistos y leidos. Los mensajes apareceran deacuerdo a la antiguedad del mensaje.";
+				next;
+				mes .@nombre$;
+				mes "Los anuncios tienen una duración de 30 minutos, y tendrán que esperar 30 minutos antes de poder publicar otro anuncio.";
+				next;
+				mes .@nombre$;
+				mes "Las personas que lean una publicación pueden contactar a la persona que publicó el anuncio.";
+				close;
+			
+			case 4:
+				close;
+				
+		}
+		
+		
+
+OnTimer7000:
+
+if(.timedelay == 0){
+    set .party,getarraysize($@announce_name$);
+    set .pos, .pos + 1;
+    if(.pos >= .party)
+        set .pos,0;
+        
+    delwaitingroom;
+    if(.party == 0)
+        waitingroom "Registra una Party",0;
+    else 
+        waitingroom $@announce_ttl$[.pos],0;
+    
+    stopnpctimer;
+    initnpctimer;
+}
+end;
+
+OnTimer60000:
+npctalk "El servicio esta disponible para registrar una nueva party.";  
+set .timedelay,0;
+stopnpctimer;
+initnpctimer;
+end;
+
+OnInit:
+        set .party,0;
+        waitingroom "Registra una party!",0;
+		initnpctimer;
+		end;
+		
+
+}
+
+function	script	DeletePetition	{
+	for (set .@a,0; .@a < getarraysize($@announce_name$); set .@a, .@a + 1) {
+		if ($@announce_aid[.@a] == getarg(0)) {
+			deletearray $@announce_name$[.@a],1;
+			deletearray $@announce_cid[.@a],1;
+			deletearray $@announce_pid[.@a],1;
+			deletearray $@announce_aid[.@a],1;
+			deletearray $@announce_tim[.@a],1;
+			deletearray $@announce_ttl$[.@a],1;
+			deletearray $@announce_mes$[.@a],1;
+			break;
+		}
+		sleep2 1;
+	}
+	end;
+	
+}
+	
+
+-	script	ClearThings	-1,{
+OnMinute10:
+OnMinute20:
+OnMinute30:
+OnMinute40:
+OnMinute50:
+OnMinute01:
+OnClear:
+	for (set .@a,0; .@a < getarraysize($@announce_name$); set .@a, .@a + 1) {
+		if ($@announce_tim[.@a] <= gettimetick(2)) {	//se acaba el tiempo...
+			deletearray $@announce_name$[.@a],1;
+			deletearray $@announce_cid[.@a],1;
+			deletearray $@announce_pid[.@a],1;
+			deletearray $@announce_aid[.@a],1;
+			deletearray $@announce_tim[.@a],1;
+			deletearray $@announce_ttl$[.@a],1;
+			deletearray $@announce_mes$[.@a],1;
+
+		}
+		
+		sleep2 1;
+	}
+	end;
+
+OnDeletePetition:
+	for (set .@a,0; .@a < getarraysize($@announce_name$); set .@a, .@a + 1) {
+		if ($@announce_aid[.@a] == getcharid(3)) {
+			deletearray $@announce_name$[.@a],1;
+			deletearray $@announce_cid[.@a],1;
+			deletearray $@announce_pid[.@a],1;
+			deletearray $@announce_aid[.@a],1;
+			deletearray $@announce_tim[.@a],1;
+			deletearray $@announce_ttl$[.@a],1;
+			deletearray $@announce_mes$[.@a],1;
+			break;
+		}
+		sleep2 1;
+	}
+	end;
+}
+
+
+prontera.gat,140,182,6	duplicate(BPartys)	Buscador Party#1	831
+//morocc.gat,153,97,9	duplicate(BPartys)	Buscador Party#2	831
+//ayothaya.gat,221,180,4	duplicate(BPartys)	Buscador Party#3	831
+//geffen.gat,112,63,4	duplicate(BPartys)	Buscador Party#33	831
+//umbala.gat,83,157,4	duplicate(BPartys)	Buscador Party#4	831
+//alberta.gat,33,240,4	duplicate(BPartys)	Buscador Party#5	831
+//aldebaran.gat,147,129,4	duplicate(BPartys)	Buscador Party#6	831
+//izlude.gat,133,120,4	duplicate(BPartys)	Buscador Party#7	831
+//xmas.gat,155,136,4	duplicate(BPartys)	Buscador Party#8	831
+//comodo.gat,193,158,4	duplicate(BPartys)	Buscador Party#9	831
+//amatsu.gat,102,154,3	duplicate(BPartys)	Buscador Party#10	831
+//gonryun.gat,152,122,1	duplicate(BPartys)	Buscador Party#12	831
+//yuno.gat,167,187,4	duplicate(BPartys)	Buscador Party#35	831
+//nif_in.gat,205,179,5	duplicate(BPartys)	Buscador Party#13	831
+//louyang.gat,221,106,4	duplicate(BPartys)	Buscador Party#14	831
+//hugel.gat,98,166,4	duplicate(BPartys)	Buscador Party#15	831
+//payon.gat,192,104,4	duplicate(BPartys)	Buscador Party#16	831
+//einbech.gat,205,127,4	duplicate(BPartys)	Buscador Party#17	831
+//rachel.gat,105,133,2	duplicate(BPartys)	Buscador Party#18	831
+//veins.gat,223,136,4	duplicate(BPartys)	Buscador Party#19	831
+//splendide.gat,206,153,4	duplicate(BPartys)	Buscador Party#20	831
+//moscovia.gat,230,199,4	duplicate(BPartys)	Buscador Party#21	831
+//einbroch.gat,55,206,1	duplicate(BPartys)	Buscador Party#22	831
+//lighthalzen.gat,158,100,4	duplicate(BPartys)	Buscador Party#23	831
+//brasilis.gat,190,221,2	duplicate(BPartys)	Buscador Party#24	831
+//dewata.gat,206,184,4	duplicate(BPartys)	Buscador Party#25	831
+//dicastes01.gat,194,194,4	duplicate(BPartys)	Buscador Party#26	831
+//alexandria.gat,165,153,4	duplicate(BPartys)	Buscador Party#27	831
+//manuk.gat,271,236,9	duplicate(BPartys)	Buscador Party#28	831
+//payon.gat,145,230,9	duplicate(BPartys)	Buscador Party#29	831
+//prontera.gat,146,104,2	duplicate(BPartys)	Buscador Party#30	831
+//prontera.gat,46,212,1	duplicate(BPartys)	Buscador Party#31	831
+//prontera.gat,263,212,4	duplicate(BPartys)	Buscador Party#32	831
+//malaya.gat,222,204,2	duplicate(BPartys)	Buscador Party#34	831
+//alberta.gat,129,53,7	duplicate(BPartys)	Buscador Party#36	831
+//sec_in01.gat,129,83,2	duplicate(BPartys)	Buscador Party#37	831
+//p_track01.gat,73,22,7	duplicate(BPartys)	Buscador Party#38	831
+//quiz_02.gat,299,241,2	duplicate(BPartys)	Buscador Party#39	831
+//cmd_fild07.gat,272,126,3	duplicate(BPartys)	Buscador Party#40	831
+//moc_para01.gat,24,22,7	duplicate(BPartys)	Buscador Party#41	831
+lroom00.gat,114,63,2	duplicate(BPartys)	Buscador Party#42	831
+
+
+
+

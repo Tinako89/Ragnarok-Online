@@ -1,0 +1,284 @@
+//  ADD YOUR NPC HERE
+//============================================================
+rtp_mll,139,150,4	script	MVP Shop#2	702,{ callfunc "qshopm"; }
+// etc.. Add your Shop NPCs 'Quest Shop#XXX' here
+//============================================================
+// Script Core - DO NOT DUPLICATE THIS NPC !!!!!!!!!!!!!
+//============================================================
+-	script	quest_shopHR	-1,{
+function AddHR; function ChkHR; function SlotHR;
+OnInit:
+    freeloop(1);
+
+// -----------------------------------------------------------
+//  Basic shop settings.
+// -----------------------------------------------------------
+
+    set .Announce,1;    // Announce quest completion? (1: yes / 0: no)
+    set .ShowSlot,1;    // Show item slots? (2: all equipment / 1: if slots > 0 / 0: never)
+    set .ShowID,1;      // Show item IDs? (1: yes / 0: no)
+    set .ShowZeny,0;    // Show Zeny cost, if any? (1: yes / 0: no)
+    set .MaxStack,100;    // Max number of quest items purchased at one time.
+
+// -----------------------------------------------------------
+//  Points variable -- optional quest requirement.
+//    setarray .Points$[0],"<variable name>","<display name>";
+// -----------------------------------------------------------
+
+    setarray .Points$[0],
+        "#CASHPOINTS", "Cash Points";
+
+
+//=====================================================================================
+// ------------------- ADD YOUR SHOPS NAME AND ITEMS SHOPS STARTING HERE --------------
+//=====================================================================================
+
+// -----------------------------------------------------------
+//  Shop IDs -- to add shops, copy dummy data at bottom of file.
+//    setarray .Shops$[1],"<Shop 1>","<Shop 2>"{,...};
+// -----------------------------------------------------------
+
+    setarray .Shops$[1],"","","","","","","","","","","","MVP Costumes";
+
+// -----------------------------------------------------------
+//  Quest items -- do NOT use a reward item more than once!
+//    Add(<shop ID>,<reward ID>,<reward amount>,
+//        <Zeny cost>,<point cost>,
+//        <required item ID>,<required item amount>{,...});
+// -----------------------------------------------------------
+
+	AddHR(12,19914,1,0,0,7720,500);				//READY
+	AddHR(12,20459,1,0,0,7720,500);				//READY
+	AddHR(12,31144,1,0,0,7720,500);				//READY
+	AddHR(12,19774,1,0,0,7720,500);				//READY		
+	AddHR(12,20270,1,0,0,7720,500);				//READY
+	AddHR(12,20069,1,0,0,7720,500);				//READY
+	AddHR(12,19537,1,0,0,7720,500);				//READY
+	AddHR(12,31125,1,0,0,7720,500);				//READY
+	AddHR(12,20247,1,0,0,7720,500);				//READY
+	AddHR(12,31562,1,0,0,7720,500);				//READY
+	AddHR(12,20085,1,0,0,7720,500);				//READY
+	AddHR(12,20037,1,0,0,7720,500);				//READY
+	AddHR(12,19937,1,0,0,7720,500);				//READY
+	AddHR(12,31561,1,0,0,7720,500);				//READY
+	AddHR(12,19768,1,0,0,7720,500);				//READY
+	AddHR(12,31046,1,0,0,7720,500);				//READY
+	AddHR(12,19589,1,0,0,7720,500);				//READY
+	AddHR(12,20468,1,0,0,7720,500);				//READY
+	AddHR(12,31398,1,0,0,7720,500);				//READY
+	AddHR(12,31378,1,0,0,7720,500);				//READY
+	AddHR(12,20317,1,0,0,7720,500);				//READY
+	AddHR(12,20251,1,0,0,7720,500);				//READY
+	AddHR(12,31049,1,0,0,7720,500);				//READY
+	AddHR(12,31197,1,0,0,7720,500);				//READY
+	AddHR(12,19607,1,0,0,7720,500);				//READY
+	AddHR(12,31438,1,0,0,7720,500);				//READY
+	AddHR(12,19544,1,0,0,7720,500);				//READY
+	AddHR(12,19600,1,0,0,7720,500);				//READY
+	AddHR(12,31190,1,0,0,7720,500);				//READY
+	AddHR(12,20102,1,0,0,7720,500);				//READY
+	AddHR(12,31370,1,0,0,7720,500);				//READY
+	AddHR(12,20349,1,0,0,7720,500);				//READY
+	AddHR(12,20381,1,0,0,7720,500);				//READY
+	AddHR(12,31407,1,0,0,7720,500);				//READY
+	AddHR(12,31409,1,0,0,7720,500);				//READY
+	AddHR(12,31050,1,0,0,7720,500);				//READY
+	AddHR(12,31450,1,0,0,7720,500);				//READY
+	AddHR(12,20440,1,0,0,7720,500);				//READY
+	AddHR(12,31330,1,0,0,7720,500);				//READY
+	AddHR(12,31369,1,0,0,7720,500);				//READY
+	AddHR(12,20398,1,0,0,7720,500);				//READY
+	AddHR(12,20148,1,0,0,7720,500);				//READY
+	AddHR(12,31406,1,0,0,7720,500);				//READY
+	AddHR(12,20396,1,0,0,7720,500);				//READY
+	AddHR(12,19775,1,0,0,7720,500);				//READY
+	AddHR(12,20227,1,0,0,7720,500);				//READY
+	AddHR(12,20449,1,0,0,7720,500);				//READY
+	AddHR(12,31188,1,0,0,7720,500);				//READY
+	AddHR(12,31038,1,0,0,7720,500);				//READY
+	AddHR(12,20268,1,0,0,7720,500);				//READY
+	AddHR(12,31098,1,0,0,7720,500);				//READY
+	AddHR(12,31589,1,0,0,7720,500);				//READY
+	AddHR(12,37289,1,0,0,7720,500);				//READY
+	AddHR(12,37290,1,0,0,7720,500);				//READY
+	AddHR(12,37293,1,0,0,7720,500);				//READY
+	AddHR(12,37294,1,0,0,7720,500);				//READY
+	AddHR(12,37296,1,0,0,7720,500);				//READY
+	AddHR(12,37300,1,0,0,7720,500);				//READY
+	AddHR(12,37304,1,0,0,7720,500);				//READY
+	AddHR(12,37306,1,0,0,7720,500);				//READY
+	AddHR(12,37307,1,0,0,7720,500);				//READY
+	AddHR(12,42060,1,0,0,7720,500);				//READY
+	AddHR(12,42062,1,0,0,7720,500);				//READY
+	AddHR(12,42068,1,0,0,7720,500);				//READY
+	AddHR(12,42073,1,0,0,7720,500);				//READY
+	AddHR(12,42092,1,0,0,7720,500);				//READY
+	AddHR(12,42094,1,0,0,7720,500);				//READY
+	AddHR(12,37382,1,0,0,7720,500);				//READY
+	AddHR(12,37383,1,0,0,7720,500);				//READY
+	AddHR(12,37387,1,0,0,7720,500);				//READY
+	AddHR(12,37391,1,0,0,7720,500);				//READY
+	AddHR(12,37392,1,0,0,7720,500);				//READY
+	AddHR(12,37395,1,0,0,7720,500);				//READY
+	AddHR(12,37397,1,0,0,7720,500);				//READY
+	AddHR(12,37542,1,0,0,7720,500);				//READY
+	AddHR(12,37543,1,0,0,7720,500);				//READY
+	AddHR(12,37544,1,0,0,7720,500);				//READY
+	AddHR(12,37545,1,0,0,7720,500);				//READY
+	AddHR(12,37546,1,0,0,7720,500);				//READY
+	AddHR(12,37547,1,0,0,7720,500);				//READY
+	AddHR(12,37548,1,0,0,7720,500);				//READY
+	AddHR(12,37549,1,0,0,7720,500);				//READY
+	AddHR(12,37550,1,0,0,7720,500);				//READY
+	AddHR(12,37551,1,0,0,7720,500);				//READY
+
+
+
+
+
+// -----------------------------------------------------------
+
+//=====================================================================================
+// ------------------- YOUR SHOPS AND ITEMS SHOPS HAVE BEEN ADDED ---------------------
+//=====================================================================================
+
+    freeloop(0);
+    set .menu$,"";
+    for(set .@i,1; .@i<=getarraysize(.Shops$); set .@i,.@i+1) {
+        set .menu$, .menu$+.Shops$[.@i]+":";
+        npcshopdelitem "qshopm"+.@i,909;
+    }
+    end;
+
+OnMenu:
+    set .@size, getarraysize(@i);
+    if (!.@size) set @shop_indexhr, select(.menu$);
+    else if (.@size == 1) set @shop_indexhr, @i[0];
+    else {
+        for(set .@j,0; .@j<.@size; set .@j,.@j+1)
+            set .@menu$, .@menu$+.Shops$[@i[.@j]]+":";
+        set @shop_indexhr, @i[select(.@menu$)-1];
+    }
+    deletearray @i[0],getarraysize(@i);
+    if (.Shops$[@shop_indexhr] == "") {
+        message strcharinfo(0),"An error has occurred.";
+        end;
+    }
+    dispbottom "Select one item at a time.";
+    callshop "qshopm"+@shop_indexhr,1;
+    npcshopattach "qshopm"+@shop_indexhr;
+    end;
+
+OnBuyItem:
+    // .@q[] : RewardID, BoughtAmt, RewardAmt, BaseAmt, ReqZeny, ReqPts, { ReqItem, ReqAmt, ... }
+    setarray .@q[0],@bought_nameid[0],((@bought_quantity[0] > .MaxStack)?.MaxStack:@bought_quantity[0]);
+    copyarray .@q[3],getd(".q_"+@shop_indexhr+"_"+.@q[0]+"[0]"),getarraysize(getd(".q_"+@shop_indexhr+"_"+.@q[0]));
+    set .@q[2],.@q[1]*.@q[3];
+    if (!.@q[2] || .@q[2] > 30000) {
+        message strcharinfo(0),"You can't purchase that many "+getitemname(.@q[0])+".";
+        end;
+    }
+    mes "[Quest Shop]";
+    mes "Reward: ^0055FF"+((.@q[2] > 1)?.@q[2]+"x ":"")+SlotHR(.@q[0])+"^000000";
+    mes "Requirements:";
+    disable_items;
+    if (.@q[4]) mes " > "+ChkHR(Zeny,.@q[4]*.@q[1])+(.@q[4]*.@q[1])+" Zeny^000000";
+    if (.@q[5]) mes " > "+ChkHR(getd(.Points$[0]),.@q[5]*.@q[1])+(.@q[5]*.@q[1])+" "+.Points$[1]+" ("+getd(.Points$[0])+"/"+(.@q[5]*.@q[1])+")^000000";
+    if (.@q[6]) for(set .@i,6; .@i<getarraysize(.@q); set .@i,.@i+2)
+        mes " > "+ChkHR(countitem(.@q[.@i]),.@q[.@i+1]*.@q[1])+((.ShowID)?"{"+.@q[.@i]+"} ":"")+SlotHR(.@q[.@i])+" ("+countitem(.@q[.@i])+"/"+(.@q[.@i+1]*.@q[1])+")^000000";
+    next;
+    setarray @qe[1], getiteminfo(.@q[0],5), getiteminfo(.@q[0],11);
+    if (@qe[2] > 0 && ((@qe[1] & EQP_HEAD_LOW) || (@qe[1] & EQP_HEAD_TOP) || (@qe[1] & EQP_HEAD_MID) || (@qe[1] & EQP_COSTUME_HEAD_TOP) || (@qe[1] & EQP_COSTUME_HEAD_MID) || (@qe[1] & EQP_COSTUME_HEAD_LOW) || (@qe[1] & EQP_GARMENT) || (@qe[1] & EQP_COSTUME_GARMENT)))
+        set .@preview,1;
+    addtimer 1000, strnpcinfo(0)+"::OnEnd";
+    while(1) {
+        switch(select(" ~ Purchase ^0055FF"+getitemname(.@q[0])+"^000000:"+((.@preview && !@qe[7])?" ~ Test Costume...":"")+": ~ ^777777Cancel^000000")) {
+        case 1:
+            if (@qe[0]) {
+                mes "[Quest Shop]";
+                mes "You're missing one or more quest requirements.";
+                close;
+            }
+            if (!checkweight(.@q[0],.@q[2])) {
+                mes "[Quest Shop]";
+                mes "^FF0000You need "+(((.@q[2]*getiteminfo(.@q[0],6))+Weight-MaxWeight)/10)+" additional weight capacity to complete this trade.^000000";
+                close;
+            }
+            if (.@q[4]) set Zeny, Zeny-(.@q[4]*.@q[1]);
+            if (.@q[5]) setd .Points$[0], getd(.Points$[0])-(.@q[5]*.@q[1]);
+            if (.@q[6]) for(set .@i,6; .@i<getarraysize(.@q); set .@i,.@i+2)
+                delitem .@q[.@i],.@q[.@i+1]*.@q[1];
+            getitem .@q[0],.@q[2];
+            if (.Announce) announce strcharinfo(0)+" has created "+((.@q[2] > 1)?.@q[2]+"x "+getitemname(.@q[0]):callfunc("F_InsertArticle",getitemname(.@q[0])))+"!",0;
+            specialeffect2 EF_FLOWERLEAF;
+            close;
+        case 2:
+            setarray @qe[3], getlook(LOOK_HEAD_BOTTOM), getlook(LOOK_HEAD_TOP), getlook(LOOK_HEAD_MID), getlook(LOOK_ROBE), 1;
+            if ((@qe[1] & 1) || (@qe[1] & 4096)) changelook LOOK_HEAD_BOTTOM, @qe[2];
+            else if ((@qe[1] & 256) || (@qe[1] & 1024)) changelook LOOK_HEAD_TOP, @qe[2];
+            else if ((@qe[1] & 512) || (@qe[1] & 2048)) changelook LOOK_HEAD_MID, @qe[2];
+            else if ((@qe[1] & 4) || (@qe[1] & 8192)) changelook LOOK_ROBE, @qe[2];
+            break;
+        case 3:
+            close;
+        }
+    }
+
+OnEnd:
+    if (@qe[7]) {
+        changelook LOOK_HEAD_BOTTOM, @qe[3];
+        changelook LOOK_HEAD_TOP, @qe[4];
+        changelook LOOK_HEAD_MID, @qe[5];
+        changelook LOOK_ROBE, @qe[6];
+    }
+    deletearray @qe[0],8;
+    end;
+
+function AddHR {
+    if (getitemname(getarg(1)) == "null") {
+        debugmes "Quest reward #"+getarg(1)+" invalid (skipped).";
+        return;
+    }
+    setarray .@j[0],getarg(2),getarg(3),getarg(4);
+    for(set .@i,5; .@i<getargcount(); set .@i,.@i+2) {
+        if (getitemname(getarg(.@i)) == "null") {
+            debugmes "Quest requirement #"+getarg(.@i)+" invalid (skipped).";
+            return;
+        } else
+            setarray .@j[.@i-2],getarg(.@i),getarg(.@i+1);
+    }
+    copyarray getd(".q_"+getarg(0)+"_"+getarg(1)+"[0]"),.@j[0],getarraysize(.@j);
+    npcshopadditem "qshopm"+getarg(0),getarg(1),((.ShowZeny)?getarg(3):0);
+    return;
+}
+
+function ChkHR {
+    if (getarg(0) < getarg(1)) {
+        set @qe[0],1;
+        return "^FF0000";
+    } else
+        return "^00FF00";
+}
+
+function SlotHR {
+    set .@s$,getitemname(getarg(0));
+    switch(.ShowSlot) {
+        case 1: if (!getitemslots(getarg(0))) return .@s$;
+        case 2: if (getiteminfo(getarg(0),2) == 4 || getiteminfo(getarg(0),2) == 5) return .@s$+" ["+getitemslots(getarg(0))+"]";
+        default: return .@s$;
+    }
+}
+}
+
+function	script	qshopm	{
+    deletearray @i[0],getarraysize(@i);
+    for(set .@i,0; .@i<getargcount(); set .@i,.@i+1)
+        set @i[.@i],getarg(.@i);
+    doevent "quest_shopHR::OnMenu";
+    end;
+}
+
+
+// Dummy shop data -- copy as needed.
+//============================================================
+-	shop	qshopm12	-1,909:-1

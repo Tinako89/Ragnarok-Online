@@ -1,0 +1,95 @@
+s_room,31,54,6	script	Hats Enchant	635,{
+mes .n$;
+mes "Hello, "+strcharinfo(0)+"!";
+mes "What do you want to do?.";
+next;
+switch(select("^ff5555 [ > ] Enchant Hat.^000000:- Nothing.")) {
+	
+	case 1:
+	if (getequipid(.enchant_slot) == -1 ) {
+	            mes .n$;
+				mes "You need to have a hat equipped to enchant...";
+			close;
+		}
+
+	    mes .n$;
+		mes "First and most important.";
+		mes "^ff5555Hat's existing refinement level will be removed.";
+		mes "and the letters will be preserved.^000000";
+		next;
+	mes .n$;
+    mes "Price Enchat:";
+	mes " > 500 Bravery Badge.";
+	for ( set .@s,0; .@s < getarraysize(.enchant_slot); set .@s,.@s + 1) {
+		switch(.enchant_slot[.@s]) {
+			case EQI_HEAD_TOP: set .@c_slot$,"Hat Equipado"; break;
+		}
+		set .@c_m$,.@c_m$ + .@c_slot$ + " - "+((getequipid(.enchant_slot[.@s]) != -1)?getitemname(getequipid(.enchant_slot[.@s])):"Not equipped") + ( (.enchant_slot[.@s+1] != 0)?":":"");
+	}
+	set .@part,.enchant_slot[select(.@c_m$) - 1];
+	next;
+	set .@hg,getequipid(.@part); // Saving Item ID
+	set .@ref,getequiprefinerycnt(.@part); 	// Saving Refine Level, if there is one
+	set .@card1,getequipcardid(.@part,0); // Save Item ID of Card Slot 1
+	mes .n$;
+	mes "Hat selected: "+getitemname(getequipid(.@part));
+	//if(getequipcardid(.@part,3) != 0) {
+		//mes "Pero parece que ya tienes un encanto en este Hat..";
+		//close;
+	//}
+	next;
+	mes "Ready?";
+	if(select("- Yes:- No") - 1) close;
+	next;
+	 if(countitem(7828) < 500){
+            mes .n$;
+            mes "Sorry. You don't have enough Bravery Badge.";
+            close;
+        }
+
+switch (rand(1,6)) {
+			case 1: set .@addpart,4709;break;
+			case 2: set .@addpart,4719;break;
+			case 3: set .@addpart,4729;break;
+			case 4: set .@addpart,4739;break;
+			case 5: set .@addpart,4749;break;
+			case 6: set .@addpart,4759;break;
+}
+	specialeffect2 154;	
+	progressbar "ffff00",1;
+	specialeffect2 189;
+	specialeffect2 366;	
+	delitem 7828,500;
+	delequip .@part;
+	getitem2 .@hg,1,1,0,0,.@card1,0,0,.@addpart;
+	equip .@hg;
+	mes .n$;
+	mes "The enchantment was a success.";
+	mes "Good day.";
+	end;
+
+case 2: break;
+}
+end;
+
+OnInit:
+                setarray .@stone[1],
+                    4700, //str +1                    
+                    4710, //int +1
+                    4720, //agi +1
+                    4730, //dex +1
+                    4740, //vit +1
+                    4750; //luk +1
+set .@chance,rand(100);	
+set .n$,"[Enchant Hat]";
+// Enter here every Costume Slot, which you want to be enchantable
+// Valid Entries:
+// - EQI_HEAD_TOP
+setarray .enchant_slot[0],EQI_HEAD_TOP;
+// Enchantment ID's
+setarray .enchant_id[0],4700,4710,4720,4730,4740,4750;
+// Require Item to reset Enchantment?
+// 1 = Yes
+// 0 = No
+end;
+}

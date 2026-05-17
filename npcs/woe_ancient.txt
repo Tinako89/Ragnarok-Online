@@ -1,0 +1,82 @@
+sec_pri,85,33,5	script	Woe Ancient	612,{
+	cutin "ep15_2_fru_1",2;
+	mes "[^000088Ancient^000000]";
+	mes "Hola ^FF0000" + strcharinfo(0) + "^000000.";
+	mes "Bienvenido a ^FF0000La entrada del Ancient Castle~!^000000 ^000088RECUERDA^000000.";
+	mes "Solo pueden entrar dentro del castillo Job no Renacidos y Babys";
+	next;
+	switch(select("Ir al Castillo.")) {
+	cutin "",255;
+	close2;
+	case 1:
+		warp "payg_cas01",19,177;
+		end;	
+
+	mes "[^000088Ancient^000000]";
+	mes "Okay,regresa cuando me necesites.";
+	close;
+	}
+}
+
+-	script	ClassRestriction	-1,{
+function	RestrictJob;
+
+OnPCLoadMapEvent:
+if( getgmlevel() < .LowGMLvl )
+	for( set .@i,0; .@i < getarraysize( .Map$ ); set .@i,.@i + 2 )
+		if( strcharinfo(3) == .Map$[.@i] )	RestrictJob( atoi( .Map$[.@i+1] ) );
+end;
+	
+function	RestrictJob	{
+//	Normal Jobs
+	if( getarg(0) & 1 ) setarray .@Restrict[getarraysize(.@Restrict)],0,1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20;
+//	Adv Jobs
+	if( getarg(0) & 2 ) setarray .@Restrict[getarraysize(.@Restrict)],4001,4002,4003,4004,4005,4006,4007,4008,4009,4010,4011,4012,4013,4015,4016,4017,4018,4019,4020,4021;
+//	Baby Jobs
+	if( getarg(0) & 4 ) setarray .@Restrict[getarraysize(.@Restrict)],4023,4024,4025,4026,4027,4028,4029,4030,4031,4032,4033,4034,4035,4037,4038,4039,4040,4041,4042,4043,4045;
+//	Normal 3rd Jobs
+	if( getarg(0) & 8 ) setarray .@Restrict[getarraysize(.@Restrict)],4054,5055,4056,4057,4058,4059,4066,4067,4068,4069,4070,4071,4072;
+//	Adv 3rd Jobs
+	if( getarg(0) & 16 ) setarray .@Restrict[getarraysize(.@Restrict)],4060,4061,4062,4063,4064,4065,4073,4074,4075,4076,4077,4078,4079,23,24,25,4045,4222,4225,4226,4227,4228,4046,4047,4049;
+//	Baby 3rd Jobs
+	if( getarg(0) & 32 ) setarray .@Restrict[getarraysize(.@Restrict)],4096,4097,4098,4099,4100,4101,4102,4103,4104,4105,4106,4107,4108;
+
+//	Certain Jobs ( Specific Your Own Class Restriction )
+	if( getarg(0) & 64 ) setarray .@Restrict[getarraysize(.@Restrict)],4046,4002,4004,4013,4011;
+
+	for( set .@i,0; .@i < getarraysize(.@Restrict); set .@i,.@i + 1 )
+		if( Class == .@Restrict[.@i] ){
+			mes "[   ^FF0000Ancient Woe System^000000   ]";
+			mes "^0000FFMap^000000 : ^FF0000"+strcharinfo(3)+"^000000";
+			mes "^FFFFFF________________________________^000000";
+				if( getarg(0) & 1 ) mes " -- ^0000FFNormal Jobs^000000";
+				if( getarg(0) & 2 ) mes " -- ^0000FFAdvanced Jobs^000000";
+				if( getarg(0) & 4 ) mes " -- ^0000FFNormal Baby Jobs^000000";
+				if( getarg(0) & 8 ) mes " -- ^0000FFNormal Third Jobs^000000";
+				if( getarg(0) & 16 ) mes " -- ^0000FFAdvanced Third Jobs^000000";
+				if( getarg(0) & 32 ) mes " -- ^0000FFBaby Third Jobs^000000";
+				if( getarg(0) & 64 )
+					for( set .@i,0; .@i < getarraysize(.@Restrict); set .@i,.@i + 1 )
+						mes " -- ^0000FF"+jobname( .@Restrict[.@i] )+"^000000";
+			mes "^FFFFFF________________________________^000000";
+			mes "You will be warped out within ^FF0000"+.Sec+" Seconds^000000.";
+			sleep2 ( .Sec * 10 );
+			warp "prontera",155,173;
+		}
+return;
+}
+	
+OnInit:
+//	Wait X Seconds before warped out.
+set .Sec,2;
+//	Lowest GM Level to Bypass
+set .LowGMLvl,100;
+
+setarray .Map$, // <Mapname>,<Mode>.... ( Mode = Bitwise Value )  Max of ~64 Map Settings.
+			"payg_cas01","58";
+			
+//	Assign a LoadEvent Mapflag to each map you listed.
+for( set .map,0; .map < getarraysize( .Map$ ); set .map,.map + 2 )
+	setmapflag .Map$[.map],mf_loadevent;
+end;
+}

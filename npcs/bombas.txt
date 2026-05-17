@@ -1,0 +1,227 @@
+sec_pri,23,61,3	script	Bombring Ranking	858,{
+mes "[Bombring Ranking]";
+mes "==========================";
+.@count = query_sql("SELECT char_id,value from char_reg_num where `key`='bombringpoints' order by value DESC", .@ranks, .@points);
+mes "Rank # - Player Name - Points";
+if ( .@count <= 0){
+	mes "None Yet";
+} else {
+	for (set .@x, 0; .@x < .@count; set.@x, .@x + 1){
+		query_sql("SELECT `name` from `char` where char_id='"+.@ranks[.@x]+"'", .@name$);
+		mes "#"+(.@x+1)+": "+.@name$+" - "+.@points[.@x];
+	}
+}
+
+close;
+end;
+}
+
+-	script	Bombring	-1,{
+OnInit:
+	set .eventstarted, 0;
+	set $bombring_reward,7539;
+	bindatcmd "enablebombring","Bombring::OnGMStart";
+	bindatcmd "disablebombring","Bombring::OnGMStop";
+	disablenpc "The Baaam2#2";
+	disablenpc "The Baaam#1";
+	end;
+	
+OnGMStart:
+	if (getgroupid() < 99){
+		dispbottom "You are not eligible for this command.", RED;
+		end;
+	}
+	set .eventstarted, 0;
+OnEventStart:
+OnClock0000:
+OnClock0500:
+OnClock1000:
+OnClock1500:
+OnClock2000:
+	initnpctimer;
+	set .x, 3;
+OnTimer0000:
+	if (.eventstarted == 1) 
+		end;
+	enablenpc "The Baaam#1";	
+	disablenpc "The Baaam2#2";
+	announce "The Baaam: The bombring event has started! Come to prontera and talk to me to join!",bc_all;
+	//announce "The Baaam: Come to prontera and talk to me to join!",bc_all;
+	announce "The Baaam: "+.x+" minutes remaining before it starts! Reward 5 Poring Coin!",bc_all;
+	set .x, .x - 1;
+	end;
+OnTimer60000:
+OnTimer120000:
+	if (.eventstarted == 1) 
+		end;
+	announce "The Baaam: "+.x+" minutes remaining before the bombring event starts!",bc_all;
+	set .x, .x - 1;
+	end;
+OnTimer170000:
+	if (.eventstarted == 1) 
+		end;
+	announce "The Baaam: 10 seconds before the bombring event starts!",bc_all;
+	end;
+OnTimer180000:
+	if (.eventstarted == 1) 
+		end;
+	set .totalplayers, getmapusers ("quiz_02");
+	announce "The Baaam: "+.totalplayers+" players joined!",bc_all;
+	//announce "The Baaam: The bombring even has started! Ciao!",bc_all;
+	disablenpc "The Baaam#1";
+	//hideonnpc "The Baaam#1";
+	stopnpctimer;
+	callsub OnEventStart1;
+	end;
+	
+OnEventStart1:
+	set .totalplayers, getmapusers ("quiz_02");
+	mapannounce "quiz_02","The Baaam: Okay listen up, this is how it works.",bc_all;
+	sleep 2000;
+	mapannounce "quiz_02","The Baaam: Bombrings will run rampant in this area.",bc_all;
+	sleep 2000;
+	mapannounce "quiz_02","The Baaam: and all of them will go booooooom!",bc_all;
+	sleep 2000;
+	mapannounce "quiz_02","The Baaam: all you have to do is avoid them and stay alive :P",bc_all;
+	sleep 2000;
+	mapannounce "quiz_02","The Baaam: This will run for 30 seconds for 5 total rounds.",bc_all;
+	sleep 2000;
+	mapannounce "quiz_02","The Baaam: Sooooooooooo, ready or not here they come!!!", bc_all;
+	
+	for (set .round,1;.round <= 5;set .round, .round + 1) {
+		set .totalplayers, getmapusers ("quiz_02");
+		callsub OnBombringSummon;
+		sleep 10000;
+	}
+
+	if (.round > 5 && getmapusers("quiz_02") > 0){
+		enablenpc "The Baaam2#2";
+		mapannounce "quiz_02","The Baaam: Wooooow! That's rare! People won! :D",bc_all;
+	}
+	end;
+		
+OnBombringSummon:
+	mapannounce "quiz_02","The Baaam: Round "+.round+"!!",bc_all;
+	set .eventstarted, 1;
+	initnpctimer;
+	while (.eventstarted == 1) {
+		if ( (3 * .totalplayers) <= 60)
+			areamonster "quiz_02",48,334,71,357,"Run for you life!",1904,3 * .totalplayers;
+		else
+			areamonster "quiz_02",48,334,71,357,"Run for you life!",1904,60;
+		
+		if(.round == 1) {
+			sleep 4000;
+		} else if (.round == 2) {
+			sleep 3000;
+		} else if (.round == 3) {
+			sleep 2000;
+		} else if (.round == 4) {
+			sleep 1500;
+		} else if (.round == 5) {
+			sleep 1000;
+		}
+	}
+	if (.eventstarted == 1)
+		mapannounce "quiz_02","The Baaam: Round "+.round+" has finished!!",bc_all;
+	if (.round < 5)
+		mapannounce "quiz_02","The Baaam: Next round in 10 seconds.",bc_all;
+	return;
+	
+OnTimer31000:
+	if (.eventstarted == 0)
+		end;
+	else
+		set .eventstarted, 0;
+		killmonsterall "quiz_02";
+		cleanmap "quiz_02";
+	stopnpctimer;
+	end;
+	
+OnPCDieEvent:
+	if (strcharinfo(3) == "quiz_02") {
+		mapannounce "quiz_02","The Baaam: "+strcharinfo(0)+" has been blown up!!",bc_all;
+		dispbottom "Thanks for participating.";
+		sleep2 3000;
+		set @bombringpoints, @bombringpoints + 1;
+		atcommand "@go 0";
+		if (getmapusers("quiz_02") <= 1) {
+			stopnpctimer;
+			set .eventstarted, 0;
+			set .round, 6;
+			killmonsterall "quiz_02";
+			cleanmap "quiz_02";
+			mapannounce "quiz_02","The Baaam: Alright! We have a winner!!",bc_all;
+		} 	
+	}
+	end;
+
+OnPCLogoutEvent:
+	set bombringpoints, bombringpoints + @bombringpoints;
+	end;
+OnGMStop:
+	set .eventstarted, 0;
+	set .round, 6;
+	killmonsterall "quiz_02";
+	cleanmap "quiz_02";
+	disablenpc "The Baaam2#2";
+	end;
+}
+
+quiz_02,59,345,5	script	The Baaam2#2	856,{
+mes "[The Baaam]";
+mes "Ha! You were really good back there!";
+mes "Here's a token for entertaining me.";
+next;
+//mes "^00FF00Ganas 20 Puntos Cash!";
+mes "You Win ^00FF00"+getitemname($bombring_reward)+"^000000!";
+getitem $bombring_reward,5;
+next;
+mes "[The Baaam]";
+mes "Now get out of here before I blow you up!";
+next;
+set @bombringpoints, @bombringpoints + 2;
+atcommand "@go 0";
+disablenpc "The Baaam2#2";
+end;
+}
+
+prontera,164,181,3	script	The Baaam#1	612,{
+mes "[The Baaam]";
+mes "Hi! Wanna join the Bombring event?";
+Switch(Select("Yes!:What is it about?:Nah, not interested.")) {
+	case 1:
+		mes "[The Baaam]";
+		mes "Alright! Get ready!";
+		next;
+		set @bombringpoints,0;
+		warp "quiz_02",59,345;	
+		break;
+	case 2:
+		mes "[The Baaam]";
+		mes "Well all you have to do is stay alive.";
+		mes "That is by dodging exploding ^00FF00Bombrings^000000!";
+		next;
+		mes "[The Baaam]";
+		mes "If you win, you will get:";
+		mes "5x ^00FF00"+getitemname($bombring_reward)+"^000000!";
+		close;
+		break;
+	case 3:
+		mes "[The Baaam]";
+		mes "Alright, see you around!";
+		close;
+		break;
+	}
+end;
+}
+
+//quiz_02    mapflag    nowarp
+quiz_02    mapflag    noreturn
+quiz_02    mapflag    nowarpto
+//quiz_02    mapflag    noteleport
+quiz_02    mapflag    nosave    SavePoint
+quiz_02    mapflag    noskill
+//quiz_02    mapflag    nomemo
+//quiz_02    mapflag    nopenalty
+quiz_02    mapflag    noicewall

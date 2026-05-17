@@ -1,0 +1,71 @@
+-	script	atcmd_cooldown	-1,{
+OnInit:
+	bindatcmd "cooldown",strnpcinfo(3) + "::OnAtcommand";
+	bindatcmd "cd",strnpcinfo(3) + "::OnAtcommand";
+	bindatcmd "instances",strnpcinfo(3) + "::OnAtcommand";
+	bindatcmd "instance",strnpcinfo(3) + "::OnAtcommand";
+	// CONFIGURATION
+// Basic Instances
+setarray .InstancesName$[0],"Endless Tower","Sealed Catacomb","Nidhoggur's Nest","Orc's Memory";
+setarray .InstancesMinLv[0],		 	 50,			   75,				  70,			 30;
+setarray .InstancesMaxLv[0],			 -1,			   -1,				  -1,			 80;
+setarray .InstancesQuest1[0],		  60200,			 3040,				3135,		  12059;
+setarray .InstancesQuest2[0],		  60201,			 3041,				3136,			 -1;
+// Renewal Instances
+setarray .InstancesName$[4],"Bakonawa Lake","Assault on the Airship","Wolfchev's Laboratory","Sara's Memories","Fenrir and Sarah","Old Glast Heim","Octopus Cave","Morse's Cave","Malangdo Culvert","Last room","Isle Of Bios","Horror Toy Factory","Mistwood Maze","Ghost Palace","Faceworm's Nest","Central Laboratory","Buwaya Cave","Bangungot Hospital";
+setarray .InstancesMinLv[4],		 	140,			   		 125,				  	  -1,			    99,				  145,			   130,			   -1,			 -1,				 -1,		150,		   150,				    140,			 98,		   120,				 140,				   -1, 		  130,				    100;
+setarray .InstancesMaxLv[4],			 -1,			   		  -1,				  	  -1,			    -1,				   -1,		 		-1,			   -1,			 -1,				 -1,		 -1,			-1,					 -1,			 -1, 			-1,			      -1,				   -1, 		   -1, 				     -1;
+setarray .InstancesQuest1[4],		  12278,			 	   15050,					5112,		  	 15002,				 9335,			 12317,			 4197,		   9319,			  12254,	  11379,		 15005,				  12331,		   7211,		  1261,			   12325,			    12347,		 4229,				   9223;
+setarray .InstancesQuest2[4],		     -1,			 	   15051,					  -1,				-1,				   -1,				-1,			   -1,			 -1,				 -1,		 -1,		 15007,					 -1,			 -1,			-1,			   12326,				   -1, 		   -1, 				   9224;
+	end;
+	
+OnAtcommand:
+	if(!checkre(0))
+		.@max = 4;
+	else 
+		.@max = getarraysize(.InstancesName$);
+		
+	dispbottom "@instances"+ (.@atcmd_command$!="@instances"?"/"+.@atcmd_command$:"") + " <hide not available> : List of instances below",0x16f25c;
+		
+	for(.@i=0;.@i<.@max;.@i++) {
+	
+		.@out$ = "[";
+		.@out$ += .InstancesName$[.@i];
+		.@out$ += "] ";
+		
+		.@av = 0;
+		
+		.@minlv = ((.InstancesMinLv[.@i]!=-1)?.InstancesMinLv[.@i]:0);
+		.@maxlv = ((.InstancesMaxLv[.@i]!=-1)?.InstancesMaxLv[.@i]:999);
+		
+		.@quest1 = .InstancesQuest1[.@i];
+		.@quest2 = ((.InstancesQuest2[.@i]!=-1)?.InstancesQuest2[.@i]:0);
+		
+		
+		if(BaseLevel < .@minlv || BaseLevel >= .@maxlv) {
+			.@out$ += "Not available";
+			if(.@minlv != 0) 
+				.@out$ += " - Required Base Lv. "+.@minlv;
+			if(.@maxlv != 999) 
+				.@out$ += " - Max Base Lv. "+.@maxlv;
+		} else if(checkquest(.@quest1,PLAYTIME) == 0 || checkquest(.@quest1,PLAYTIME) == 1) {
+		
+			if(.@quest2 && checkquest(.@quest2,PLAYTIME)<2 && (
+					  (.@quest1 != 15005 && .@quest1 != 12325)
+				   || (.@quest1 == 15005 && checkquest(15008,PLAYTIME)<2)
+				   || (.@quest1 == 12325 && checkquest(12327,PLAYTIME)<2 && checkquest(12328,PLAYTIME)<2 && checkquest(12329,PLAYTIME)<2)
+				))
+				.@out$ += "Available currently - Enter quickly in your Memorial Dungeon";
+			else
+				.@out$ += "Not available currently - Please wait for the Memorial's aftereffect";
+			
+		} else {
+			.@av = 1;
+			.@out$ += "Available";
+		}
+		
+		if(.@atcmd_numparameters == 0 || (.@atcmd_numparameters > 0 && .@av))
+			dispbottom .@out$, .@av?0x00FF00:0x16f25c;	
+	}
+	end;
+}

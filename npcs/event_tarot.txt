@@ -1,0 +1,181 @@
+prontera,155,160,5	script	Event Tarot	647,{
+
+set .@bardito$, "[^000088Guitarist^000000]";
+
+if ($@MusicaOn == 1) goto Comenzar_Tocata;
+
+cluckcluck:
+	if (getgmlevel() >= 90) goto musica;
+		mes .@bardito$;
+		//mes "Le tienes miedo a lo oculto?";
+		mes "Do you want to see your luck?";
+		close;
+	
+musica:
+	
+		mes .@bardito$;
+		mes " ^FF0000~Hello GM " + strcharinfo(0) + " ?~^000000";
+		mes "^FF0000~ ROCK ROCK ~^000000";
+		switch(select("Comenzar rock:Revisar premio:Seleccionar premio:Nada gracias")) {
+case 1:
+		next;
+		mes .@bardito$;
+		mes "^FF0000~START!~^000000";
+		emotion 33;
+		close2;
+		goto Tocata_Anuncios;
+case 2:
+		next;
+		mes .@bardito$;
+		mes "Chala laa laa lala! ^FF0000~The current prize is: ^000000 ^008000"+ $cantidad +" "+ getitemname($item) +".^000000";
+		next;
+		goto musica;
+case 3:
+		next;
+		mes .@bardito$;
+		//mes "WOuu uuoo hooo hoo ? ";
+		mes "^FF0000~Introduce la ID del item que dara de premio.~^000000";
+		input $item;
+		next;
+		mes .@bardito$;
+		//mes "Wouu lala cha chann cha cha? ";
+		mes "^FF0000~Introduce la cantidad de item a dar?~^000000";
+		input $cantidad;
+		next;
+		mes .@bardito$;
+		//mes "Wakaka Caballos locos lalala ";
+		mes "^FF0000~El premio al ganador sera el siguiente";
+		mes "^000000 ^008000"+ $cantidad +" "+ getitemname($item) +"^000000";
+		emotion 33;
+		next;
+		goto musica;
+case 4:
+		next;
+		mes .@bardito$;
+		mes "Bye!";
+		close;
+}
+
+OnClock1400:
+OnClock1900:
+Tocata_Anuncios:
+
+		announce "¡[Event Tarot] It's about to start in Prontera!",bc_all,0xFFFF00;
+		initnpctimer;
+		end;
+		
+OnTimer10000:
+		announce "Hurry to go Prontera if you want to enter and win prizes! One Round! REWARDS 100 Poring Coins",bc_all,0xFFFF00;
+		end;
+		
+OnTimer20000:
+		announce "The Guitarist will start with his cards... Click on him to win, Good luck!",bc_all,0xFFFF00;
+		set $@MusicaOn,1;
+		specialeffect 288;
+		end;
+		
+/*
+523.	Tarot Card of Fate (The Fool)
+524.	Tarot Card of Fate (The Magician)
+525.	Tarot Card of Fate (The High Priestess)
+526.	Tarot Card of Fate (The Chariot)
+527.	Tarot Card of Fate (Strength)
+528.	Tarot Card of Fate (The Lovers)
+529.	Tarot Card of Fate (The Wheel of Fortune)
+530.	Tarot Card of Fate (The Hanged Man)
+531.	Tarot Card of Fate (Death)
+532.	Tarot Card of Fate (Temperance)
+533.	Tarot Card of Fate (The Devil)
+534.	Tarot Card of Fate (The Tower)
+535.	Tarot Card of Fate (The Star)
+536.	Tarot Card of Fate (The Sun)
+*/
+		
+Comenzar_Tocata:
+		switch( rand(12) ) {
+case 0:
+		/* ** [ The fool ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 523;// Card del tarot
+		percentheal 100,-100;		
+		break;
+		
+case 1:
+		/* ** [ The High Priestess ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 525;// Card del tarot
+		sc_end sc_all;
+		break;
+		
+case 2:
+		/* ** [ The Chariot ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 526;// Card del tarot
+		percentheal -99,-100;	
+		break;
+		
+case 3:
+		/* ** [ Strength ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 527;// Card del tarot
+		percentheal -50,-50;	
+		break;
+case 4:
+		/* ** [ The Magician ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 524;// Card del tarot
+		percentheal -20,-20;	
+		break;
+case 5:
+		/* ** [ The Lovers ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 528;// Card del tarot
+		warp "support_hk",39,19;	
+		break;
+case 6:
+		/* ** [ Death ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 531;// Card del tarot
+		percentheal -100,-100;
+		break;
+
+case 7:
+		/* ** [ Temperance ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 532;// Card del tarot
+		sc_start SC_Stun,3500,0;
+		break;
+
+case 8:
+		/* ** [ The Tower ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 534;// Card del tarot
+		percentheal -10,-10;
+		break;
+case 9:
+		/* ** [ The Star ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 535;// Card del tarot
+		sc_start SC_Stun,3500,0;
+		break;
+case 10:
+		/* ** [ The Hanged Man ] ** */
+		specialeffect2 1; // Golpe
+		specialeffect2 530;// Card del tarot
+		sc_start SC_Stone,3200,0;
+		break;			
+default:
+		/* ** [ reparado el % de exito al premiador ] ** */
+		if( rand(100) < 10 ) {
+			npctalk "Congratulations!!";
+			specialeffect2 72;
+			announce "[Event Tarot] " + strcharinfo(0) + " WIN 100 Poring Coins!!",0;
+			getitem $item,$cantidad;
+			set $@MusicaOn,0;
+		} else {
+			sc_start SC_Sleep,3200,0;
+			percentheal -50,-50;
+			}
+		break;
+	}
+}

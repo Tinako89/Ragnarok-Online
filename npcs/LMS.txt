@@ -1,0 +1,212 @@
+-	script	LMS#desactivado	-1,{
+OnWhisperGlobal:
+OnInit:
+disablenpc "Agent LMS#L1";
+disablenpc "Agent LMS#L0";
+end;
+}
+
+-	script	LMS#activado	-1,{
+OnWhisperGlobal:
+OnClock2100:
+OnClock1000:
+OnClock1400:
+goto startlmsevent;
+
+startlmsevent:
+disablenpc "Agent LMS#L1";
+announce "An NPC appears in @go 35, The Last Man Standing event will start shortly, if you want to participate, register with Main Office @go 35. ¡REWARD 150 PORING COINS! Hurry!",0;
+sleep2 5000;
+enablenpc "Agent LMS#L0";
+initnpctimer;
+end;
+
+OnTimer30000:
+announce "Last 30 seconds to register for Last Man Standing @go 35 Hurry or the NPC disappears.",0;
+end;
+
+OnTimer60000:
+announce "Registration to Last Man Standing closed",0;
+end;
+
+OnTimer61000:
+disablenpc "Agent LMS#L0";
+donpcevent "Agent LMS#L1::OnEnable";
+stopnpctimer;
+end;
+}
+//---------All Job Registration---------------
+rtp_mll,99,127,5	script	Agent LMS#L0	588,{
+
+mes "[Agent LMS]:";
+mes "Hello, what can I do for you?";
+next;
+menu "Register",-,"What is LMS?",what,"Exit",leave;
+next;
+mes "[Agent LMS]";
+mes "Thanks for signing up. " + strcharinfo(0);
+close2;
+warp "cell_game",149,145;
+end;
+what:
+mes "[Agent LMS]";
+mes "LMS is known as Last Man Standing";
+next;
+mes "[Agent LMS]";
+mes "LMS is similar to PvP.";
+mes "The only difference is that you will earn 150 Poring Coins for winning this Event.";
+next;
+//mes "LMS hours are...";
+//	mes "^0000FF[        01:40AM        ]^000000";
+//	mes "^0000FF[        04:40AM        ]^000000";
+//	mes "^0000FF[        07:40AM        ]^000000";
+//	mes "^0000FF[        10:40AM        ]^000000";
+//	mes "^0000FF[        13:40PM        ]^000000";
+//	mes "^0000FF[        16:40PM        ]^000000";
+//	mes "^0000FF[        19:40PM        ]^000000";
+//next;
+mes "[Agent LMS]";
+mes "That's it";
+close;
+leave:
+mes "[Agent LMS]";
+mes "I hope you sign up next time.";
+close;
+
+
+}
+
+quiz_02,241,389,5	script	Agent de LMS#quiz	106,{
+
+mes "[Agent LMS]:";
+mes "Hello, what can I do for you?";
+next;
+menu "What is LMS?",whatt,"Salir",leavee;
+next;
+whatt:
+mes "[Agent LMS]";
+mes "LMS is known as Last Man Standing";
+next;
+mes "[Agent LMS]";
+mes "LMS is similar to PvP.";
+mes "The only difference is that you will earn a few Poring Coins for winning this event.";
+next;
+//mes "LMS hours are...";
+//	mes "^0000FF[        01:40AM        ]^000000";
+//	mes "^0000FF[        04:40AM        ]^000000";
+//	mes "^0000FF[        07:40AM        ]^000000";
+//	mes "^0000FF[        10:40AM        ]^000000";
+//	mes "^0000FF[        13:40PM        ]^000000";
+//	mes "^0000FF[        16:40PM        ]^000000";
+//	mes "^0000FF[        19:40PM        ]^000000";
+//next;
+mes "[Agent LMS]";
+mes "That's it";
+close;
+leavee:
+mes "[Agent LMS]";
+mes "Have a nice day";
+close;
+
+
+}
+
+//--------------------------
+
+//--------------------------
+cell_game,149,144,4	script	Agent LMS#L1	56,{
+
+mes "[Agent LMS]";
+mes "Congratulations. Win.";
+next;
+//announce "[Agent LMS]: We have a winner for LMS. Excellent, keep showing that strength in PVP "+strcharinfo(0)+".",0;
+getitem 7539,150;
+mes "I'll send you to Main Office.";
+warp "rtp_mll",99,128;
+disablenpc "Agent LMS#L1";
+close;
+end;
+OnEnable:
+pvpoff "cell_game";
+mapannounce "cell_game","[ARENA LMS]: LMS will start soon.",0;
+sleep2 5000;
+mapannounce "cell_game","[ARENA LMS]: Some clarifications...",0;
+sleep2 5000;
+mapannounce "cell_game","[ARENA LMS]: Only the last one standing wins.",0;
+sleep2 5000;
+mapannounce "cell_game","[ARENA LMS]: We started !!!...",0;
+sleep2 10000;
+goto L_Start;
+end;
+L_Start:
+set $playerslms,getmapusers("cell_game");
+if(getmapusers("cell_game") == 1 && $playerslms > 1) goto L_Champ;
+if(getmapusers("cell_game") == 0) goto L_None;
+if(getmapusers("cell_game") > 1) {
+mapannounce "cell_game","[ARENA LMS]: We start at the count of 5...",0;
+sleep2 10000;
+mapannounce "cell_game","5",0;
+sleep2 1000;
+mapannounce "cell_game","[ARENA LMS]: 4",0;
+sleep2 1000;
+mapannounce "cell_game","[ARENA LMS]: 3",0;
+sleep2 1000;
+mapannounce "cell_game","[ARENA LMS]: 2",0;
+sleep2 1000;
+mapannounce "cell_game","[ARENA LMS]: 1",0;
+sleep2 1000;
+pvpon "cell_game";
+goto timer;
+end;
+}
+timer:
+initnpctimer;
+end;
+
+OnTimer1000:
+end;
+
+OnTimer1100:
+if(getmapusers("cell_game") == 1 && $playerslms > 1) goto L_Champ;
+if(getmapusers("cell_game") > 2) goto timer;
+if(getmapusers("cell_game") == 2) goto champ;
+stopnpctimer;
+end;
+
+champ:
+//announce "[ARENA LMS]: Only 2 Warriors left standing!",0;
+sleep2 10000;
+if(getmapusers("cell_game") == 1 && $playerslms > 1) goto L_Champ;
+if(getmapusers("cell_game") > 1) goto timer;
+end;
+
+L_Champ:
+mapannounce "cell_game","[ARENA LMS]: It's time to get your prize, come talk to me...",2500000;
+pvpoff "cell_game";
+enablenpc "Agent LMS#L1";
+end;
+
+L_None:
+disablenpc "Agent LMS#L1";
+pvpoff "cell_game";
+end;
+}
+
+//----- Die = warp prt -----
+-	script	Killa_warp	-1,{
+OnPCDieEvent:
+	if (strcharinfo(3) == "cell_game" )
+		warp "rtp_mll",99,128;
+	end;
+}
+
+// == Mapflags
+cell_game	mapflag	nowarp
+cell_game	mapflag	nowarpto
+cell_game	mapflag	noteleport
+cell_game	mapflag	nosave
+cell_game	mapflag	nomemo
+cell_game	mapflag	nobranch
+cell_game	mapflag	pvp_noguild
+cell_game	mapflag	pvp_noparty
+cell_game	mapflag	restricted	3

@@ -1,0 +1,85 @@
+//===== eAthena Script =======================================
+//= Flower Event
+//===== By: ==================================================
+//= Colundrum/ratalaika
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= Any eAthena Version
+//===== Description: =========================================
+//= Event about kill flowers
+//===== Additional Comments: =================================
+//= No comments yet
+//============================================================
+-	script	FlowerPrize	-1,{
+
+OnFlower:
+	if(getmapusers("guild_vs5") <= 1) {
+		set @z,0;
+		killmonster "guild_vs5","All";
+		announce "Invalid Flower Event, " + strcharinfo (0) + " He was the only participant, wait for the next one.",0;
+		warp "prontera",155,175;
+	} else {
+		set .@i,mobcount("guild_vs5","FlowerPrize::OnFlower") -1;
+		set @z, @z + 1;
+		if(@z >= 20) {
+			set @z,0;
+			announce strcharinfo (0) + " has won the Flower event, Congratulations!",0;
+			killmonster "guild_vs5","All";
+			getitem 7539,5;
+			warp "prontera",155,175;
+		}
+		else if(.@i < 10)
+			monster "guild_vs5",0,0,"Event Flower",1083,500,"FlowerPrize::OnFlower";
+	}
+	end;
+}
+
+prontera,156,172,4	script	Event Flower	977,{
+
+	mes "The event will begin shortly.";
+	mes "Do you want to participate in the event?";
+	next;
+	if ( ! ( select ( "Yes", "Information", "No" ) ^ 3 ) )
+		close ;
+	if ( @menu == 1 )
+		warp "guild_vs5",0,0;
+	else {
+		mes "[Event Flower]";
+		mes "There are 500 flowers";
+		mes "The first to eliminate 20, Win!";
+		mes "Good luck.";
+	}
+	close;
+
+}
+
+guild_vs5	mapflag	noskill
+//guild_vs5	mapflag	nopenalty
+
+-	script	FlowerStart	-1,{
+
+OnInit:
+OnClock1230:
+OnClock1430:
+OnClock1630:
+
+
+initnpctimer;
+
+OnTimer0:
+	announce "The NPC Event Flower has appeared in Prontera.",0,0xffff00;
+	end;
+
+OnTimer1000:
+	enablenpc "Event Flower";
+	announce "Event in 1 minute",0,0xffff00;
+	end;
+
+OnTimer60000:
+	stopnpctimer;
+	disablenpc "Event Flower";
+	monster "guild_vs5",0,0,"Event Flower",1083,500,"FlowerPrize::OnFlower";
+	end;
+
+}

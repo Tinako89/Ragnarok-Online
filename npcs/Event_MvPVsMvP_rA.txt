@@ -1,0 +1,176 @@
+-	script	MVP_vs_MVP	FAKE_NPC,{
+
+OnWhisperGlobal:
+OnClock1200:
+OnClock0100:
+	
+	OnStart:
+		mapwarp "mvp_room", "prontera", 156, 173;
+		killmonster "mvp_room", "All";
+		.start = 1;
+		announce .npc$ + "The MvP vs MvP Event begins.", bc_all;
+		sleep 7000;
+		announce .npc$ + " To be able to enter use the @mvpjoin command that is enabled for a minute.", bc_all;
+		sleep 60000;
+		announce .npc$ + " Use the command @mvpjoin hurry!", bc_all;
+		.start = 2;
+		sleep 7000;
+		
+		if (getmapusers("mvp_room") < 1) {
+			announce .npc$ + " There are not enough participants in the Event.", 0;
+			.start = 0;
+			end;
+		}
+		
+		mapannounce "mvp_room", .npc$ + " RULES are simple.", bc_map;
+		sleep 7000;
+		mapannounce "mvp_room", .npc$ + " 2 MvPs of the same class will attack each other, whoever is left standing Wins.", bc_map;
+		sleep 7000;
+		mapannounce "mvp_room", .npc$ + " You will have one minute to bet on MVP A or MVP B and win 100 Poring Coin.", bc_map;
+		sleep 7000;
+		mapannounce "mvp_room", .npc$ + " Are you Ready?", bc_map;
+		sleep 7000;
+		mapannounce "mvp_room", .npc$ + " You will have one minute to bet use the command @mvpbet (Example: @mvpbet A or @mvpbet B)", bc_map;
+		
+		.start = 3;
+		sleep 55000;
+		mapannounce "mvp_room", .npc$ + " Bets are closed in 5...", bc_map;
+		sleep 1000;
+		mapannounce "mvp_room", .npc$ + " 4...", bc_map;
+		sleep 1000;
+		mapannounce "mvp_room", .npc$ + " 3...", bc_map;
+		sleep 1000;
+		mapannounce "mvp_room", .npc$ + " 2...", bc_map;
+		sleep 1000;
+		mapannounce "mvp_room", .npc$ + " 1...", bc_map;
+		sleep 1000;
+		.start = 4;
+		mapannounce "mvp_room", .npc$ + " Closed bets!", bc_map;
+		
+		sleep 7000;
+		mapannounce "mvp_room", .npc$ + " Ready!", bc_map;
+		
+		.@mid = .MVP[rand(.size)];
+		monster "mvp_room", 53, 50, "MVP A", .@mid, 1, strnpcinfo(1) + "::OnDie1", Size_Small, AI_NONE;
+		.ma = $@mobid;
+		monster "mvp_room", 46, 50, "MVP B", .@mid, 1, strnpcinfo(1) + "::OnDie2", Size_Small, AI_ATTACK;
+		.mb = $@mobid;
+		end;
+		
+	OnDie1:
+		unittalk .mb, "[MVP B] Mwahaha!~ I Win!";
+		sleep 7000;
+		killmonster "mvp_room", "All";
+		.start = 0;
+		addrid(5, 0, "mvp_room");
+		
+		if (2 == @mvp_bet) {
+			message strcharinfo(0),"Congratulations!!";
+			getitem 7539,.bet_rewd;
+		}
+		
+		@mvp_bet = 0;
+		setpcblock PCBLOCK_ATTACK | PCBLOCK_IMMUNE, false;
+		warp "SavePoint", 0, 0;
+		end;
+		
+	OnDie2:
+		unittalk .ma, "[MVP A] Mwahaha!~ I Win!";
+		sleep 7000;
+		killmonster "mvp_room", "All";
+		.start = 0;
+		addrid(5, 0, "mvp_room");
+		
+		if (1 == @mvp_bet) {
+			message strcharinfo(0),"Congratulations take your Prize!";
+			getitem 7539,.bet_rewd;
+		}
+		
+		@mvp_bet = 0;
+		setpcblock PCBLOCK_ATTACK | PCBLOCK_IMMUNE, false; 
+		warp "SavePoint", 0, 0;
+		end;
+	
+	OnEventBet:
+		mes .npc$;
+		if (!.start)
+			mes "The event is not active.";
+		else if (.start != 3)
+			mes "The event cannot accept bets at the moment.";
+		else if (Zeny < .bet_cost)
+			mes "You don't have enough zeny to make a bet.";
+		else if (@mvp_bet)
+			mes "You already placed your bet.";
+		else if (strcharinfo(3) != "mvp_room")
+			mes "Hmm~";
+		else {
+			mes "Which MvP do you want to bet on now???";
+			next;
+			.@s = select("MVP A:MVP B");
+			mes .npc$;
+			mes "Are you sure you want to bet " + F_InsertComma(.bet_cost) + " on " + (.@s == 1 ? "MVP A" : "MVP B") + "?";
+			next;
+			if (select("Yes:No") & 2) end;
+			if (.start != 3) { // in case they delay the select ???
+				setpcblock PCBLOCK_ATTACK | PCBLOCK_IMMUNE, false;
+				warp "SavePoint", 0, 0;
+				end;
+			}
+			mes .npc$;
+			mes "Good luck enjoy the game!";
+			Zeny -= .bet_cost;
+			@mvp_bet = .@s;
+		}
+		end;
+	
+	OnEventJoin:
+		if (!.start)
+			message strcharinfo(0), "The event is not active.";
+		else if (.start != 1)
+			message strcharinfo(0), "The event is not yet allowing participants to enter.";
+		else {
+			setpcblock PCBLOCK_ATTACK | PCBLOCK_IMMUNE, true;
+			switch (rand(1,4)) {
+				case 1:
+					warp "mvp_room", 52, 46;
+					break;
+				case 2:
+					warp "mvp_room", 44, 46;
+					break;
+				case 3:
+					warp "mvp_room", 43, 54;
+					break;
+				case 4:
+					warp "mvp_room", 55, 53;
+					break;
+			}
+		}
+		end;
+	
+	OnInit:
+		bindatcmd "mvpjoin", strnpcinfo(1) + "::OnEventJoin";
+		bindatcmd "mvpbet", strnpcinfo(1) + "::OnEventBet";
+		bindatcmd "mvpstart", strnpcinfo(1) + "::OnStart", 99, 99;
+		
+		// List of MVP's
+		setarray .MVP[0], 1647, 1785, 1039, 1874, 2068, 1272, 1719, 1046, 1871, 1768, 1832, 1734, 2022, 1087, 1190, 1623, 1708, 1751, 1917, 1646, 1650;
+		.size = getarraysize(.MVP);
+	
+		.npc$ = "[MVP vs MVP Event]";
+		
+		.bet_cost = 100; // PRECIO DE LA APUESTA EN ZENY (1 ZENY SE NECESITA PARA APOSTAR)
+		.bet_rewd = 100; // CANTIDAD DE PORING COIN QUE GANA EL USER
+		
+		end;
+}
+
+mvp_room	mapflag	monster_noteleport
+mvp_room	mapflag	noskill
+mvp_room	mapflag	noloot
+mvp_room	mapflag	noitemconsumption
+mvp_room	mapflag	nomemo
+mvp_room	mapflag	nosave	SavePoint
+mvp_room	mapflag	nowarpto
+mvp_room	mapflag	nowarp
+mvp_room	mapflag	noteleport
+mvp_room	mapflag	nobranch

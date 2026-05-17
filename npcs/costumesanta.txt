@@ -1,0 +1,69 @@
+trinity,144,64,4	script	Peace::Prueba87542	408,{
+	mes "Hi!! ¿What brings you here?";
+	next;
+	switch(select("^3355FFI want the Cat Santa Hat^000000:Deliver me ^3355FFCat Santa Hat^000000:Nothing")) {
+	case 1:
+		mes "[Peace]";
+		mes "Items list.";
+		next;
+		mes "[Peace]";
+		mes "The items are as follows.";
+		mes "^3355FF200 Antelope Skin^000000";
+		mes "^3355FF50 Milk^000000";
+		mes "^3355FF200 Yarn^000000";
+		mes "^3355FF2 Fang of Hatii^000000";
+ 		mes "^3355FF100 White Herb^000000";
+		mes "^3355FF50 	Garlet^000000";
+		mes "^3355FF5 Nursing Bottle^000000";
+		mes "^3355FF2.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Peace]";
+		mes "With these I will give you my Cat Santa Hat!";
+		close;
+	case 2:
+		if (countitem(7107) >= 200 && countitem(519) >= 50 && countitem(7038) >= 200 && countitem(7036) >= 2 && countitem(509) >= 100 && countitem(910) >= 50 && countitem(7270) >= 5 && zeny >= 2000000) {
+			mes "[Peace]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 7107,200; //Antelope Skin
+			delitem 519,50; //Milk
+			delitem 7038,200; //Yarn
+			delitem 7036,2; //Fang of Hatii
+			delitem 509,100; //White herb
+			delitem 910,50; //Garlet
+			delitem 7270,5; //Nursing Bottle
+			getitem 19976,1; //Cat Santa Hat
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-2000000; //Los zenys
+			mes "[Peace]";
+			mes "Here you have! is Cute!!";
+			next;
+			mes "You can come back anytime you want for another Cat Santa Hat.";
+			close;
+		}
+		else {
+			mes "[Peace]";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF200 Antelope Skin^000000";
+			mes "^3355FF50 Milk^000000";
+			mes "^3355FF200 Yarn^000000";
+			mes "^3355FF2 Fang of Hatii^000000";
+ 			mes "^3355FF100 White Herb^000000";
+			mes "^3355FF50 	Garlet^000000";
+			mes "^3355FF5 Nursing Bottle^000000";
+			mes "^3355FF2.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Peace]";
+		mes "I'm not interested?";
+		next;
+		mes "[Peace]";
+		mes "Come back if you change your mind.";
+		mes "Bye!";
+		close;
+	}
+}
+

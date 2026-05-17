@@ -1,0 +1,72 @@
+prontera,157,149,4	script	Violet::Halloween	792,{
+	mes "Hello there!! Happy Halloween 2021!!";
+	next;
+	switch(select("^3355FFI want the Gray Peony^000000:Deliver me ^3355FFGray Peony^000000:Nothing")) {
+	case 1:
+		mes "[Violet]";
+		mes "Items list.";
+		//next;
+		//mes "[VIolet]";
+		//mes "Jijijij ~.";
+		next;
+		mes "[VIolet]";
+		mes "The items are as follows.";
+		mes "^3355FF200 Halloween Coin^000000";
+		mes "^3355FF200 Little Evil Wing^000000";
+		mes "^3355FF200 Yarn^000000";
+		mes "^3355FF200 Wooden Gnarl^000000";
+ 		mes "^3355FF50 Red Muffler ^000000";
+		mes "^3355FF50 Striped Sock^000000";
+		mes "^3355FF1 Queen's Hair Ornament^000000";
+		mes "^3355FF4.000.000 Zenys^000000";
+		mes "Come back with them!";
+		next;
+		mes "[Violet]";
+		mes "With these I will give you my Cat Santa Hat!";
+		close;
+	case 2:
+		if (countitem(6658) >= 200 && countitem(1039) >= 200 && countitem(7038) >= 200 && countitem(7222) >= 200 && countitem(7216) >= 50 && countitem(7219) >= 50 && countitem(10006) >= 1 && zeny >= 4000000) {
+			mes "[VIolet]";
+			mes "Let's see if all is in order.";
+			next;
+			delitem 6658,200; //Halloween Coin
+			delitem 1039,200; //Little Evil Wing
+			delitem 7038,200; //Yarn
+			delitem 7222,200; //Wooden Gnarl
+			delitem 7216,50; //Red Muffler
+			delitem 7219,50; //Striped Sock
+			delitem 10006,1; //Queen's Hair Ornament
+			getitem 20450,1; //Gray Peony
+			//getexp 20000,20000; //Experiencia recibida
+			set zeny,Zeny-4000000; //Los zenys
+			mes "[VIolet]";
+			mes "Here you have! is Cute!!";
+			next;
+			mes "You can come back anytime you want for another Costume Gray Peony.";
+			close;
+		}
+		else {
+			mes "[Violet]";
+			//mes "Please bring me these items!";
+			mes "Care to bring me all these materials?";
+			mes "^3355FF200 Halloween Coin^000000";
+			mes "^3355FF200 Little Evil Wing^000000";
+			mes "^3355FF200 Yarn^000000";
+			mes "^3355FF200 Wooden Gnarl ^000000";
+ 			mes "^3355FF50 Red Muffler^000000";
+			mes "^3355FF50 Striped Sock^000000";
+			mes "^3355FF1 Queen's Hair Ornament^000000";
+			mes "^3355FF4.000.000 Zenys^000000";
+			mes "Come back when you get them.";
+			close;
+		}
+	case 3:
+		mes "[Violet]";
+		mes "I'm not interested?";
+		next;
+		mes "[VIolet]";
+		mes "Come back if you change your mind.";
+		mes "Bye!";
+		close;
+	}
+}

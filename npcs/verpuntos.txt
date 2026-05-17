@@ -1,0 +1,10 @@
+-	script	atcmd_comando	-1,{
+OnInit:
+	bindatcmd "points",strnpcinfo(3)+"::OnAtcommand";
+	end;
+OnAtcommand:
+	//dispbottom "Have = "+#VOTEPOINTS+" Vote Point(s)";
+	dispbottom "Have = "+#CASHPOINTS+" Cash Point(s)";
+	dispbottom "Have = "+#HOURPOINTS+" Hour Point(s)";
+	end;
+}

@@ -1,0 +1,111 @@
+-	script	restocking_atcmd	-1,{
+
+function	TrouverIndice	{
+	for(.@i=0;.@i<getarraysize(getarg(0));.@i++)
+		if(getelementofarray(getarg(0),.@i) == getarg(1)) break;
+		
+	if(.@i == getarraysize(getarg(0)) && getelementofarray(getarg(0),.@i) != getarg(1)) 
+		return -1;
+	else return .@i;
+}
+
+OnInit:
+	// Requisito para no vips
+	// -1 para deshabilitar
+	.CoinID = -1;
+	// ===================
+	bindatcmd "restock",strnpcinfo(3)+"::OnAtcommand";
+	end;
+	
+OnAtcommand:
+	if(.@atcmd_numparameters == 1 && strtolower(.@atcmd_parameters$[0]) == "off") {
+		deletearray RestockList[0],getarraysize(RestockList);
+		dispbottom "@restock : Lista borrada.";
+		end;
+	}
+	if(.@atcmd_numparameters == 0) {
+		dispbottom "Uso de comando: @restock <itemid> <itemid> ...";
+	} else {
+		if(.CoinID > 0 && !vip_status(1)) {
+			mes "[@Restock]";
+			mes "You are not a VIP-player, you have to pay 1x "+getitemname(.CoinID)+" to use this command.";
+			mes "^0000FFCommand Usage : @restock <itemid> <itemid> ...^000000";
+			next;
+			if(select("Pay 1x "+getitemname(.CoinID)+":Cancel") == 2) close;
+			if(countitem(.CoinID)<1) {
+				mes "[@Restock]";
+				mes "You don't have enough "+getitemname(.CoinID)+".";
+				close;
+			}
+			close2;
+		}
+		.@pay = 0;
+		for(.@i=0;.@i<.@atcmd_numparameters;.@i++) {
+			.@id = atoi(.@atcmd_parameters$[.@i]);
+			if(getitemname(.@id) != "null") {
+				if(getiteminfo(.@id,2) == 0 || getiteminfo(.@id,2) == 2 || getiteminfo(.@id,2) == 3 || getiteminfo(.@id,2) == 11) {	
+					if((.@array_id = TrouverIndice(RestockList,.@id)) < 0) {
+						setarray RestockList[getarraysize(RestockList)],.@id;
+						dispbottom "@restock : Item '"+getitemname(.@id)+"' (id:"+.@id+") ¡Agregado exitosamente!";
+						.@pay = 1;
+					} else {
+						dispbottom "@restock : Item '"+getitemname(.@id)+"' (id:"+.@id+") ya en la lista.";
+					}
+				}
+				else dispbottom "@restock : Solo puedes agregar item consumibles. (id "+.@id+" non available)";
+			} else dispbottom "@restock : este item no existe. (id "+.@id+")";
+		}
+		dispbottom "@restock - Lista actual:";
+		for(.@i=0;.@i<getarraysize(RestockList);.@i++)
+			dispbottom "- "+getitemname(RestockList[.@i])+" ("+storagecountitem(RestockList[.@i])+" en storage)";
+		if(.@i == 0)
+			dispbottom "Vacío.";
+		
+		if(.CoinID > 0 && !vip_status(1) && .@pay == 1) {
+			dispbottom ".: "+ getitemname(.CoinID) +" consumed :.";
+			delitem .CoinID,1;
+		}
+	}
+	end;
+	
+OnItemUsed:
+	.@useditem = itemusedid;
+	//dispbottom "Consumí Item " +itemusedid+ " con propiedad "+ itemusedcard2;
+	if(.@useditem > 0 && (.@array_id = TrouverIndice(RestockList,.@useditem)) >= 0) {
+		if(storagecountitem(.@useditem) > 0) {
+			if(storagecountitem2(.@useditem,1,0,0,254,0,16956,15) > 0 && itemusedcard2 == 16956) {
+				getinventorylist;
+				for (set .@i, 0; .@i < @inventorylist_count; set .@i, .@i + 1 ) {
+					if (@inventorylist_id[.@i] == .@useditem && @inventorylist_card3[.@i] == 16956 && itemusedcard2 == 16956) {
+						storagedelitem2 .@useditem,1,1,0,0,254,0,getbattleflag("bg_reserved_char_id")&0xffff,(getbattleflag("bg_reserved_char_id")>>16)&0xffff;
+						getitem2 .@useditem,1,1,0,0,254,0,getbattleflag("bg_reserved_char_id")&0xffff,(getbattleflag("bg_reserved_char_id")>>16)&0xffff;
+						break;
+					}
+				}
+			}
+			else if(storagecountitem2(.@useditem,1,0,0,254,0,16959,15) > 0 && itemusedcard2 == 16959) {
+				getinventorylist;
+				for (set .@i, 0; .@i < @inventorylist_count; set .@i, .@i + 1 ) {
+					if (@inventorylist_id[.@i] == .@useditem && @inventorylist_card3[.@i] == 16959 && itemusedcard2 == 16959) {	
+						storagedelitem2 .@useditem,1,1,0,0,254,0,getbattleflag("woe_reserved_char_id")&0xffff,(getbattleflag("woe_reserved_char_id")>>16)&0xffff;
+						getitem2 .@useditem,1,1,0,0,254,0,getbattleflag("woe_reserved_char_id")&0xffff,(getbattleflag("woe_reserved_char_id")>>16)&0xffff;
+						break;
+					}			
+				}
+			}
+			else if(storagecountitem2(.@useditem,1,0,0,0,0,0,0) > 0 && itemusedcard2 == 0) {
+				getinventorylist;
+				for (set .@i, 0; .@i < @inventorylist_count; set .@i, .@i + 1) {
+					if (@inventorylist_id[.@i] == .@useditem && @inventorylist_card3[.@i] == 0 && itemusedcard2 == 0) {
+						storagedelitem2 .@useditem,1,1,0,0,0,0,0,0;
+						getitem2 .@useditem,1,1,0,0,0,0,0,0;
+						break;
+					}
+				}
+			}
+		} else {
+			deletearray RestockList[.@array_id],1;
+		}
+	}
+	end;
+}

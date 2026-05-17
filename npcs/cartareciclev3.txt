@@ -1,0 +1,80 @@
+rtp_mll,60,155,5	script	Card Recycler	727,{
+
+	delwaitingroom;
+	if(.@menu_card) deletearray .@menu_card[0],getarraysize(.@menu_card);
+	if(.@menu_card_id) deletearray .@menu_card_id[0],getarraysize(.@menu_card_id);
+	if(.@menu_card_amt) deletearray .@menu_card_amt[0],getarraysize(.@menu_card_amt);
+	if(.@card_delete) deletearray .@card_delete[0],getarraysize(.@card_delete);
+
+	mes "[^0000FFCard recycler^000000].";
+	mes "Hey there, I can change 5 cards for Costume Box, please select which 5 cards you want to use.";
+	set .@menu$,"";
+	getinventorylist;
+	//Recorrido de los items de mi inventario
+	set .@aci,0;
+	set .@pcd,0;
+    	for(set .@i,0; .@i < @inventorylist_count; set .@i,.@i+1){
+    	    if(@inventorylist_id[.@i] >= 4000 && @inventorylist_id[.@i] <= 4600) { //Tomaré en cuenta los recorridos de las cards por sus IDs
+		setarray .@menu_card_amt[.@pcd],@inventorylist_amount[.@i]; //Almaceno la cantidad de cada card, si es mayor que 1, repito el ID para el array
+		setarray .@menu_card_id[.@pcd],@inventorylist_id[.@i]; //Almaceno la id de la card para que las posiciones del array coincidan con el de amount
+		for(set .@am,1; .@am<=@inventorylist_amount[.@i]; set .@am,.@am+1) {
+			setarray .@menu_card[.@aci],@inventorylist_id[.@i];
+			set .@aci,.@aci+1;
+		}
+		set .@pcd,.@pcd+1; 		
+    	    }
+    	}
+	//npctalk "Cantidad de IDs "+getarraysize(.@menu_card_id)+" --- Cantidad de Amounts "+getarraysize(.@menu_card_amt);
+	//En caso de que el array de cards exista o tenga al menos un valor
+	if(.@menu_card || getarraysize(.@menu_card) > 0) {
+	    for(set .@c,0; .@c<5; set .@c,.@c+1) { //Recorro 5 veces que es lo que se requiere para 1 OCA
+		if(getarraysize(.@menu_card) > 0) { //Condición por si tengo o no valores en el array
+		    for (set .@j,0; .@j < getarraysize(.@menu_card); set .@j,.@j+1) { //Recorrido para construir el menú dinámico de cards en base al array de cards
+		    	set .@menu$,.@menu$ + (.@j > 0 ? ":" : "") + getitemname(.@menu_card[.@j]);
+		    }
+		    set .@s,select(.@menu$) - 1; //Selecciono mi opción, remuevo el ID de mi array y lo almaceno en un array nuevo de eliminaciones	    
+		    for(set .@r,0; .@r < getarraysize(.@menu_card_id); set .@r,.@r+1) {
+		        //npctalk .@menu_card[.@s] +" == "+ .@menu_card_id[.@r]+" && "+countitem(.@menu_card[.@s])+" != "+.@menu_card_amt[.@r];
+		        if(.@menu_card[.@s] == .@menu_card_id[.@r] && countitem(.@menu_card[.@s]) != .@menu_card_amt[.@r]) goto L_noexch2;
+		    }
+		    setarray .@card_delete[.@c],.@menu_card[.@s];
+		    set .@menu$,""; //Limpieza del menú para el llenado del próximo
+		    deletearray .@menu_card[.@s],1;
+		} else goto L_noexch; //En caso de que no tenga las 5 cards requeridas
+	    }
+	    //Procedo a entregar la OCA y eliminar las 5 cards almacenadas de mi nuevo arreglo de eliminaciones
+	    for(set .@cd,0; .@cd<5; set .@cd,.@cd+1) {
+		if(countitem(.@card_delete[.@cd]) == 0) goto L_noexch2;
+	    }
+	    for(set .@cd,0; .@cd<5; set .@cd,.@cd+1) delitem .@card_delete[.@cd],1;
+	    getitem 22721,1;
+	    mes "Here you have your Costume Box.";
+	    close;
+	} else goto L_noexch; //En caso de que no tenga las 5 cards requeridas
+	end;
+	
+L_noexch:
+	mes "I'm sorry but you don't have the cards quantity requirement.";
+	close;
+
+L_noexch2:
+	mes "¿So I see your interacting with your cards while you are talking to me? ¬_¬ ¡¡GET OUT!!";
+	close;
+	
+OnInit:
+	goto L_chat;
+	end;
+
+L_chat:
+setarray .message$,
+	//"Reciclador Cards.",
+	"";
+set .message_size,getarraysize( .message$ );
+while( .message_size ){
+	delwaitingroom; 
+	waitingroom ""+.message$[ rand( .message_size ) ],0;
+	sleep 1000;
+}
+end;
+
+}

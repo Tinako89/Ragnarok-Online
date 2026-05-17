@@ -1,0 +1,45 @@
+prt_in,86,91,2	script	Gold Coin US Exchanger	100,{
+function Exchange;
+
+switch( select( "Yggdrasilberry Box",
+				"Royal Jelly Box",
+				"Elunium Box",
+				"Costume Iron Chain",
+				"Costume Indian Hairband",
+				"Costume Wizard Hat",
+				"Costume Memmory of Lovers",
+				"Costume Spiky Band",
+				"Costume Vicious Stop Bandage",
+				"Costume Vicious Mind Aura" )){
+// Exchange( <Item Gained>,<Amount>,<Item Required>,<Amount> );
+case 1:	Exchange( 13517,1,7720,12 );	break;
+case 2:	Exchange( 13516,5,7720,10 );	break;
+case 3:	Exchange( 12997,10,7720,11 );	break;
+case 4:	Exchange( 19528,10,7720,18 );	break;
+case 5:	Exchange( 31130,10,7720,25 );	break;
+case 6:	Exchange( 20093,10,7720,18 );	break;
+case 7:	Exchange( 20376,10,7720,28 );	break;
+case 8:	Exchange( 19527,10,7720,18 );	break;
+case 9:	Exchange( 19825,10,7720,17 );	break;
+case 10:	Exchange( 20407,10,7720,35 );	break;
+default:
+	mes "Wrong Selection";	break;
+}
+close;
+
+function	Exchange	{
+mes "Exchange "+getarg(3)+" "+getitemname( getarg(2) )+" into "+getarg(1)+" "+getitemname( getarg(0) )+"?";
+if(select("Yes","No")==1){
+	if( countitem( getarg(2) ) < getarg(3) ){
+		mes "Sorry you didnt have enough Items to trade.";
+		close;
+	}else{
+		mes "Done";
+		delitem getarg(2),getarg(3);
+		getitem getarg(0),getarg(1);
+	}
+}
+return;
+}
+
+}

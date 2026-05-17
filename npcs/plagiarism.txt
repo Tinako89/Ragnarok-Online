@@ -1,0 +1,70 @@
+rtp_mll,60,150,5	script	Plagiarism Master::Plague	803,{
+set .@skill_level,getskilllv( "RG_PLAGIARISM" );
+
+if( !.@skill_level ){
+    mes .n$;
+	mes "You need the skill: ^FF0000Plagiarism^000000";
+	mes "to use this service.";
+}else{
+	if( select( ( CLONE_SKILL && CLONE_SKILL_LV )?"Delete Skill.":"Learn Skill.","Exit." ) == 1 ){
+		if( CLONE_SKILL && CLONE_SKILL_LV ){
+			mes "Deleted Skill";
+			set CLONE_SKILL_LV,0;
+			skill CLONE_SKILL,CLONE_SKILL_LV,0;
+			set CLONE_SKILL,0;
+		}else{
+			mes "Please select a skill.";
+			mes " ";
+			mes "REMEMBER! you must relog.";
+			next;
+			set .@i,select( .menu$ ) - 1;
+			if( .@skill_level > .skill_max_level[.@i] )
+				set .@skill_level,.skill_max_level[.@i];
+			mes "Skill : ^0055FF"+.skill_name$[.@i]+"^000000";
+			mes "Level : ^0055FF"+.@skill_level+"^000000";
+			mes "Costo : ^0055FF"+( ( .skill_cost[.@i] )? .skill_cost[.@i]+" Zeny":"Free" )+"^000000";
+			mes " ";
+			mes "^777777(Plagiarism level affects skill level.)^000000";
+			next;
+			if( select( "Confirmar","Cancelar" ) == 1 ){
+				if( .skill_cost[.@i] ){
+					if( Zeny >= .skill_cost[.@i] ){
+						set Zeny,Zeny - .skill_cost[.@i];
+					}else{
+						mes "You don't have enough zeny.";
+						close;
+					}
+				}
+				set CLONE_SKILL,.skill_id[.@i];
+				set CLONE_SKILL_LV,.@skill_level;
+				mes "Learned skill ^0055FFLv"+CLONE_SKILL_LV+" "+.skill_name$[.@i]+"^000000";
+				message strcharinfo(0),"REMEMBER! you must relog.";
+				skill CLONE_SKILL,CLONE_SKILL_LV,0;
+			}
+		}
+	}
+}
+//dispbottom "Skill ID "+CLONE_SKILL+" | Level : "+CLONE_SKILL_LV;
+close;
+
+OnInit:
+// Skill Display Names
+setarray .skill_name$,"Jupiter Thunder","Cold Bolt","Lightning Bolt","Fire Bolt","Exploding Dragon","North Wind","Bowling Bash","Flying Side Kick","Lightning Spear of Ice";
+// Skill ID
+setarray .skill_id,84,14,20,19,536,542,62,421,537;
+// Skill Max Learn-able Level
+setarray .skill_max_level,10,10,10,10,5,5,10,7,10;
+// Skill Cost in Zeny
+setarray .skill_cost,0;
+set .n$,"[Plagiarism Master]";
+
+set .skill_size,getarraysize( .skill_name$ );
+while( .@i < .skill_size ){
+	set .menu$,.menu$ + "[ ^0055FFLv "+.skill_max_level[.@i]+"^000000 ] "+ .skill_name$[.@i] +":";
+	set .@i,.@i + 1;
+}
+end;
+}
+
+//Duplicates
+//skypiea,212,192,5	duplicate(Plague)	Plagiarism Master#01	828 

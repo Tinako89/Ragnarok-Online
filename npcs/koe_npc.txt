@@ -1,0 +1,245 @@
+-	script	KoE	FAKE_NPC,{
+
+OnInit:
+
+        disablenpc "The King KoE#KoE";
+
+        disablenpc "Exit#KoE";
+
+        bindatcmd "koe", strnpcinfo(0)+"::OnCommand", 99,100;
+
+        end;
+
+OnCommand:
+
+        if ( compare( .@atcmd_parameters$, "on" ) ) goto L_start;
+
+        else if ( compare( .@atcmd_parameters$, "off" ) ) goto L_end;
+
+        else {
+
+                dispbottom "type - '@koe on' to start the event";
+
+                dispbottom "type - '@koe off' to end the event";
+
+        }
+
+        end;
+
+OnTue2028: //Anuncio 2 Minutos antes que inicie
+
+        announce "King of Emperium will start in 2 minutes.", bc_all;
+        end;
+
+OnTue2058: // Anuncio que terminara en 2 Min
+
+        announce "King of Emperium Ends in 2 minutes.", bc_all;
+        end;
+
+L_start:
+
+
+OnTue2030:
+
+        if ( .start ) end;
+
+        gvgon "koe1";
+
+	$KoeStatus = 1;
+
+        announce "The King of Emperium has Begun! Enter through the NPC Located in Prontera Duration Time: 30 Minutes.", bc_all;
+
+	query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'KoeParticipante'");
+	query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'KoePremio'");
+
+        .start = true;
+
+        enablenpc "The King KoE#KoE";
+
+        disablenpc "Exit#KoE";
+
+        $koegid = 0;
+
+        donpcevent "::OnRevKoE";
+
+        maprespawnguildid "koe1", $koegid, 3;
+
+        killmonster "koe1", "KoE::OnEmpDead";
+
+        monster "koe1",80,65, "EMPERIUM", 1288, 1, "KoE::OnEmpDead";
+
+        end;
+
+L_end:
+
+
+OnTue2100:
+
+        gvgoff "koe1";
+
+	$KoeStatus = 0;
+
+        announce "The King of Emperium has Completed you have 2 Minutes to enter and claim the prize before the NPC disappears.", bc_all;
+
+        .start = 0;
+
+        enablenpc "Exit#KoE";
+        killmonster "koe1", "KoE::OnEmpDead";
+		sleep 120000;
+        //announce "The King of Emperium ha terminado! los NPCs han desaparecido", bc_all;
+		disablenpc "The King KoE#KoE";
+		disablenpc "Exit#KoE";
+//      maprespawnguildid "koe1", $koegid, 2; // uncomment this line to kick non-owner off the map when event ends
+
+        end;
+
+OnEmpDead:
+
+        $koegid = getcharid(2);
+
+        announce "The current King of Emperium Hill is the ["+ strcharinfo(2) +"] guild. Enter through the NPC located in Prontera.", bc_all;
+
+        donpcevent "::OnRevKoE";
+
+        maprespawnguildid "koe1", $koegid, 2;
+
+        killmonster "koe1", "KoE::OnEmpDead";
+
+        sleep 500;
+
+        if ( .start )
+
+                monster "koe1",80,65, "EMPERIUM", 1288, 1, "KoE::OnEmpDead";
+
+        end;
+
+}
+
+ 
+
+// KoE Entrance
+
+prontera,155,175,4	script	The King KoE#KoE	657,{
+
+        mes "[The King]";
+
+        if ( !getcharid(2) ) {
+
+                mes "You must have a guild to participate in the ^FF0000King of Emperium ^000000.";
+
+                close;
+
+        }
+
+        mes "Hello.";
+
+	if($KoeStatus == 1) mes "¿Do you want to participate in the ^FF0000King of Emperium^000000?";
+	else mes "Do you want enter to get ^FF0000King of Emperium^000000 rewards for your guild?"; 
+
+        if ( select ( "Yes", "No" ) == 2 ) close;
+
+        //if ( !getvariableofnpc( .start, "KoE" ) ) close;
+
+	if($KoeStatus == 1) {	set KoeParticipante,1;	set KoePremio,1;	}
+
+        switch( rand(1,4) ){
+
+        case 1: warp "koe1", 36, 109; end;
+
+        case 2: warp "koe1", 123, 109; end;
+
+        case 3: warp "koe1", 123, 22; end;
+
+        case 4: warp "koe1", 36, 22; end;
+
+        }
+
+}
+
+ 
+
+// KoE Exit
+
+koe1,80,80,5	script	Exit#KoE	108,{
+.@guild_id = getcharid(2);
+if (getguildmasterid(getcharid(2)) == getcharid(0)) {
+if ($koegid == .@guild_id) {
+        mes "[The King]";
+
+        mes "Thank you for participating, here is your Reward.";
+		next;
+		
+		mes "Please make sure the guild members are on the map before claiming the prize!";
+		
+		next;
+		mes "Are all the members of the guild ^0000CC["+ getguildname($koegid) +"]^000000 on the map?";
+		
+        if ( select ( "ready", "No" ) == 2 ) close;
+ if (KoePremio == 1 ) {
+    if ( getcharid(2) ) {
+        getguildmember getcharid(2), 1;
+        getguildmember getcharid(2), 2;
+        getmapxy(.@mapname$,.@mapx,.@mapy,BL_PC);
+            for ( .@i = 0; .@i < $@guildmembercount; .@i++ ) {
+                if ( !isloggedin( $@guildmemberaid[.@i], $@guildmembercid[.@i] ) ||  // what happens if someone in the guild member is offline =/
+                    strcharinfo(3,$@guildmembercid[.@i]) != .@mapname$ ) // If the guild member is not on the same map of the killer
+                    continue;	
+			getitem 7804, 300, $@guildmemberaid[.@i];
+			getitem 7539, 100, $@guildmemberaid[.@i];
+			getitem 12103, 1, $@guildmemberaid[.@i];
+			getitem 22721, 1, $@guildmemberaid[.@i];
+			getitem 7776, 1, $@guildmemberaid[.@i];
+			getitem 12212, 1, $@guildmemberaid[.@i];
+			set KoePremio,0;
+		query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'KoePremio'");
+		warp "Save",0,0;
+        }
+		end;
+	}
+
+			
+        end;
+		}
+	}
+}
+        mes "[The King]";
+
+        mes "I'm sorry but you're not The Current King of Emperium Hill.";
+		warp "Save",0,0;
+		close;
+}
+
+ 
+
+// Flags
+
+koe1,79,86,4	script	King of Emperium Hill#1::koe_flag	GUILD_FLAG,{
+
+
+        mes "[King of Emperium Hill]";
+
+        mes "The Current King of Emperium Hill is the ^0000CC["+ getguildname($koegid) +"]^000000 guild.";
+
+        close;
+
+//OnInit: // Uncomment this line to make the emblem stay after @reloadscript
+
+OnRevKoE:
+
+        flagemblem $koegid;
+
+        end;
+
+}
+koe1	mapflag	nobranch
+koe1	mapflag	nomemo
+koe1	mapflag	nopenalty
+koe1	mapflag	noreturn
+koe1	mapflag	nosave
+koe1	mapflag	noteleport
+koe1	mapflag	gvg_noparty	off
+koe1	mapflag	nowarp
+koe1	mapflag	nowarpto
+koe1	mapflag	guildlock
+
+//Nota: gvg_noparty aagregale el off (usar skill devotion)

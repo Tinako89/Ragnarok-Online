@@ -1,0 +1,36 @@
+main_office,79,165,4	script	Skull & Change#j	470,{
+		if(bgcheck())
+		{
+			mes "^404040[^808080" + strnpcinfo(1) + "^404040]^000000";
+			mes "Welcome to Skull Changer";
+			menu
+			"Change Skull",C_SK,
+			"Cancel",-;
+			close;
+		}
+			mes "^404040[^808080" + strnpcinfo(1) + "^404040]^000000";
+			mes "Welcome to Skull Changer";
+			menu
+			"Change Skull",C_SK,
+			"Cancel",-;
+			close;
+
+C_SK:
+if(countitem(7420) < 1 )
+		{
+			mes "You have no skull.";
+			close;
+		}
+set .@i, countitem(7420);
+delitem 7420, .@i;
+getitem 673, .@i;
+close;
+	
+L_Sortir:
+	close2;
+	dispbottom "[ Exit ] : Respaldo.";
+	progressbar "green",10;
+	warp "SavePoint",0,0;
+	end;
+	
+}

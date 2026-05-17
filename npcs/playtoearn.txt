@@ -1,0 +1,57 @@
+rtp_mll,170,133,4	script	Play to Earn::PTE	903,{
+	mes "Bienvenido al Sistema Play to Earn.";
+	mes "Una USD Coin es el equivalente a 1$ (dolar) Americano.";
+	mes "Todos los pagos se entregarán efectivo en Criptomonedas o vía PayPal.";
+	mes "También existe la posibilidad de canjear 1 USD Coin por 100 Poring Coin.";
+	mes "¡Consulta Discord para más información!";
+	next;
+	switch(select("^3355FFCrear USD Coin^000000:Entregar ^3355FFUSD Coin^000000:Nada")) {
+	case 1:
+		mes "Listado de Items.";
+		mes "^3355FF20 Poring Coin^000000";
+		mes "^3355FF150 PvP Coin^000000";
+		mes "^3355FF300 Treasure Chest Coin^000000";
+		mes "^3355FF250 Gold Coin^000000";
+ 		mes "^3355FF250 Mora Coin^000000";
+		mes "^3355FF300 Battleground Badge ^000000";
+		mes "^3355FF5 Emperium^000000";
+		mes "^3355FF20.000.000 Zenys^000000";
+		close;
+	case 2:
+		if (countitem(7539) >= 20 && countitem(673) >= 150 && countitem(6797) >= 100 && countitem(7720) >= 250 && countitem(6380) >= 250 && countitem(7804) >= 300 && countitem(714) >= 5 && zeny >= 20000000) {
+			mes "[Mike]";
+			mes "Revisaré...";
+			next;
+			delitem 7539,20; //Poring Coin
+			delitem 673,100; //PvP Coin  
+			delitem 6797,100; //Treasure Chest Coin
+			delitem 7720,250; //Gold Coin
+			delitem 6380,250; //Mora Coin
+			delitem 7804,300; //Battleground Badge 
+			delitem 714,5; //Emperium
+			getitem 6544,1; //USD Coin
+			//getexp 20000,20000;
+			set zeny,Zeny-20000000; //Los zenys
+			mes "[Mike]";
+			mes "¡Aquí tienes tu recompensa!";
+			close;
+		}
+		else {
+			mes "[Mike]";
+			mes "Necesito los siguientes Items.";
+			mes "^3355FF20 Poring Coin^000000";
+			mes "^3355FF150 PvP Coin^000000";
+			mes "^3355FF300 Treasure Chest Coin^000000";
+			mes "^3355FF250 Gold Coin^000000";
+ 			mes "^3355FF250 Mora Coin^000000";
+			mes "^3355FF300 Battleground Badge ^000000";
+			mes "^3355FF5 Emperium^000000";
+			mes "^3355FF20.000.000 Zenys^000000";
+			close;
+		}
+	case 3:
+		mes "[Mike]";
+		mes "¡Regresa si cambias de opinión!";
+		close;
+	}
+}

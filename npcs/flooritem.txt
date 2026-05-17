@@ -1,0 +1,49 @@
+-	script	Haze2	-1,{
+ 
+Onitemrain:
+ 
+.@itemid = atoi( .@atcmd_parameters$ );
+ 
+.@amount = atoi( .@atcmd_parameters$[1] );
+ 
+if ( getitemname( .@itemid ) == "null" ) {
+ 
+message strcharinfo(0), "Invalid Item ID";
+ 
+end;
+ 
+}
+ 
+if ( .@amount <= 0 || .@amount > 100 )
+ 
+.@amount = 100;
+ 
+.@area = getbattleflag("area_size");
+ 
+getmapxy .@map$, .@x, .@y, BL_PC;
+ 
+while ( .@i < .@amount ) {
+ 
+do {
+ 
+.@dx = rand( -.@area, .@area );
+ 
+.@dy = rand( -.@area, .@area );
+ 
+} while( !checkcell( .@map$,(.@x+.@dx),(.@y+.@dy),cell_chkpass ) );
+ 
+makeitem .@itemid, 1, .@map$, .@x + .@dx, .@y + .@dy;
+ 
+.@i++;
+ 
+}
+ 
+end;
+ 
+OnInit:
+ 
+bindatcmd "flooritem", strnpcinfo(0) +"::Onitemrain", 60,100;
+ 
+end;
+ 
+}

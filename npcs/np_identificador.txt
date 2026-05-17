@@ -1,0 +1,31 @@
+rtp_mll,139,155,4	script	Identifier	908,{
+set .@n$,"^0000FF[ Identifier ]^000000";
+mes .@n$;
+mes "Hello "+strcharinfo(0)+",for 100";
+mes "Zenny I'm going to identify";
+mes "all items in your inventory.";
+next;
+mes .@n$;
+mes "Do you want me to Identify your Items?";
+next;
+switch(select("Yes:No")) {
+case 1:
+if(Zeny < 100) {
+mes .@n$;
+mes "Sorry,but you don't have enough Zeny!";
+close;
+}
+mes .@n$;
+mes "Okay identifying!";
+set Zeny,Zeny - 100;
+getinventorylist;
+for( set .@i,0; .@i < @inventorylist_count; set .@i, .@i + 1 ) {
+if ( @inventorylist_identify[.@i] == 1 ) continue;
+ 
+delitem2 @inventorylist_id[.@i],1,0,0,0,0,0,0,0;
+getitem @inventorylist_id[.@i],1;
+}
+case 2:
+close;
+}
+}

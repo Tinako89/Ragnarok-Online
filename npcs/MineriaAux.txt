@@ -1,0 +1,55 @@
+-	script	MiningTools12	-1,{
+	mes "[^0000FFMinero^000000]";
+	mes "Hola " + strcharinfo(0) + ", deseas comprar item para la mineria?";
+	next;
+l_MainMenu:
+	switch (select("Comprar Item","Acerca de la Mineria","Localizacion del Mineral","Adios!!")) {
+		case 1:
+			mes "[^0000FFMinero^000000]";
+			mes "Gracias, tengo " + getitemname(7318) + " y algunas pociones para curar en el caso que tengas un accidente.";
+			close2;
+			callshop "MinerShop",1;
+			end;
+		case 2:
+			mes "[^0000FFMinero^000000]";
+			mes "El arte de la minería es la manera para obtener minerales.";
+			next;
+			mes "[^0000FFMinero^000000]";
+			mes "Los minerales por lo general están ocultas bajo un muro de rocas que debes romper.";
+			next;
+			mes "[^0000FFMinero^000000]";
+			mes "El muro de rocas es muy fuerte, pero un buen minero siempre busca un punto debil antes de romper sus herramientas.";
+			next;
+			mes "[^0000FFMinero^000000]";
+			mes "Los minerales están llenos de secretos, algunos mineros dicen que se puede encontrar material valioso e incluso Tesoros.";
+			next;
+			mes "[^0000FFMinero^000000]";
+			mes "Todo lo que te he dicho suena maravilloso, pero creeme, no siempre es asi...";
+			next;
+			mes "[^0000FFMinero^000000]";
+			mes "El arte de la mineria es peligrosa, debes ir completamente equipado para protegerte.";
+			next;
+			mes "[^0000FFMinero^000000]";
+			mes "He observado que los mineros prefieren ^FF0000" + getitemname(5009) + "^000000 y ^FF0000" + getitemname(5031) + "^000000";
+			next;
+			goto l_MainMenu;
+		case 3:
+			mes "[^0000FFMinero^000000]";
+			mes "Por el momento solamente se han encontrado minerales en Anthell LVL 1 y en Payon Dungeon LVL 1.";
+			next;
+			goto l_MainMenu;
+	}
+	mes "[^0000FFMinero^000000]";
+	mes "Un gusto verte " + strcharinfo(0) + ".";
+	close;
+}
+
+// o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o \\
+// Merchants
+// o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o \\
+lroom00,163,53,4	duplicate(MiningTools)	Gran Minero#25	813
+
+// o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o \\
+// Shop
+// o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o \\
+-	shop	MinerShop58	-1,7318:15000,501:-1,502:-1,503:-1,504:-1,5009:50000,5031:100000

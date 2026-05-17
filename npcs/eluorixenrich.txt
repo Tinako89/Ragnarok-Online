@@ -1,0 +1,49 @@
+paramk.gat,68,101,4	script	Enriched Mineral	826,{
+
+	delwaitingroom;	
+	mes "[^0000FFEnriched Mineral^000000].";
+	mes "Hello! ¿Do you wish to transform Eluniums or Oridecons to their Enriched form? It will be 100 for 1";
+	switch(select("100 Eluniums x 1 Enriched Elunium:100 Oridecons x 1 Enriched Oridecon")) {
+		case 1:
+			mes "¿How many Enriched Elunium do you want?";
+			input .@enelu;
+			if(.@enelu == 0) { mes "You playing with me...? -.- -.-";	close; }
+			if(countitem(985) >= .@enelu * 100) { 
+				delitem 985,.@enelu * 100;
+				getitem 7619,.@enelu;
+				mes "Here you have.";				
+			} else {
+				mes "You don't have the required quantity of Eluniums";
+			}
+			close;
+		case 2:
+			mes "How many Enriched Oridecons do you want?";
+			input .@enori;
+			if(.@enori == 0) { mes "You playing with me...?  -.-";	close; }
+			if(countitem(984) >= .@enori * 100) { 
+				delitem 984,.@enori * 100;
+				getitem 7620,.@enori;
+				mes "Here you have.";				
+			} else {
+				mes "You don't have the required quantity of Oridecons";
+			}
+			close;
+	}
+
+OnInit:
+	goto L_chat;
+	end;
+
+L_chat:
+setarray .message$,
+	//"Elus/Oris x Enriched",
+	"";
+set .message_size,getarraysize( .message$ );
+while( .message_size ){
+	delwaitingroom; 
+	waitingroom ""+.message$[ rand( .message_size ) ],0;
+	sleep 1000;
+}
+end;
+
+}

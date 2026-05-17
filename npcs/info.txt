@@ -1,0 +1,48 @@
+//= ==== eAthena/rAthena/bAthena/3CeAM/Hercules/Aegis Script ========== =\\
+//= NPC Informador de Noticias                                           \\
+//= ==== By: ========================================================== =\\
+//= Aglao/Esthar (aglaophotisro@gmail.com) - Miguel Angel Crespo Paz     \\
+//= Copyright Â© 2016 - Aglaosoft C.A. - Todos los derechos reservados.   \\
+//= ==== Current Version: ============================================= =\\
+//= Version: 1.0                                                         \\
+//= ==== Compatible With: ============================================= =\\
+//= eAthena/rAthena/bAthena/3CeAM/Hercules/Aegis SVN SQL y TXT           \\
+//= ==== Description: ================================================= =\\
+//= NPC para informar Noticias por un GM.                                \\
+//= =================================================================== =\\
+
+prontera.gat,164,167,4	script	Información#05::not	837,{
+	delwaitingroom;
+	//goto L_chat;	
+	//------------------AquÃ­ va tu contenido----------------------
+	
+	mes"[^0000FFEventos OkaniRO.^000000]";
+
+	
+	mes"Este próximo Jueves sobre las  23:00h (@servertime) se realizará un Evento de Invasión más varios Sorteos de cajas Costumes y Porings Coins.";
+		
+	
+	
+	//--------------------Fin del contenido-----------------------	
+	end;	
+	
+	
+	
+OnInit:
+	goto L_chat;
+	end;
+
+L_chat:
+setarray .message$,
+	"Eventos OkaniRO.",
+	"";
+set .message_size,getarraysize( .message$ );
+while( .message_size ){
+	delwaitingroom; 
+	waitingroom ""+.message$[ rand( .message_size ) ],0;
+	sleep 1000;
+}
+end;
+
+}
+
