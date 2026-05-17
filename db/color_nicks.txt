@@ -1,0 +1,8 @@
+// Color Nicks by Functor
+
+// Group ID, Text Color, Shadow Color
+
+1, 0x4B2D20, 0xFAC79B
+2, 0xABC5EE, 0x670DF4
+3, 0x4B2D20, 0xFDD154
+4, 0x6E5EF2, 0x16F949
