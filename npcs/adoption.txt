@@ -1,0 +1,46 @@
+prt_church,103,100,5	script	Adoption	757,{
+	if (!ispartneron()) {
+		mes "Your partner isn't online or not found.";
+	}
+	else if (getchildid()) {
+		mes "You already has a child.";
+	}
+	else {
+		mes "Would you like to adopt someone?";
+		next;
+		if (select("Yes", "Cancel") == 1) {
+			mes "Enter Child name";
+			input .@child_name$;
+			switch(adopt(strcharinfo(0), .@child_name$)) {
+				case ADOPT_ALLOWED:
+					mes "Sent message to Baby to accept or deny.";
+					break;
+				case ADOPT_ALREADY_ADOPTED:
+					mes "Character is already adopted.";
+					break;
+				case ADOPT_MARRIED_AND_PARTY:
+					mes "Parents need to be married and in a party with the baby.";
+					break;
+				case ADOPT_EQUIP_RINGS:
+					mes "Parents need wedding rings equipped.";
+					break;
+				case ADOPT_NOT_NOVICE:
+					mes "Baby is not a Novice.";
+					break;
+				case ADOPT_CHARACTER_NOT_FOUND:
+					mes "A parent or Baby was not found.";
+					break;
+				case ADOPT_MORE_CHILDREN:
+					mes "You cannot adopt more than 1 child. (client message)";
+					break;
+				case ADOPT_LEVEL_70:
+					mes "Parents need to be at least level 70 in order to adopt someone. (client message)";
+					break;
+				case ADOPT_MARRIED:
+					mes "You cannot adopt a married person. (client message)";
+					break;
+			}
+		}
+	}
+	close;
+}
