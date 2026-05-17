@@ -1,0 +1,78 @@
+//= Afrodite Healer         Succubus Sprite                            \\
+//= ==== Descripción: =============================================== =\\
+//= NPC especial para curar el HP y SP en 2 toques con efectos y       \\
+//= sonidos, camina sola y no te cura si tienes tanto HP como SP full. \\
+//= Camina hacia diferentes puntos cada 10 segundos en ese mismo sitio.\\
+//= ==== Additional Comments: ======================================= =\\
+//= Comentarios Adicionales: El sonido de risa que se oye al curarse lo\\
+//= oyen todos los demás usuarios que estén cerca de ella.             \\
+//= Solo disfrútenla y si tienen quejas pueden escribirme a uno de los \\
+//= 2 correos que están arriba. NPC original del server Zephon Ragnarok\\
+//= Online. Gracias ;)                                                 \\
+//= ================================================================= =\\
+
+prontera.gat,58,138,6	script	Afrodite Healer	1370,5,5,{
+
+npcspeed 200;
+
+if(MaxHp-Hp != 0 || MaxSp-Sp != 0) goto L_cura;
+	emotion et_shy;
+	end;
+
+L_cura:
+	soundeffectall "isilla_die.wav",0;
+	npctalk "I'm a Sexy Bitch ^^. Pick me, ¡¡I love you " + strcharinfo(0) + "!! :P";
+	emotion 3;
+	percentheal 100,100;
+	sc_start 32,  240000, 10; // Increase Agi
+	sc_start 30, 240000, 10; // Blessing
+	specialeffect2 313;
+	specialeffect2 14;
+	end;
+
+startnpctimer;	
+	
+	// 10 sec
+	OnTimer10000: 
+	npcwalkto 53,141;
+	end;
+
+	// 20 sec
+	OnTimer20000:
+	npcwalkto 57,133;
+	end;
+	
+	// 30 sec
+	OnTimer30000:	
+	npcwalkto 68,138;
+	end;
+	
+	// 40 sec
+	OnTimer40000:	
+	npcwalkto 62,136; 
+	end;
+
+	// 50 sec
+	OnTimer50000:	
+	npcwalkto 52,145; 
+	end;
+
+	// 60 sec
+	OnTimer60000:	
+	npcwalkto 56,154; 
+	end;
+
+	// 70 sec
+	OnTimer70000:	
+	npcwalkto 67,152; 
+	end;
+
+	// 80 sec
+	OnTimer80000:	
+	npcwalkto 66,138; 
+
+OnInit:
+	initnpctimer;
+	end;
+
+}
