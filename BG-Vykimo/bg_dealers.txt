@@ -1,0 +1,493 @@
+//===== rAthena Script ======================================= 
+//= BattleGround System - Item Dealer
+//===== By: ================================================== 
+//= L0ne_W0lf & Vykimo
+//===== Current Version: ===================================== 
+//= 2.0
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//============================================================
+
+// Badges Exchange
+//============================================================
+-	script	Telma	-1,{
+	goto L_Telma;
+	end;
+
+OnCommand:
+	goto L_Telma;
+	end;
+
+L_Telma:
+	mes "[Telma]";
+	mes "Welcome, mighty warrior.";
+	mes "Do you need supply for your battles?";
+	mes "I can exchange you for a nice amount of your badges.";
+	next;
+	switch( select("WoE Items:BG Items") )
+	{
+	case 1: // WoE Items
+		{
+			switch( select("^0000FFWoE Exclusive^000000:Other Items (All):Other Items (Creator):Other Items (Assassin Cross):Other Items (Professor)") )
+			{
+			case 1: // WoE Supply Items
+				setarray .@Items[0],   522, 547, 504, 505,    12016, 12030, 12029, 12031, 14287, 14288, 7321;
+				setarray .@Amount[0],  100,  300, 200, 200,     200,    80,    80,    80,    20,    20,    50;
+				setarray .@Value[0],   3,   1,   2,   2,   	3,     3,     3,     10,    10,    10,      10;
+				set .@cID, getbattleflag("woe_reserved_char_id");
+				set .@Tarjet$, "War of Emperium or GvG";
+				break;				
+			case 2: // Other Items (All)
+				setarray .@Items[0],  12072, 12077, 12082, 12087, 12092, 12097, 12429, 12430, 12431, 12432, 12433, 12434;
+				setarray .@Amount[0],     30,   30,     30,     30,     30,     30,      30,   30,     30,     30,     30,     30;
+				setarray .@Value[0],       5,    5,      5,      5,      5,      6,       6, 	6,    	6,      6,      6,     6;
+				set .@cID, getbattleflag("woe_reserved_char_id");
+				set .@Tarjet$, "Everywhere";
+				break;				
+			case 3: // Other Items (Creator)
+				setarray .@Items[0],   7136,  7137,  7139,  7135,  7138;
+				setarray .@Amount[0],     50,     30,     50,     50,     20;
+				setarray .@Value[0],     10,    10,    10,    10,    10;
+				set .@cID, getbattleflag("woe_reserved_char_id");
+				set .@Tarjet$, "Everywhere";
+				break;				
+			case 4: // Other Items (Assassin Cross)
+				setarray .@Items[0],    678;
+				setarray .@Amount[0],     30;  
+				setarray .@Value[0],     15;
+				set .@cID, getbattleflag("woe_reserved_char_id");
+				set .@Tarjet$, "Everywhere";
+				break;				
+			//case 5: // Other Items (Warlock)
+				//setarray .@Items[0],  6195, 6196;
+				//setarray .@Amount[0],    1,    1;
+				//setarray .@Value[0],  1500, 1500;
+				//set .@cID, 0;
+				//set .@Tarjet$, "Everywhere";
+				//break;				
+			//case 5: // Other Items (Mecanics)
+				//setarray .@Items[0],  1549;
+				//setarray .@Amount[0],    1;
+				//setarray .@Value[0],  1500;
+				//set .@cID, 0;
+				//set .@Tarjet$, "Everywhere";
+				//break;				
+			case 5: // Other Items (Professor)
+				setarray .@Items[0],  1025, 715, 716;
+				setarray .@Amount[0],   40, 100, 100;
+				setarray .@Value[0],    20, 10, 10;
+				set .@cID, getbattleflag("woe_reserved_char_id");
+				set .@Tarjet$, "Everywhere";
+				break;				
+			//case 6: // Other Items (RK)
+				//setarray .@Items[0],  12731, 12728, 12732, 12733, 12729, 12730, 12726, 12725, 12727;
+				//setarray .@Amount[0],     1,     1,     1,     1,     1,     1,     1,     1,     1;
+				//setarray .@Value[0],     35,    35,    35,    35,    35,    35,    35,    35,    35;
+				//set .@cID, 0;
+				//set .@Tarjet$, "Everywhere";
+				//break;
+			}
+		}
+		break;
+		
+	case 2: 
+		{
+			switch( select("BG Exclusive (All):BG Exclusive (Creator):BG Exclusive (Assassin Cross):BG Exclusive (High Wizard):BG Exclusive (Professor):BG Exclusive (High Priest)") )
+			{
+			case 1: // BG Supply (all)
+				setarray .@Items[0],   522, 12016, 547, 505, 504, 12072, 12077, 12082, 12087, 12092, 12097, 12429, 12430, 12431, 12432,	12433, 12434, 12029, 12030, 12031;
+				setarray .@Amount[0],  100,   450, 450, 450, 450,    10,    30,    30,    30,    30,    30, 30,    30,    30,    30,	30,	30,    250,    250,    250;
+				setarray .@Value[0],   1,    1,   1,   1,  1,   1,     1,     1,     1,     1,     1,  1,     1,     1,     1,	1,	1,     1,     1,     1;
+				set .@cID, getbattleflag("bg_reserved_char_id");
+				set .@Tarjet$, "Battleground";
+				break;
+			case 2: // BG Supply (Creator)
+				setarray .@Items[0],   7136, 7137, 7139, 7135, 7138;
+				setarray .@Amount[0],    400,   400,   400,   400,   400;
+				setarray .@Value[0],      1,    1,    1,    1,    1;
+				set .@cID, getbattleflag("bg_reserved_char_id");
+				set .@Tarjet$, "Battleground";
+				break;
+			case 3: // BG Supply (Assassin Cross)
+				setarray .@Items[0],   678;
+				setarray .@Amount[0],   30;
+				setarray .@Value[0],     1;
+				set .@cID, getbattleflag("bg_reserved_char_id");
+				set .@Tarjet$, "Battleground";
+				break;
+			case 4: // BG Supply (High Wizard)
+				setarray .@Items[0],   715, 716, 7321;
+				setarray .@Amount[0],   300,  300, 50;
+				setarray .@Value[0],     1,   1, 1;
+				set .@cID, getbattleflag("bg_reserved_char_id");
+				set .@Tarjet$, "Battleground";
+				break;
+			case 5: // BG Supply (Professor)
+				setarray .@Items[0],   715, 716, 1025;
+				setarray .@Amount[0],   300,  300,  100;
+				setarray .@Value[0],     1,   1,  1;
+				set .@cID, getbattleflag("bg_reserved_char_id");
+				set .@Tarjet$, "Battleground";
+				break;
+			case 6: // BG Supply (High Priest)
+				setarray .@Items[0],   523, 717;
+				setarray .@Amount[0],   300,	300;
+				setarray .@Value[0],     1,	1;
+				set .@cID, getbattleflag("bg_reserved_char_id");
+				set .@Tarjet$, "Battleground";
+				break;
+			//case 7: // BG Supply (Rune Knight)
+				//setarray .@Items[0],   12731, 12728, 12732, 12733, 12729, 12730, 12726, 12725, 12727;
+				//setarray .@Amount[0],      2,     2,     2,     2,     2,     2,     2,     2,     2;
+				//setarray .@Value[0],       1,     1,     1,     1,     1,     1,     1,     1,     1;
+				//set .@cID, getbattleflag("bg_reserved_char_id");
+				//set .@Tarjet$, "Battleground";
+				//break;
+			}
+		}
+		break;
+	}
+
+	set .@Menu$, "";
+	for( set .@i, 0; .@i < getarraysize(.@Items); set .@i, .@i + 1 )
+		set .@Menu$, .@Menu$ + .@Amount[.@i] + " " + getitemname(.@Items[.@i]) + " (" + .@Value[.@i] + " badges):";
+	set .@j, select(.@Menu$) - 1;
+
+	mes "[Telma]";
+	mes "^0000FF" + .@Amount[.@j] + " " + getitemname(.@Items[.@j]) + "^000000";
+	mes "It will cost you " + .@Value[.@j] + " badges per pack.";
+	mes "Remember this can only be used on " + .@Tarjet$ + ".";
+	next;
+	
+	mes "[Telma]";
+	mes "But tell me first, where do you want to receive the items?";
+	next;
+	set .@Destiny, select("Here, in my Inventory:Direct to my Storage") - 1;
+
+	mes "[Telma]";
+	mes "How many packets do you want to buy? (1..50)";
+	next;
+
+	input .@total;
+	if( .@total < 1 || .@total > 50 )
+	{
+		mes "[Telma]";
+		mes "I am sorry, please input a value from 1 to 50.";
+		mes "Talk to me again when you do your selections.";
+		close;
+	}
+	
+	set .@vtotal, .@total * .@Value[.@j]; // Value of all Packages
+	set .@total, .@total * .@Amount[.@j]; // Total Amount of Items
+
+	if( .@Destiny )
+	{ // Check Storage Space Limit
+		if( .@cID )
+		{
+			if( checkspace(.@Items[.@j],.@total,1,0,0,254,0,.@cID&0xffff,(.@cID>>16)&0xffff) == 0 )
+			{
+				mes "[Telma]";
+				mes "It's seen your storage cannot accept more items.";
+				mes "Go to your store and check the free space.";
+				close;
+			}
+		}
+		else
+		{
+			if( checkspace(.@Items[.@j],.@total,1,0,0,0,0,0,0) == 0 )
+			{
+				mes "[Telma]";
+				mes "It's seen your storage cannot accept more items.";
+				mes "Go to your store and check the free space.";
+				close;
+			}
+		}
+	}
+	else
+	{ // Check Weight Limit
+		if( checkweight(.@Items[.@j],.@total) == 0 )
+		{
+			mes "[Telma]";
+			mes "It's seen you can't carry the stuff you want to buy.";
+			mes "Go and store some items on your Kafra Storage.";
+			close;
+		}
+	}
+
+	if( countitem(7828) + countitem(7829) + countitem(7773) < .@vtotal )
+	{
+		mes "[Telma]";
+		mes "Required Badges: ^0000FF" + .@vtotal + "^000000";
+		mes "You do not have enough badges. Sorry...";
+		mes "Participate in Battleground arenas to receive it.";
+		close;
+	}
+	set .@vcount, .@vtotal;
+	set .@i7828, 0;
+	set .@i7829, 0;
+	set .@i7773, 0;
+
+	// Bravery Badges
+	if( countitem(7828) > 0 )
+	{
+		mes "[Telma]";
+		mes "Required Badges: ^0000FF" + .@vcount + "^000000";
+		mes "Bravery Badges to expend:";
+		next;
+		input .@i7828;
+		if( .@i7828 < 0 || .@i7828 > countitem(7828) )
+		{
+			mes "[Telma]";
+			mes "Invalid number... Sorry.";
+			close;
+		}
+		
+		if( .@i7828 > .@vcount ) set .@i7828,.@vcount;
+		set .@vcount, .@vcount - .@i7828;
+	}
+
+	// Valor Badges
+	if( .@vcount && countitem(7829) > 0 )
+	{
+		mes "[Telma]";
+		mes "Required Badges: ^0000FF" + .@vcount + "^000000";
+		mes "Valor Badges to expend:";
+		next;
+		input .@i7829;
+		if( .@i7829 < 0 || .@i7829 > countitem(7829) )
+		{
+			mes "[Telma]";
+			mes "Invalid number... Sorry.";
+			close;
+		}
+		
+		if( .@i7829 > .@vcount ) set .@i7829,.@vcount;
+		set .@vcount, .@vcount - .@i7829;
+	}
+
+	// Heroism Badges
+	if( .@vcount && countitem(7773) > 0 )
+	{
+		mes "[Telma]";
+		mes "Required Badges: ^0000FF" + .@vcount + "^000000";
+		mes "War Badges to expend:";
+		next;
+		input .@i7773;
+		if( .@i7773 < 0 || .@i7773 > countitem(7773) )
+		{
+			mes "[Telma]";
+			mes "Invalid number... Sorry.";
+			close;
+		}
+
+		if( .@i7773 > .@vcount ) set .@i7773, .@vcount;
+		set .@vcount, .@vcount - .@i7773;
+	}
+
+	// Final Checks
+	if( .@vcount != 0 )
+	{
+		mes "[Telma]";
+		mes "Sorry, not enough badges to pay the total value.";
+		close;
+	}
+
+	mes "[Telma]";
+	mes "Are you ready to pay and receive your items?";
+	mes "Your payment details:";
+	mes "^0000FF" + .@i7828 + "^000000 Bravery Badges";
+	mes "^0000FF" + .@i7829 + "^000000 Valor Badges";
+	mes "^0000FF" + .@i7773 + "^000000 War Badges";
+	next;
+
+	if( select("Yes, let's do it:I am sorry... not this time") == 2 )
+	{
+		mes "[Telma]";
+		mes "Ok, come again if you change your mind.";
+		close;
+	}
+
+	if( .@Destiny )
+	{ // Check Storage Space Limit
+		if( .@cID )
+		{
+			if( checkspace(.@Items[.@j],.@total,1,0,0,254,0,.@cID&0xffff,(.@cID>>16)&0xffff) == 0 )
+			{
+				mes "[Telma]";
+				mes "It's seen your storage cannot accept more items.";
+				mes "Go to your store and check the free space.";
+				close;
+			}
+		}
+		else
+		{
+			if( checkspace(.@Items[.@j],.@total,1,0,0,0,0,0,0) == 0 )
+			{
+				mes "[Telma]";
+				mes "It's seen your storage cannot accept more items.";
+				mes "Go to your store and check the free space.";
+				close;
+			}
+		}
+	}
+	else
+	{ // Check Weight Limit
+		if( checkweight(.@Items[.@j],.@total) == 0 )
+		{
+			mes "[Telma]";
+			mes "It's seen you can't carry the stuff you want to buy.";
+			mes "Go and store some items on your Kafra Storage.";
+			close;
+		}
+	}
+
+	if( .@i7828 > countitem(7828) || .@i7829 > countitem(7829) || .@i7773 > countitem(7773) )
+	{
+		mes "[Telma]";
+		mes "What!?, are you a magician or a thief? What did you do with your badges!?";
+		mes "Get out of here!";
+		close;
+	}
+
+	delitem 7828,.@i7828;
+	delitem 7829,.@i7829;
+	delitem 7773,.@i7773;
+
+	if( .@cID )
+	{
+		if( .@Destiny )
+			storeitem2 .@Items[.@j],.@total,1,0,0,254,0,.@cID&0xffff,(.@cID>>16)&0xffff;
+		else
+			getitem2 .@Items[.@j],.@total,1,0,0,254,0,.@cID&0xffff,(.@cID>>16)&0xffff;
+	}
+	else
+	{
+		if( .@Destiny )
+			storeitem .@Items[.@j],.@total;
+		else
+			getitem .@Items[.@j],.@total;
+	}
+
+	mes "[Telma]";
+	mes "Here it is... Now take care and fight for the honor and glory of your prince.";
+	close;
+OnInit:
+    //waitingroom "Goods Business",0;
+	bindatcmd "telma", strnpcinfo(0)+"::OnCommand", 0,100;
+	end;
+}
+
+s_room,64,75,2	duplicate(Telma)	Telma#1	10121
+
+s_room,1,1,3	itemshop	BraveryExchanger	111,7828,13036:100,13411:100,1425:100,1632:100,1634:100,1543:100,1924:100,1978:100,1574:100,1824:100,1183:100,1380:100,13305:100,1279:100,1739:100,13108:100,13172:100,2538:200,2539:200,2540:200,2435:200,2436:200,2437:200,2376:500,2377:500,2378:500,2379:500,2380:500,2381:500,2382:500,2720:500,2721:500,2722:500,2723:500,2724:500,2725:500,2733:500
+s_room,1,1,3	itemshop	ValorExchanger	111,7829,13037:100,13410:100,1633:100,1635:100,1542:100,1923:100,1977:100,1575:100,1823:100,1184:100,1482:100,1379:100,13306:100,1280:100,1738:100,13171:100,13173:100,13174:100,2538:200,2539:200,2540:200,2435:200,2436:200,2437:200,2376:500,2377:500,2378:500,2379:500,2380:500,2381:500,2382:500,2720:500,2721:500,2722:500,2723:500,2724:500,2725:500,2733:500
+s_room,1,1,3	itemshop	WarExchanger	111,7773,1187:2000,1281:2000,1282:2000,1310:2000,1382:2000,1426:2000,1486:2000,1546:2000,1576:2000,1577:2000,1640:2000,1641:2000,1743:2000,1826:2000,1827:2000,1927:2000,1981:2000,2002:2000,13042:2000,13110:2000,13176:2000,13177:2000,13178:2000,13179:2000,13307:2000,13416:2000,13417:2000,13418:2000,2394:500,2395:500,2396:500,2444:600,2445:300,2446:100,2549:700,2772:1500,2773:600
+
+//HeroismExchanger = War Badge
+
+-	script	Erundek	-1,{
+	goto L_Erundek;
+	end;
+
+OnCommand:
+	goto L_Erundek;
+	end;
+
+L_Erundek:
+	mes "[Erundek]";
+	mes "Welcome, mighty warrior.";
+	mes "What can I do for you today ?";
+	next;
+	switch( select("Exchange Bravery Badges","Exchange Valor Badges","Exchange War Badges","Hmm, nothing I guess.") )
+	{
+		case 4:
+			mes "[Erundek]";
+			mes "As you wish.";
+			mes "See you later.";
+			close;
+		case 1: // Bravery Badges
+			mes "[Erundek]";
+			mes "So you want to exchange ^0000FFBravery Badges^000000 from the Battle of Tierra Valley.";
+			mes "Close this window to open shop.";
+			close2;
+			callshop "BraveryExchanger",0;
+			end;
+		case 2: // Valor Badges
+			mes "[Erundek]";
+			mes "So you want to exchange ^FF0000Valor Badges^000000 from the Battle of Flavius.";
+			mes "Close this window to open shop.";
+			close2;
+			callshop "ValorExchanger",0;
+			end;
+		case 3: // Heroism Badges
+			mes "[Erundek]";
+			mes "So you want to exchange ^FFA500War Badges^000000 from the Battle of Kriger Von Midgard.";
+			mes "Close this window to open shop.";
+			close2;
+			callshop "WarExchanger",0;
+			end;
+	}
+OnInit:
+    //waitingroom "Badges Business",0;
+	bindatcmd "erundek", strnpcinfo(0)+"::OnCommand", 99,100;
+	end;
+}
+
+s_room,67,75,2	duplicate(Erundek)	Erundek#1	10132
+
+s_room,31,60,5	script	Location::Mount_Rent	875,{
+	if (bgcheck()){
+		setmadogear;
+		setcart;
+		setfalcon;
+		setdragon;
+		setriding;
+		specialeffect2 911;
+	} else {
+		mes "[^1AAF9BLocation^000000]";
+		mes "I work only during Battleground, please come back later.";
+	}
+	end;
+}
+
+s_room,68,68,4	script	Exchange Machine#bg	564,{
+	input .@cb,0,100000;
+	if(.@cb == 0) end;
+	// 7804 : Battleground Badges
+	// 7773 : War Badges
+	// 7829 : Valor Badges
+	// 7828 : Bravery Badges
+	switch(select("War Badges:Valor Badges:Bravery Badges")) {
+		case 1:
+			if(countitem(7804) >= .@cb) {
+				delitem 7804, .@cb; 
+				getitem 7773, .@cb;
+				.@ok = 1;
+			}
+			break;
+		case 2:
+			if(countitem(7804) >= .@cb) {
+				delitem 7804, .@cb; 
+				getitem 7829, .@cb;
+				.@ok = 1;
+			}
+			break;
+		case 3:
+			if(countitem(7804) >= .@cb) {
+				delitem 7804, .@cb; 
+				getitem 7828, .@cb;
+				.@ok = 1;
+			}
+			break;
+	}
+	if(.@ok) {
+		specialeffect 618;
+		dispbottom "[Exchange Machine] You successfully exchanged " + .@cb + " Battleground Badge(s).";
+	} else
+		dispbottom "[Exchange Machine] No enough Battleground Badges for the exchange.";
+	end;
+	
+OnInit:
+    //waitingroom "BG Badges Exchanger",0;
+	end;
+}

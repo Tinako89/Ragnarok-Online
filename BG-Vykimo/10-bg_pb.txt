@@ -1,0 +1,710 @@
+//===== eAthena Script ======================================= 
+//= Poring Ball Script
+//===== By: ================================================== 
+//= Vykimo
+//= (bas?ur le script de Saruka)
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= Any eAthena Version 
+//===== Description: ========================================= 
+//= Jeu de football adapt? Ragnarok Online, avec un poring 
+//= en guise de Ball.
+//= L'equipe Rouge est ?'est du terrain
+//= L'?ipe Bleu est ?'ouest du terrain
+//===== Variables =============================================
+//=
+//= Variables serveurs temporaires :
+//= $@etat_match = 0 -> c'est libre, inscription possible
+//= $@etat_match = 1 -> confirmation des inscriptions
+//= $@etat_match = 2 -> un match est en cours de lancement
+//= $@etat_match = 3 -> un match est en cours
+//= $@etat_match = 4 -> delai apres match
+//=
+//= $@score_match_bleu
+//= $@score_match_rouge
+//=
+//= $@joueurActif$ = nom du dernier joueur a avoir tap?e Ball
+//= $@equipeActiveID = id de la derniere equipe a avoir tap?e Ball
+//= 
+//= $@equipePossedeBallID = id de l'?ipe rouge ou de l'?ipe bleu
+//=
+//= $@BG_Team2 = id groupe bleu
+//= $@BG_Team1 = id groupe rouge
+//=
+//=$@confirmationRouge -> 0 : pas confirm?1 : confirm?2 : demande d'annulation
+//=$@confirmationBleu
+//=
+//=$@corner -> 0: il n'y en a pas, 1 : il y a un corner, 2: il est jou?//=============================================================
+-	script	PoringBall	-1,{
+OnInit:
+	setcell "bg_pb",0,0,300,300,cell_basilica,1;
+	setarray $PB_CENTRE[0],119,121;
+	// Ligne haut, bas, droite, gauche,
+	setarray $PB_COINS[0],161,82,68,171;
+	setarray $PB_BUTS[0],62,81,141,81;
+	setarray $PB_SURFACE[0],68,107,79,136,160,107,171,136;
+	setarray $PB_SM[0],79,121,160,121;
+	// But gauche bas,haut; droite bas haut
+	getmapxy(.@map$,.@x,$PB_CAGES[0],BL_NPC,"Red Goal#frouge2");
+	getmapxy(.@map$,.@x,$PB_CAGES[1],BL_NPC,"Red Goal#frouge1");
+	getmapxy(.@map$,.@x,$PB_CAGES[2],BL_NPC,"Blue Goal#fbleu2");
+	getmapxy(.@map$,.@x,$PB_CAGES[3],BL_NPC,"Blue Goal#fbleu1");
+	set $@etat_match,0;
+	set $@equipePossedeBallID, 0;
+	end;
+	
+OnReward:
+	if ($@score_match_bleu<$@score_match_rouge) {
+		mapannounce "bg_pb.gat", "Congrats red team !!",bc_map;	
+		// Reward_BG(Equipe1,Equipe2) - En plus des rewards de base en fonction du nombre de joueurs
+		callfunc("Reward_BG",15,6,getd("$@" + strnpcinfo(0)));
+	}
+	else if ($@score_match_bleu>$@score_match_rouge) {
+		mapannounce "bg_pb.gat", "Congrats blue team !!",bc_map;
+		callfunc("Reward_BG",6,15,getd("$@" + strnpcinfo(0)));
+	}
+	else {
+		mapannounce "bg_pb.gat", "Draw !!",bc_map;
+		callfunc("Reward_BG",6,6,getd("$@" + strnpcinfo(0)));
+	}
+	end;
+	
+OnBuildTeams:
+	// Rouge
+	set $@BG_Team1,bg_team_create("bg_pb",20,18,1,"PoringBall::OnPoringBallQuit","PoringBall::OnPoringBallDie",$Palette_BG_Rouge);
+	// Bleu
+	set $@BG_Team2,bg_team_create("bg_pb",210,18,0,"PoringBall::OnPoringBallQuit","PoringBall::OnPoringBallDie",$Palette_BG_Bleu);	
+	end;
+	
+OnPoringBallDie:
+	if($@etat_match != 3) end;
+	
+	getmapxy(.@map$,.@x,.@y,BL_PC);
+	// Si Rouge meurt dans la surface Rouge = Six metres rouge
+	if(.@x >= $PB_SURFACE[0] && .@x <= $PB_SURFACE[2] && .@y >= $PB_SURFACE[1] && .@y <= $PB_SURFACE[3]) {
+	
+		if(getcharid(4) == $@BG_Team1) {
+			$@equipePossedeBallID = $@BG_Team1; // Ball aux Rouges
+			mapannounce "bg_pb.gat", "Six-yard kick for red team !",bc_blue;
+		} else if(getcharid(4) == $@BG_Team2) {
+			$@equipePossedeBallID = $@BG_Team2; // Ball aux Bleus
+			mapannounce "bg_pb.gat", "Penalty kick for blue team !",bc_blue;
+		}
+		donpcevent "Ball::OnRetournerAuSMRouge";
+		
+		
+	// Si Rouge meurt dans la surface Bleu = Penalty aux Rouges
+	} else if(.@x >= $PB_SURFACE[4] && .@x <= $PB_SURFACE[6] && .@y >= $PB_SURFACE[5] && .@y <= $PB_SURFACE[7]) {
+	
+		if(getcharid(4) == $@BG_Team1) {
+			$@equipePossedeBallID = $@BG_Team1; // Ball aux Bleus
+			mapannounce "bg_pb.gat", "Penalty kick for the red team !",bc_blue;
+		} else if(getcharid(4) == $@BG_Team2) {
+			$@equipePossedeBallID = $@BG_Team2; // Ball aux Rouges
+			mapannounce "bg_pb.gat", "Six-yard kick for the blue team !",bc_blue;
+		}
+		donpcevent "Ball::OnRetournerAuSMBleu";
+	}
+	end;
+	
+OnPoringBallQuit:
+	setquest 8506; // Deserter
+	if( $@BG_Status != 0 && getvariableofnpc(.BG_Arena$,"BG_Queue_Join") == "PoringBall" )
+		donpcevent "BG_Queue_Join::OnJoinEvent";
+	end;
+OnPrematureEnd:
+	mapannounce "bg_pb.gat", "End of the game because not enough players !",bc_blue;
+	set $@etat_match,4;
+	$@BG_Status = 2;
+	donpcevent "TimerMatch::OnPrematureEnd";
+	end;
+	
+OnReady:
+	if( getvariableofnpc(.BG_Arena$,"BG_Queue_Join") != "PoringBall" )
+		end;
+	// warp des teams rouge et bleu
+	bg_warp $@BG_Team1,"bg_pb",97,122;
+	bg_warp $@BG_Team2,"bg_pb",141,122;
+	
+	set $@etat_match, 2;
+	donpcevent "TimerInitMatch::OnDebut";
+	end;
+	
+}
+bg_pb,223,14,3	script	Storage#bpb	95,20,20,{
+	specialeffect2 EF_HEAL;
+	percentheal 100,100;
+	sc_start SC_INCREASEAGI,240000,10;
+	sc_start SC_BLESSING,240000,10;
+	repairall;
+
+	OnTouch:
+	percentheal 100,100;
+	skilleffect 28,100;
+	sc_start SC_INCREASEAGI,240000,10;
+	sc_start SC_BLESSING,240000,10;
+	repairall;
+}
+
+bg_pb,220,21,3	script	Go back#bleu	4_ENERGY_BLUE,{
+if($@etat_match == 3) {
+	if(@retour_pb_terrain)	end;
+	@retour_pb_terrain = 1;
+	percentheal 100,100;
+	repairall;
+	specialeffect2 101;
+	message strcharinfo(0),"[Back to Battlefield] 6";
+	sleep2 1000;	
+	message strcharinfo(0),"[Back to Battlefield] 5";
+	sleep2 1000;
+	message strcharinfo(0),"[Back to Battlefield] 4";
+	sleep2 1000;
+	message strcharinfo(0),"[Back to Battlefield] 3";
+	sleep2 1000;
+	message strcharinfo(0),"[Back to Battlefield] 2";
+	sleep2 1000;
+	message strcharinfo(0),"[Back to Battlefield] 1";
+	specialeffect2 445;
+	sleep2 200;
+	specialeffect2 34;
+	sleep2 800;
+	percentheal 100,100;
+	if(strnpcinfo(2) == "bleu") 
+		switch(rand(1,2)) {
+			case 1: warp "bg_pb",171,145;
+			case 2: warp "bg_pb",171,96;
+		}		
+	else
+		switch(rand(1,2)) {
+			case 1: warp "bg_pb",68,145;
+			case 2: warp "bg_pb",68,96;
+		}
+	sleep2 200;
+	specialeffect2 223;
+	@retour_pb_terrain = 0;
+}
+	end;
+}
+bg_pb,32,21,3	duplicate(Go back#bleu)	Go back#rouge	4_ENERGY_RED
+bg_pb,35,14,3	duplicate(Storage#bpb)	Storage#rpb	95
+
+bg_pb,0,0,0	script	TimerInitMatch	-1,{
+
+OnDebut:
+	// Activation des buts	
+	donpcevent ("Red Goal#frouge1::OnEmblemPB");
+	donpcevent ("Red Goal#frouge2::OnEmblemPB");
+	donpcevent ("Blue Goal#fbleu1::OnEmblemPB");
+	donpcevent ("Blue Goal#fbleu2::OnEmblemPB");
+	// decompte du temps avant le debut du match
+	disablenpc "Ball#super";
+	set $@equipePossedeBallID, 0;
+	set $@score_match_bleu, 0;
+	set $@score_match_rouge, 0;
+	bg_updatescore "bg_pb",$@score_match_rouge,$@score_match_bleu;
+	viewpointmap "bg_pb",1, $@mapxNPC, $@mapyNPC, 1, 0xffffff;
+	initnpctimer;	
+	end;
+	
+OnTimer3000:
+	mapannounce "bg_pb","Start of the match in 10 seconds.",0;	
+	end;
+OnTimer8000:
+	mapannounce "bg_pb","Start of the match in 5 seconds.",0;	
+	end;	
+OnTimer13000:
+	mapannounce "bg_pb","Match has just begun !",0;	
+	stopnpctimer;
+	donpcevent "TimerMatch::OnStartMatch";
+	end;
+}
+
+bg_pb,0,0,0	script	TimerMatch	-1,{
+
+OnStartMatch:
+	initnpctimer;
+	set $@etat_match,3;
+	end;
+OnTimer180000:
+	mapannounce "bg_pb.gat", "2nd half-time ! Scores are "+$@score_match_bleu+" (blue) / "+$@score_match_rouge+" (red)",bc_map;	
+	end;	
+OnTimer360000:
+	mapannounce "bg_pb.gat", "End of the match ! Scores are "+$@score_match_bleu+" (blue) / "+$@score_match_rouge+" (red)",bc_map;	
+	set $@etat_match,4;	
+	$@BG_Status = 2;
+	end;
+	
+OnTimer362000:
+OnPrematureEnd:
+	stopnpctimer;
+	donpcevent "PoringBall::OnReward";
+	donpcevent "Ball::OnRetournerAuCentre";
+	sleep 7000;
+	donpcevent "BG_Queue_Join::OnRotate";
+	set $@etat_match,0;	
+	set $@equipePossedeBallID, 0;
+	end;
+
+}
+
+bg_pb,79,121,4	script	Ball#super	3845,{
+
+	soundeffect "poring_ball_kick1.wav",0;
+	set $@equipeActiveID, getcharid(4);
+
+	// Coordonn? du joueur et du Ball au moment du shoot
+	getmapxy $@mapname$,$@mapxNPC,$@mapyNPC,BL_NPC;
+	getmapxy $@mapname$,$@mapxPC,$@mapyPC,BL_PC;
+
+	// V?fication de la distance joueur / Ball : le joueur doit etre ?ne case du Ball.
+	if (distance($@mapxNPC,$@mapyNPC,$@mapxPC,$@mapyPC)>2) {
+		dispbottom "You cannot shoot the ball at this distance.";
+		end;
+	}
+
+	// Test si le Ball est poss? par une equipe (par exemple apres une sortie de terrain du Ball par une equipe, 
+	// seule l'autre equipe a le droit de donner le 1er coup dans le Ball)
+	if ($@equipePossedeBallID != 0) && ($@equipeActiveID != $@equipePossedeBallID) {
+		dispbottom "Ball is for opposite team.";
+		end;
+	}
+	// Qu'une seule personne peut charger le super coup
+	if(.Ball_tir > 0) { 
+		dispbottom "Ball is burning, impossible to touch it."; 
+		end; 
+	}
+	set $@joueurActif$, strcharinfo(0);
+	.Ball_tir = 1;
+	stopnpctimer;
+	set $@equipePossedeBallID, 0;
+	
+	
+	specialeffect2 330;
+	specialeffect2 457;	
+	specialeffect2 435;	
+	specialeffect2 400;
+	//specialeffect 166;
+	//skilleffect 7,0;
+	npcspeed 20;
+	set $@distance,rand(10,17);
+	//specialeffect 26;
+	//specialeffect 44;	
+	//specialeffect 466;
+		
+	
+	for(.@i = 0; .@i < $@distance; .@i++) {
+		// Recherche du deplacement X du Ball
+		if ($@mapxPC<$@mapxNPC) set $@deplacementX, 1;
+		else if ($@mapxPC>$@mapxNPC) set $@deplacementX, -1;
+		else set $@deplacementX, 0;
+
+		// Recherche du deplacement Y du Ball
+		if ($@mapyPC<$@mapyNPC) set $@deplacementY, 1;
+		else if ($@mapyPC>$@mapyNPC) set $@deplacementY, -1;
+		else set $@deplacementY, 0;
+		
+		set $@mapxNPC, $@mapxNPC+$@deplacementX;
+		set $@mapyNPC, $@mapyNPC+$@deplacementY;
+		npcwalkto $@mapxNPC,$@mapyNPC;
+		// On check si le but de gauche est pas mis
+		if($@mapxNPC<=$PB_COINS[2]) {
+			if ($@mapyNPC>=$PB_CAGES[0] && $@mapyNPC<=$PB_CAGES[1]) {
+				if($@mapxNPC<=$PB_COINS[2]-6) break; 
+				else continue;
+			} else break;
+		// On check si le but de droite est pas mis
+		} else if($@mapxNPC>=$PB_COINS[3]) {
+			if ($@mapyNPC>=$PB_CAGES[2] && $@mapyNPC<=$PB_CAGES[3]) {
+				if($@mapxNPC>=$PB_COINS[3]+6) break; 
+				else continue;
+			} else break;
+		}
+	}
+	// Le temps que le Ball vole :
+	sleep2 300;
+	
+	
+	// but gauche
+	if($@mapxNPC<=$PB_COINS[2] && $@mapyNPC>=$PB_CAGES[0] && $@mapyNPC<=$PB_CAGES[1]) {
+		$@distance = 0;
+		// Si le Ball a vol?ans les cages : temps d'attente + hors terrain
+		if($@mapxNPC<=$PB_COINS[2]) {
+			$@destinationType = 1;		
+			sleep 1000;
+		// Sinon effet : failed
+		} else {
+			sleep 500; 
+			if($@mapxNPC<=$PB_SM[0]) specialeffect 611;
+		}
+		
+	// but droit
+	} else if ($@mapxNPC>=$PB_COINS[3] && $@mapyNPC>=$PB_CAGES[2] && $@mapyNPC<=$PB_CAGES[3]) {
+		$@distance = 0;
+		if($@mapxNPC>=$PB_COINS[3]) {
+			$@destinationType = 1;		
+			sleep 1000;
+		} else {
+			sleep 500; 
+			if($@mapxNPC>=$PB_SM[2]) specialeffect 611;
+		}
+	}
+	else $@distance = 5;	
+	
+	disablenpc "Ball#super";
+	movenpc "Ball",$@mapxNPC,$@mapyNPC;
+	enablenpc "Ball";
+	donpcevent "Ball::OnOuEstLeBall";
+	.Ball_tir = 0;	
+	end;
+
+	OnChronoTir:
+	.k = 30;
+	initnpctimer;
+	OnTimer1000:
+	stopnpctimer;
+	if(.k>0) {
+		npctalk "temps restant : "+.k;
+		.k--;
+		if(.Ball_tir == 0) initnpctimer;
+	} else {
+		disablenpc "Ball#super";
+		movenpc "Ball",$@mapxNPC,$@mapyNPC;
+		enablenpc "Ball";
+		set $@equipePossedeBallID, 0;
+		donpcevent "Ball::OnOuEstLeBall";	
+	}
+	end;
+	
+}
+bg_pb,119,121,4	script	Ball	3844,1,1,{
+OnTouch:
+// Un coup de pied dans le Ball permet de le faire avancer de plusieurs cases, 
+// cependant son d?acement est g? case par case.
+// Le Ball r?ise  sa trajectoire en avan?t d'une case toutes les 150 ms. 
+// A chaque fois qu'il arrive sur une case il effectue des tests pour savoir si un but est marqu?
+// si il y a sortie de terrain, etc.
+// Le cas ??t il retourne ?a place tout seul (milieu de terrain, corners, etc.)
+
+	// Pas touche si hide
+	if(getstatus(SC_HIDING) || getstatus(SC_CLOAKING) || getstatus(SC_CHASEWALK) || getstatus(SC_CLOAKINGEXCEED) || getstatus(SC_CAMOUFLAGE) || getstatus(SC__INVISIBILITY)  ) {
+		dispbottom "You cannot hit the ball while hiding.";	
+		end;				
+	} 
+	
+	soundeffect "poring_ball_kick"+rand(1,2)+".wav",0;
+	
+	if ($@etat_match!=3) {
+		// Si il n'y a pas de match en cours ( il n'a pas encore commenc?il vient de finir, etc.)
+		npctalk "No match ! no hit !";	
+		end;				
+	} 
+	
+	if ($@destinationType>0) {
+		end;
+	}
+	
+	// Si le joueur n'est pas dans un des deux groupes inscrit :
+	if ((getcharid(4) != $@BG_Team1) && (getcharid(4) != $@BG_Team2) && getgmlevel()<10) {
+		npctalk "Intruder !! Get out "+strcharinfo(0)+" !";
+		warp "arlandria",0,0;
+		end;
+	}
+	
+	set $@joueurActif$, strcharinfo(0);
+	set $@equipeActiveID, getcharid(4);
+
+	// Coordonn? du joueur et du Ball au moment du shoot
+	getmapxy $@mapname$,$@mapxNPC,$@mapyNPC,BL_NPC;
+	getmapxy $@mapname$,$@mapxPC,$@mapyPC,BL_PC;
+
+	// V?fication de la distance joueur / Ball : le joueur doit etre ?ne case du Ball.
+	if (distance($@mapxNPC,$@mapyNPC,$@mapxPC,$@mapyPC)>2) {
+		dispbottom "You cannot hit the ball at this distance.";
+		end;
+	}
+	
+	
+	// Attention au placement de ce stopnpctimer, certains tests doivent etre effectu?vant (le joueur a t'il reellement pu taper le Ball ?)
+	stopnpctimer;
+	$@distance = rand(5,10); 
+	npcspeed 90;
+	//specialeffect 26;
+	//specialeffect 44;	
+	//specialeffect 466;
+		
+
+	// Recherche du deplacement X du Ball
+	if ($@mapxPC<$@mapxNPC) set $@deplacementX, 1;
+	else if ($@mapxPC>$@mapxNPC) set $@deplacementX, -1;
+	else set $@deplacementX, 0;
+
+	// Recherche du deplacement Y du Ball
+	if ($@mapyPC<$@mapyNPC) set $@deplacementY, 1;
+	else if ($@mapyPC>$@mapyNPC) set $@deplacementY, -1;
+	else set $@deplacementY, 0;
+	
+	// Test si le Ball est poss? par une equipe (par exemple apres une sortie de terrain du Ball par une equipe, 
+	// seule l'autre equipe a le droit de donner le 1er coup dans le Ball)
+	if ($@equipePossedeBallID != 0) && ($@equipeActiveID != $@equipePossedeBallID) {
+		dispbottom "Ball is for the opposite team.";
+		if(!$@TimerEquipeEnCours)
+			donpcevent("TimerEquipeEnCours::OnStartTimer");
+		end;
+	}
+	
+	set $@equipePossedeBallID, 0;
+	
+	// d?t du d?acement du Ball
+	
+	set $@mapxNPC, $@mapxNPC+$@deplacementX;
+	set $@mapyNPC, $@mapyNPC+$@deplacementY;
+	
+	npcwalkto $@mapxNPC,$@mapyNPC;	
+	goto OnOuEstLeBall;
+	end;
+	
+/*OnInit:
+	setnpcdistance 1;
+	end;
+*/
+	
+OnTimer150:
+	stopnpctimer;
+	getmapxy $@mapname$,$@mapxNPC,$@mapyNPC,BL_NPC;	
+	viewpointmap "bg_pb",1, $@mapxNPC, $@mapyNPC, 1, 0xffffff;
+	// Recherche de la destination si le Ball on en a d? une
+	if ($@destinationType>0){
+		switch($@destinationType){
+			case 0: break; 
+			case 1: // Aller au milieu du terrain 
+				set $@destinationX, $PB_CENTRE[0];
+				set $@destinationY, $PB_CENTRE[1];
+				break;
+			case 2: // Aller au six metre rouge
+				set $@destinationX, $PB_SM[0];
+				set $@destinationY, $PB_SM[1];
+				break;
+			case 3: // Aller au six metre bleu
+				set $@destinationX, $PB_SM[2];
+				set $@destinationY, $PB_SM[3];
+				break;
+				
+		}
+		
+		// Recherche du deplacement X du Ball pour se rapprocher de sa destination
+		if ($@destinationX<$@mapxNPC) set $@deplacementX, -1;
+		else if ($@destinationX>$@mapxNPC) set $@deplacementX, 1;
+		else set $@deplacementX, 0;
+
+		// Recherche du deplacement Y du Ball pour se rapprocher de sa destination
+		if ($@destinationY<$@mapyNPC) set $@deplacementY, -1;
+		else if ($@destinationY>$@mapyNPC) set $@deplacementY, 1;
+		else set $@deplacementY, 0;
+		
+		npcspeed 90;
+		// D?acement du Ball
+		npcwalkto $@mapxNPC+$@deplacementX,$@mapyNPC+$@deplacementY;
+		getmapxy $@mapname$,$@mapxNPC,$@mapyNPC,BL_NPC;
+		
+		// Si le Ball n'a pas encore atteint sa destination, on relance son timer
+		if (($@mapxNPC==$@destinationX) && ($@mapyNPC==$@destinationY)) {
+			if ($@destinationType == 2) {
+				// On bouge le super Ball sur le sm rouge
+				movenpc "Ball#super",$PB_SM[0],$PB_SM[1];
+				disablenpc "Ball";
+				enablenpc "Ball#super";
+				donpcevent "Ball#super::OnChronoTir";
+			} else if ($@destinationType == 3) {
+				// On bouge le super Ball sur le sm bleu
+				movenpc "Ball#super",$PB_SM[2],$PB_SM[3];
+				disablenpc "Ball";
+				enablenpc "Ball#super";	
+				donpcevent "Ball#super::OnChronoTir";		
+			}
+			set $@destinationType,0;
+		}
+		else {
+			stopnpctimer; 
+			initnpctimer;
+		}
+		end;
+
+	}	
+	
+	// Si le Ball n'a pas de destination pr?s?on continue son mouvement pr?dent 
+	set $@mapxNPC, $@mapxNPC+$@deplacementX;
+	set $@mapyNPC, $@mapyNPC+$@deplacementY;	
+	
+	npcspeed 90;
+	npcwalkto $@mapxNPC,$@mapyNPC;	
+	goto OnOuEstLeBall;
+	end;
+
+OnRetournerAuCentre:	
+	set $@destinationType, 1;
+	stopnpctimer;
+	initnpctimer;
+	end;
+	
+OnRetournerAuSMRouge:	
+	set $@destinationType, 2;
+	npctalk "Foul, I go to the Six-Yard line.";
+	set getvariableofnpc(.Ball_tir,"Ball#super"),0;
+	stopnpctimer;
+	initnpctimer;
+	end;
+OnRetournerAuSMBleu:	
+	set $@destinationType, 3;
+	npctalk "Foul, I go to the Six-Yard line.";
+	set getvariableofnpc(.Ball_tir,"Ball#super"),0;	
+	stopnpctimer;
+	initnpctimer;
+	end;
+	
+OnOuEstLeBall:
+	
+	// Hit player from opponent team
+	if($@equipeActiveID == $@BG_Team1)
+		.@opponent = $@BG_Team2;
+	else
+		.@opponent = $@BG_Team1;
+	
+	deletearray $@cuserscell[0],getarraysize($@cuserscell);
+	deletearray $@auserscell[0],getarraysize($@auserscell);
+	$@userscell = bg_getareausers (.@opponent,"bg_pb",$@mapxNPC,$@mapyNPC,$@mapxNPC,$@mapyNPC);
+	for(.@i=0;.@i<$@userscell;.@i++) {
+		if ($@distance>6)
+			specialeffect2 1,AREA,strcharinfo(0,$@cuserscell[.@i]);
+		else if ($@distance>4)
+			specialeffect2 3,AREA,strcharinfo(0,$@cuserscell[.@i]);
+		else 
+			specialeffect2 2,AREA,strcharinfo(0,$@cuserscell[.@i]);
+		
+		percentheal -(5*$@distance),0,$@cuserscell[.@i];
+		heal -10,0,$@cuserscell[.@i];
+		specialeffect 548;
+	}
+	
+	if ($@mapxNPC>=$PB_COINS[3]){		
+	// L e    b a l l o n    e s t    s u r     l a     L I G N E    d e    T O U C H E      E S T
+	
+		// On regarde si on est dans le but de droite
+		if (($@mapyNPC>=$PB_CAGES[2])&&($@mapyNPC<=$PB_CAGES[3])){
+			
+			mapannounce "bg_pb.gat", "º "+$@joueurActif$+" scored a goal for the red team. Kick-off for the blue team.",bc_blue;
+			npctalk "Goal ! I go back in the middle of the field.";
+			$@score_match_rouge++;
+			bg_updatescore "bg_pb",$@score_match_rouge,$@score_match_bleu;
+			$@equipePossedeBallID = $@BG_Team2; // Ball aux bleus
+			donpcevent "Ball::OnRetournerAuCentre";
+			end;
+		}
+		$@distance += 4;
+		$@deplacementX -= 1;
+		specialeffect 425;	
+	}
+	else if ($@mapxNPC<=$PB_COINS[2]){
+		// L e    b a l l o n    e s t    s u r     l a     L I G N E    d e    T O U C H E      O U E S T
+		
+		// On regarde si on est dans le but de gauche
+		if (($@mapyNPC>=$PB_CAGES[0])&&($@mapyNPC<=$PB_CAGES[1])){
+			
+			mapannounce "bg_pb.gat", "º "+$@joueurActif$+" scored a goal for the blue team. Kick-off for the red team.",bc_blue;
+			npctalk "Goal ! I go back in the middle of the field.";
+			$@score_match_bleu++;
+			bg_updatescore "bg_pb",$@score_match_rouge,$@score_match_bleu;
+			$@equipePossedeBallID = $@BG_Team1; // Ball aux Rouges
+			donpcevent "Ball::OnRetournerAuCentre";
+			end;
+		}
+		$@distance += 4;
+		$@deplacementX += 1;
+		specialeffect 425;
+		
+	} 
+	else if ($@mapyNPC>=$PB_COINS[0] ) {
+		// L e    b a l l o n    e s t     s u r    u n e     L I G N E    d e    T O U C H E   d e    l a    L O N G U E U R   ( n o r d )
+		$@distance += 4;
+		$@deplacementY -= 1;
+		specialeffect 425;
+		
+	} else if ($@mapyNPC<=$PB_COINS[1]) {
+		// S u d
+		$@distance += 4;
+		$@deplacementY += 1;
+		specialeffect 425;
+	
+	}	
+	
+	// Pr?ration du d?acement suivant
+	set $@distance,$@distance-1;
+	if ($@distance>0) {
+		stopnpctimer;
+		initnpctimer;
+	}
+	end;
+
+}
+-	script	TimerEquipeEnCours	-1,{
+	
+OnStartTimer:
+	$@TimerEquipeEnCours = 1;
+	sleep 15000;
+	if(!$@TimerEquipeEnCours) end;
+	mapannounce "bg_pb.gat", "Ball is for "+($@equipePossedeBallID==$@BG_Team2?"blue":"red")+" team for 5 seconds.",bc_blue;
+	sleep 5000;	
+	if(!$@TimerEquipeEnCours) end;
+	set $@equipePossedeBallID, 0;
+	$@TimerEquipeEnCours = 0;
+	end;
+}
+// *******************************************************************
+//                         Autres                 NPCs
+// *******************************************************************
+
+bg_pb,68,129,6	script	Red Goal#frouge1	GUILD_FLAG,{
+	end;
+	
+OnEmblemPB:
+	bg_flagemblem $@BG_Team1;
+	end;
+}
+
+bg_pb,68,114,6	script	Red Goal#frouge2	GUILD_FLAG,{
+	end;
+	
+OnEmblemPB:
+	bg_flagemblem $@BG_Team1;
+	end;
+}
+
+bg_pb,171,129,2	script	Blue Goal#fbleu1	GUILD_FLAG,{
+	end;
+	
+	
+OnEmblemPB:
+	bg_flagemblem $@BG_Team2;
+	end;
+}
+
+bg_pb,171,114,2	script	Blue Goal#fbleu2	GUILD_FLAG,{
+	end;
+	
+	
+OnEmblemPB:
+	bg_flagemblem $@BG_Team2;
+	end;
+}
+
+// map terrain de foot
+bg_pb	mapflag	battleground	2
+bg_pb	mapflag	noicewall
+bg_pb	mapflag	nomemo
+bg_pb	mapflag	noteleport
+bg_pb	mapflag	nowarp
+bg_pb	mapflag	nosave	SavePoint
+bg_pb	mapflag	nopenalty
+bg_pb	mapflag	nobranch
+bg_pb	mapflag	noitemconsumption
+bg_pb	mapflag	noexp

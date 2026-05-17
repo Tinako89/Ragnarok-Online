@@ -1,0 +1,10 @@
+
+StateIconList[EFST_IDs.EFST_FULLINVINCIBLE] = {
+	haveTimeLimit = 1,
+	posTimeLimitStr = 2,
+	descript = {
+		{ "Invincible", COLOR_TITLE_TOGGLE },
+		{ "%s", COLOR_TIME },
+		{ "You are invincible." }
+	}
+}

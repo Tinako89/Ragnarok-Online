@@ -1,0 +1,620 @@
+//================================================================
+//================================================================
+//= Touch down script by Vykimo
+//= It's a paid script, so you can't resale it.
+//================================================================
+//= v 3.3
+//================================================================
+bg_td	mapflag	battleground	2
+bg_td	mapflag	nomemo
+bg_td	mapflag	nosave	RespawnPoint
+bg_td	mapflag	noteleport
+bg_td	mapflag	nowarp
+//bg_td	mapflag	nowarpto
+bg_td	mapflag	noreturn
+bg_td	mapflag	nobranch
+bg_td	mapflag	nopenalty
+bg_td	mapflag	nodrop
+bg_td	mapflag	town
+bg_td	mapflag	novending
+//bg_td	mapflag	noemergencycall
+//================================================================
+//================================================================
+
+bg_td,17,188,6	script	Back to Battlefield#bleu	10043,{
+if($@N_Mitemps_TD == 1 || $@N_Mitemps_TD ==2) {
+	if(@retour_s4_terrain)	end;
+	if($@s4_relance)	{
+		message strcharinfo(0),"[Back to Battlefield] Game is restarting. Please wait.";
+		end;
+	}
+	@retour_s4_terrain = 1;
+	percentheal 100,100;
+	specialeffect2 EF_INCAGILITY;
+	sc_start SC_INCREASEAGI,240000,10;
+	specialeffect2 EF_BLESSING;
+	sc_start SC_BLESSING,240000,10;
+	repairall;
+	specialeffect2 101;
+	message strcharinfo(0),"[Retour au Terrain] 6";
+	callfunc "play_sound","new_round_in";
+	sleep2 1000;	
+	for(.@i=5;.@i>0;.@i--) {
+		message strcharinfo(0),"[Retour au Terrain] "+.@i;
+		callfunc "play_sound",""+.@i;
+		sleep2 1000;
+		if($@s4_relance)	{
+			@retour_s4_terrain = 0;
+			message strcharinfo(0),"[Back to Battlefield]  Game is restarting. Please wait.";
+			end;
+		}
+	}
+	if($@N_Mitemps_TD != 1 && $@N_Mitemps_TD !=2) end;
+	percentheal 100,100;
+	specialeffect2 EF_INCAGILITY;
+	sc_start SC_INCREASEAGI,240000,10;
+	specialeffect2 EF_BLESSING;
+	sc_start SC_BLESSING,240000,10;
+	if(strnpcinfo(2) == "bleu")
+		warp "bg_td",34,79;
+	else
+		warp "bg_td",144,79;
+	sleep2 200;
+	specialeffect2 223;
+	callfunc "play_sound","ready2";
+	@retour_s4_terrain = 0;
+}
+	end;
+}
+bg_td,23,188,6	script	Cloakroom#bleu	844,{
+	if(@retour_s4_terrain || $@s4_relance) {
+		npctalk "Storage : you cannot open the storage while going back to battlefield.";
+		end;
+	}
+	openstorage;
+	if(.encours == 0) {
+		set .encours ,1;
+		npctalk "[Touch Down Rules] - Rules will be explained quickly :";
+		sleep2 3000;
+		npctalk "[Touch Down Rules] - The aim is to put the Fumbi on the opponent goal.";
+		sleep2 3000;
+		npctalk "[Touch Down Rules] - To get the Fumbi, you simply have to walk on it. It's currently on the middle of the map.";
+		sleep2 3000;
+		npctalk "[Touch Down Rules] - Goals, kills and Fumbi possession are counted in a point system.";
+		sleep2 3000;
+		set .encours,0;
+	}
+	end;
+}
+bg_td,83,188,6	duplicate(Cloakroom#bleu)	Cloakroom#rouge	844
+bg_td,77,188,6	duplicate(Back to Battlefield#bleu)	Back to Battlefield#rouge	10042
+//==========================================================================================================
+//==========================================================================================================
+-	script	s4_game	139,{
+
+	OnInit:
+	$TEMPS_EFFET = 100;
+	$ID_NPC_BALL = 463;
+	$ID_HAT_BALL = 124;
+	$Etat_Balle_TD = 0;
+	//callfunc "Reset_Ball";
+	end;
+	
+	OnReward:
+	if($@TD_NotStarted != 1) {
+	
+		$@TD_NotStarted = 1;
+		
+		if(getd("$@Score_"+$@BG_Team1) == getd("$@Score_"+$@BG_Team2)) { 
+			mapannounce "bg_td","[Touch Down] Oh!..... Draw! Same scores. ",bc_map,0xb5a2ff;
+			callfunc("Reward_BG",27,27,getd("$@" + strnpcinfo(0)));
+		}
+		else if(getd("$@Score_"+$@BG_Team1) < getd("$@Score_"+$@BG_Team2)) {
+			mapannounce "bg_td","[Touch Down] Congrats to the red team ("+ getd("$@Score_"+$@BG_Team2) +" to "+getd("$@Score_"+$@BG_Team1)+" points).",bc_map,0xb5a2ff;
+			callfunc("Reward_BG",27,54,getd("$@" + strnpcinfo(0)));
+		}
+		else if(getd("$@Score_"+$@BG_Team1) > getd("$@Score_"+$@BG_Team2)) {
+			mapannounce "bg_td","[Touch Down] Congrats to the blue team ("+ getd("$@Score_"+$@BG_Team1) +" to "+getd("$@Score_"+$@BG_Team2)+").",bc_map,0xb5a2ff;
+			callfunc("Reward_BG",54,27,getd("$@" + strnpcinfo(0)));
+		}
+	}
+	end;
+	
+	OnBuildTeams:
+	set $@BG_Team1,bg_team_create("bg_td",16,182,0,"s4_game::OnTDownQuit","s4_game::OnTDownDie",$Palette_BG_Bleu);
+	set $@BG_Team2,bg_team_create("bg_td",77,181,1,"s4_game::OnTDownQuit","s4_game::OnTDownDie",$Palette_BG_Rouge);	
+	end;
+	
+	OnReady:
+	if( getvariableofnpc(.BG_Arena$,"BG_Queue_Join") != "s4_game" )
+		end;
+		
+	set $@N_Mitemps_TD,6;
+	
+	// warp des teams
+	bg_warp $@BG_Team2,"bg_td",77,181;
+	bg_warp $@BG_Team1,"bg_td",16,182;
+
+	initnpctimer "BattlegroundAFK"; //Aglao - Invocación a función genérica de conteo de tiempo para evitar ingresar a partida activa de BG.
+	
+	sleep 3000;	
+	mapannounce "bg_td","[Touch Down] - The handle in front of you can explain the rules by clicking on it.",bc_map,0x80a5d4;
+	sleep 5000;	
+	donpcevent "s4#timer::OnStart";
+	donpcevent "s4_game::OnEffectsBall";
+	end;
+		
+	OnPCKillEvent:
+	getmapxy(@mapname$,@mapx,@mapy,BL_PC);
+	if (@mapname$ == "bg_td" && $@N_Mitemps_TD != 0) {
+
+		callfunc "play_sound","kill"+rand(1,3);
+		
+		// 4 pts pour tuer avec le fumbi
+		if($Nom_JBalle$ == strcharinfo(0)) {
+			dispbottom "[4 points] You just killed someone with the Fumbi";
+			//bg_rankpoints "td_kill_wfumbi",1;
+			callfunc "UpdateScores",getcharid(4),4;
+		}
+		else if($CharID_JBalle == killedrid) { // 3 points pour tuer le porteur du fumbi
+			dispbottom "[3 points] You just killed the owner of the Fumbi.";
+			//bg_rankpoints "td_kill_fumbi",1;
+			callfunc "UpdateScores",getcharid(4),3;
+		}
+		else {	// 2 pts pour tuer en général
+			dispbottom "[2 points] You just killed someone.";
+			//bg_rankpoints "td_kills",1;
+			callfunc "UpdateScores",getcharid(4),2;
+		}
+	}
+	end;
+	
+	OnPrematureEnd:
+	mapannounce "bg_td","[Touch Down] Not enough players.",1,0x00BFFF;
+	$@BG_Status = 2;
+	stopnpctimer "BattlegroundAFK"; //Aglao - Se detiene rutina de unión a BG activo
+	donpcevent "s4#timer::OnPrematureEnd";
+	end;
+	
+	OnTDownQuit:
+	setquest 8600; // Aglao - Deserter
+	if( $@BG_Status != 0 && getvariableofnpc(.BG_Arena$,"BG_Queue_Join") == "s4_game" )
+		donpcevent "BG_Queue_Join::OnJoinEvent";
+		
+	OnTDownDie:
+	if($Nom_JBalle$ == strcharinfo(0)) {
+		if(getcharid(4) == $@BG_Team1)	callfunc "Son_But_Team",1,"fumbled";
+		else 							callfunc "Son_But_Team",2,"fumbled";
+		
+		attachrid($CharID_JBalle);
+		set $Etat_Balle_TD,2;
+		set $Nom_JBalle$,"0";
+		set $CharID_JBalle,0;
+		pcblock 1,0; // UnBlock Skills/Items
+		changelook 3,0;
+		initnpctimer;
+	}
+	/*
+		bg_rankpoints "td_death_wfumbi",1;
+		
+	} else if($CharID_JBalle == @killer_bg_src)
+		bg_rankpoints "td_death_fumbi",1;
+	else
+		bg_rankpoints "td_deaths",1;
+	*/
+	specialeffect2 310;
+	callfunc "play_sound","die";
+	end;
+	
+	OnTimer20000:
+	stopnpctimer;
+	if($Etat_Balle_TD == 2) {
+		mapannounce "bg_td","[Touch Down] Fumbi reset",bc_map,0x80a5d4;
+		callfunc "Reset_Ball";
+	}
+	end;
+	
+	OnEffectsBall:
+	while($@N_Mitemps_TD != 0) {
+		if($Etat_Balle_TD == 1 && $CharID_JBalle != 0) {
+			setnpcdisplay("#ball", 139);
+			attachrid($CharID_JBalle);
+			changelook 3,$ID_HAT_BALL;
+			getmapxy($@whereisball$,$@whereisballx,$@whereisbally,BL_PC);
+			movenpc "#ball",$@whereisballx,$@whereisbally;
+			specialeffect2 500;
+			specialeffect2 508;
+			.i++;
+			if(.i >= 50 && Sp > @spplayer) {
+				set @spplayer,MaxSp/5;
+				specialeffect2 199;
+				Sp = Sp-@spplayer;
+				.i = 0;
+			}
+			detachrid;
+		} else {
+			donpcevent "#ball::OnEffect";
+			setnpcdisplay("#ball", $ID_NPC_BALL);
+		}
+		sleep $TEMPS_EFFET;
+	}
+	end;
+}
+//==========================================================================================================
+// Mur Bleu
+//==========================================================================================================
+bg_td,36,78,1	script	MurTD#1	139,0,9,{
+	OnTouch:
+	callfunc "Mur_TD",getcharid(4),strnpcinfo(2);
+	end;
+}
+bg_td,141,78,1	duplicate(MurTD#1)	MurTD#2	139,0,9
+bg_td,62,79,0	duplicate(MurTD#1)	MurTD2#1	139,0,2
+bg_td,115,79,0	duplicate(MurTD#2)	MurTD2#2	139,0,2
+function	script	Mur_TD	{
+	if(getarg(0) == getd("$@BG_Team"+getarg(1))) {
+		getmapxy(@position$,@positionx,@positiony,BL_PC);
+		getmapxy(.@positionnpc$,.@positionnpcx,.@positionnpcy,BL_NPC);
+		if(getarg(1) == "1") .@positionnpcx+=3;
+		else .@positionnpcx-=3;
+		warp @position$,.@positionnpcx,@positiony;
+		specialeffect2 44;
+		if($Etat_Balle_TD == 1 && $Nom_JBalle$ == strcharinfo(0)) callfunc "Reset_Ball";
+	} else {
+		specialeffect2 32;
+		heal -MaxHp,0;
+		if($Etat_Balle_TD == 1 && $Nom_JBalle$ == strcharinfo(0)) {		
+			pcblock 1,0; // UnBlock Skills/Items
+			callfunc "Reset_Ball";		
+		}
+	}
+	return;
+}
+//==========================================================================================================
+// Touch down des rouges (2)
+//==========================================================================================================
+bg_td,116,78,0	script	Touch Down#1	139,2,2,{
+	end;
+
+	OnTouch:
+	if(getcharid(4) == getd("$@BG_Team"+strnpcinfo(2)) && $Nom_JBalle$ == strcharinfo(0) && getvariableofnpc(.BG_Arena$,"BG_Queue_Join") == "s4_game") {
+		// Base en pause
+		set getd("$@Etat_Base"+strnpcinfo(2)+"_TD"),1;
+		pcblock 1,0; // UnBlock Skills/Items
+		// Balle en etat de but
+		set $Etat_Balle_TD,3;
+		// Reset le posesseur de balle
+		set $Nom_JBalle$,"0";
+		set $CharID_JBalle,0;
+		changelook 3,0;
+		// Position de la balle sur le TD (minimap)
+		if(compare(strnpcinfo(2),"1")) movenpc "#ball",116,79;
+		else movenpc "#ball",61,79;
+		// Effets
+		specialeffect 18;
+		specialeffect 65;
+		specialeffect 330;
+		specialeffect 266;
+		specialeffect 276;
+		specialeffect 262;
+		mapannounce "bg_td","[Touch Down] Yeah !! "+(compare(strnpcinfo(2),"1")?"blue":"red")+" just scored a point!",bc_map,0xb5a2ff;
+		dispbottom "[10 points] You just scored for your team.";
+		callfunc "UpdateScores",getcharid(4),10;
+		//bg_rankpoints "td_scored",1;
+		callfunc "Son_But_Team",(compare(strnpcinfo(2),"1")?1:2),"score";
+		
+		if($@N_Mitemps_TD == 1 || $@N_Mitemps_TD ==2) {
+			if (bg_get_data($@BG_Team1,0) < 1 || bg_get_data($@BG_Team2,0) < 1) {
+				mapannounce "bg_td","[Touch Down] Not enough players.",bc_map,0xb5a2ff;
+				$@BG_Status = 2;
+				donpcevent "s4#timer::OnPrematureEnd";				
+			} else
+				callfunc "Relance_S4";
+		}
+
+	}
+	end;
+
+	OnEffectGoal:
+	specialeffect	236;
+	end;
+}
+bg_td,61,78,0	duplicate(Touch Down#1)	Touch Down#2	139,2,2
+//==========================================================================================================
+//==========================================================================================================
+bg_td,89,78,1	script	#ball	139,1,1,{
+	end;
+
+	OnEffect:
+	.i++;
+	if (.i >= 10) {	
+		if($@Etat_Base1_TD == 1) donpcevent "Touch Down#1::OnEffectGoal";	
+		else if($@Etat_Base2_TD == 1) donpcevent "Touch Down#2::OnEffectGoal";	
+		specialeffect	223;
+		.i=0; 
+	}
+	specialeffect 500;
+	specialeffect 508;
+	end;
+
+	OnTouch:
+	if ($@N_Mitemps_TD != 0 && ($Etat_Balle_TD == 0 || $Etat_Balle_TD == 2) && getvariableofnpc(.BG_Arena$,"BG_Queue_Join") == "s4_game") {
+		if($Etat_Balle_TD == 2) stopnpctimer "s4_game";
+		set $Etat_Balle_TD,1;
+		set $CharID_JBalle,getcharid(3);
+		set $Nom_JBalle$,strcharinfo(0);
+		sc_end SC_HIDING;
+		sc_end SC_CLOAKING;
+		sc_end SC_CHASEWALK;
+		sc_end SC_CLOAKINGEXCEED;
+		sc_end SC_CAMOUFLAGE;
+		sc_end SC__INVISIBILITY;
+		sc_end SC_NEWMOON;
+		pcblock 1,1; // Block Skills/Items
+		mapannounce "bg_td","[Touch Down] "+ $Nom_JBalle$ + " took the Fumbi !",bc_map,0xb5a2ff;
+		// 1 pts pour prendre le fumbi
+		dispbottom "[1 points] You just took the Fumbi.";
+		callfunc "UpdateScores",getcharid(4),1;
+		//bg_rankpoints "td_taken",1;
+		if(getcharid(4) == $@BG_Team1)	callfunc "Son_But_Team",1,"attack";
+		else 							callfunc "Son_But_Team",2,"attack";
+	}
+	end;
+}
+//==========================================================================================================
+//==========================================================================================================
+//==========================================================================================================
+-	script	s4#timer	139,{
+
+	OnStart:
+	setcell "bg_td",0,0,300,300,cell_basilica,1;
+	mapannounce "bg_td","[Touch Down] Touch Down will start in 30 sec.",bc_map,0xb5a2ff;
+	initnpctimer;
+	end;
+	OnTimer25500:
+	callfunc "play_sound_both","new_round_in";
+	end; 
+	OnTimer27000:
+	callfunc "play_sound_both","3";
+	mapannounce "bg_td","[Touch Down] Warning 3 seconds left !",bc_map,0xb5a2ff;
+	end;
+	OnTimer28000:
+	callfunc "play_sound_both","2";
+	mapannounce "bg_td","[Touch Down] Warning 2 seconds left !",bc_map,0xb5a2ff;
+	end;
+	OnTimer29000:
+	callfunc "play_sound_both","1";
+	mapannounce "bg_td","[Touch Down] Warning 1 seconds left !",bc_map,0xb5a2ff;
+	end;
+	OnTimer30000:
+	// Verif avant le lancement
+	set .Guillaume_Count, bg_get_data($@BG_Team1, 0);
+	set .Croix_Count, bg_get_data($@BG_Team2, 0);
+	$@TD_NotStarted = 0;
+	if( .Guillaume_Count < getvariableofnpc(.BG_Min[9],"BG_Queue_Join") || .Croix_Count < getvariableofnpc(.BG_Min[9],"BG_Queue_Join") )
+	{
+		mapannounce "bg_td","[Touch Down] Not enough players.",1,0x00BFFF;
+		set $@TD_NotStarted, 1;
+		sleep 1000;
+		donpcevent "s4#timer::OnPrematureEnd";
+		end;
+	}
+	mapannounce "bg_td","[Touch Down] Touch Down just started, good game!",bc_map,0xb5a2ff,0xFF2200;
+	bg_warp $@BG_Team1,"bg_td",34,79;
+	bg_warp $@BG_Team2,"bg_td",144,79;
+	set getd("$@Score_"+$@BG_Team1),0;
+	set getd("$@Score_"+$@BG_Team2),0;
+	bg_updatescore "bg_td",getd("$@Score_"+$@BG_Team1),getd("$@Score_"+$@BG_Team2);
+	$@Etat_Base1_TD = 0;
+	$@Etat_Base2_TD = 0;
+	callfunc "Reset_Ball";
+	set $@N_Mitemps_TD,1;
+	set $@s4_relance,0;
+	setcell "bg_td",0,0,300,300,cell_basilica,0;
+	donpcevent "s4#points::OnStartViewPt";	
+	sleep 500;
+	callfunc "play_sound_both","ready2";
+	end;
+	
+	// ========== MI-TEMPS
+	OnTimer240000:
+	set $@N_Mitemps_TD,2;
+	callfunc "Reset_Ball";
+	bg_warp $@BG_Team1,"bg_td",34,79;
+	bg_warp $@BG_Team2,"bg_td",144,79;
+	mapannounce "bg_td","[Touch Down] We entered in the second period !",bc_map,0xb5a2ff,0xFF2200;
+	end;
+	
+	OnTimer300000:
+	callfunc "play_sound_both","3minute";
+	mapannounce "bg_td","[Touch Down] End of the game in 3 minutes.",bc_map,0xb5a2ff;
+	end;
+	OnTimer420000:
+	callfunc "play_sound_both","1minute";
+	mapannounce "bg_td","[Touch Down] End of the game in 1 minute.",bc_map,0xb5a2ff;
+	end;
+	OnTimer450000:
+	callfunc "play_sound_both","30second";
+	mapannounce "bg_td","[Touch Down] End of the game in 30 seconds.",bc_map,0xb5a2ff;
+	end;
+	// ========= VEROUILLAGE INSCRIPTION
+	OnTimer470000:
+	$@BG_Status = 2;
+	end;
+	
+	// ========= FIN PARTIE
+	OnTimer480000:
+	callfunc "play_sound_both","10";
+	mapannounce "bg_td","[Touch Down] End of the game in 10 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer481000:
+	callfunc "play_sound_both","9";
+	mapannounce "bg_td","[Touch Down] End of the game in 09 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer482000:
+	callfunc "play_sound_both","8";
+	mapannounce "bg_td","[Touch Down] End of the game in 08 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer483000:
+	callfunc "play_sound_both","7";
+	mapannounce "bg_td","[Touch Down] End of the game in 07 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer484000:
+	callfunc "play_sound_both","6";
+	mapannounce "bg_td","[Touch Down] End of the game in 06 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer485000:
+	callfunc "play_sound_both","5";
+	mapannounce "bg_td","[Touch Down] End of the game in 05 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer486000:
+	callfunc "play_sound_both","4";
+	mapannounce "bg_td","[Touch Down] End of the game in 04 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer487000:
+	callfunc "play_sound_both","3";
+	mapannounce "bg_td","[Touch Down] End of the game in 03 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer488000:
+	callfunc "play_sound_both","2";
+	mapannounce "bg_td","[Touch Down] End of the game in 02 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer489000:
+	callfunc "play_sound_both","1";
+	mapannounce "bg_td","[Touch Down] End of the game in 01 seconds.",bc_map,0xb5a2ff;
+	end;
+	OnTimer490000:
+	OnPrematureEnd:
+	stopnpctimer;
+	setcell "bg_td",0,0,300,300,cell_basilica,1;
+	mapannounce "bg_td","[Touch Down] End of the game !",bc_map,0xb5a2ff,0xFF2200;
+	callfunc "Reset_Ball";
+	set $Etat_Balle_TD,0;
+	set $@N_Mitemps_TD,0;	
+	setnpcdisplay("#ball", 139);
+	// Rewards
+	donpcevent "s4_game::OnReward";
+	sleep 2000;
+	setcell "bg_td",0,0,300,300,cell_basilica,0;
+	donpcevent "BG_Queue_Join::OnRotate";
+	end;
+}
+// ==========================================================================================
+// ==========================================================================================
+// ==========================================================================================
+function	script	Reset_Ball	{
+	set $Nom_JBalle$,"0";
+	if (attachrid($CharID_JBalle)) {
+		changelook 3,0;
+		pcblock 1,0; // UnBlock Skills/Items
+		detachrid;
+	}
+	set $CharID_JBalle,0;
+	$Etat_Balle_TD = 0;
+	if(getarg(0,0) == 0)
+		callfunc "play_sound_both","ball_reset";
+	movenpc "#ball",89,78;
+	setnpcdisplay("#ball", $ID_NPC_BALL);
+	return;
+}
+function	script	Relance_S4	{
+	$@s4_relance = 1;
+	setcell "bg_td",0,0,300,300,cell_basilica,1;
+	sleep 6000;
+	// Securité (inutile?)
+	if( $@BG_Status != 1 || getvariableofnpc(.BG_Arena$,"BG_Queue_Join") != "s4_game" )
+		end;
+				
+	callfunc "play_sound_both","next_round_in";
+	
+	for (.@i = 10; .@i>=0; .@i--) {
+		sleep 1000;
+		if($@N_Mitemps_TD != 1 && $@N_Mitemps_TD !=2) break;
+		if(.@i != 0) {
+			mapannounce "bg_td","[Touch Down] Restart of the game in "+.@i+" seconds.",bc_map,0xb5a2ff;
+			callfunc "play_sound_both",.@i+"";	
+		}
+	}
+	$@s4_relance = 0;
+	setcell "bg_td",0,0,300,300,cell_basilica,0;
+	if($@N_Mitemps_TD == 1 || $@N_Mitemps_TD ==2) {
+		callfunc "play_sound_both","ready2";
+		mapannounce "bg_td","[Touch Down] Let's go !! Scores are "+getd("$@Score_"+$@BG_Team2)+" for red team and "+getd("$@Score_"+$@BG_Team1)+" for blue team",bc_map,0xb5a2ff;
+		bg_warp $@BG_Team1,"bg_td",34,79;
+		bg_warp $@BG_Team2,"bg_td",144,79;
+		areapercentheal "bg_td",0,0,300,300,100,100;
+		set $@Etat_Base1_TD,0;
+		set $@Etat_Base2_TD,0;
+		callfunc "Reset_Ball",1;
+	}
+	return;
+}	
+
+function	script	UpdateScores	{
+	set getd("$@Score_"+getarg(0)),getd("$@Score_"+getarg(0)) + getarg(1);
+	if(getd("$@Score_"+$@BG_Team1) > 99 || getd("$@Score_"+$@BG_Team2) > 99) {
+		mapannounce "bg_td","[Touch Down] - Prematurate End : A team reached +100 points!",bc_map,0xb5a2ff;
+		$@BG_Status = 2;
+		donpcevent "s4#timer::OnPrematureEnd";
+		end;
+	}
+	bg_updatescore "bg_td",getd("$@Score_"+$@BG_Team1),getd("$@Score_"+$@BG_Team2);
+	return;
+}
+function	script	Son_But_Team	{
+	if(getarg(1) == "fumbled") {
+		.@son1$ = "blue_fumbled";
+		.@son2$ = "red_fumbled1";
+	} else if(getarg(1) == "score"){
+		.@son1$ = "blue_team_sc";
+		.@son2$ = "red_team_sc";
+	} else {
+		.@son1$ = "attacking";
+		.@son2$ = "defending";
+	}
+	if(getarg(0) == 1) {
+		callfunc "play_sound_team",$@BG_Team1,.@son1$;
+		callfunc "play_sound_team",$@BG_Team2,.@son2$;
+	} else {
+		callfunc "play_sound_team",$@BG_Team2,.@son1$;
+		callfunc "play_sound_team",$@BG_Team1,.@son2$;	
+	}
+	return;
+}
+function	script	play_sound	{
+	soundeffect "s4\\"+getarg(0)+".wav",0;
+	return;
+}
+function	script	play_sound_both	{
+	soundeffectall "s4\\"+getarg(0)+".wav",0,"bg_td",0,0,300,300;
+	return;
+}
+function	script	play_sound_team	{
+	cleararray $@bgmembers$,"",getarraysize($@bgmembers$);
+	bg_get_data(getarg(0),1);
+	.@c = bg_get_data(getarg(0),0);
+	copyarray .@name$[0], $@bgmembers$[0], .@c;
+	for(.@i=0; .@i < .@c; .@i++){
+		if( attachrid(getcharid(3,.@name$[.@i])) ){
+			callfunc "play_sound",getarg(1);
+			detachrid();
+		}
+	}
+	return;
+}
+-	script	s4#points	-1,{
+	OnStartViewPt:
+	initnpctimer;
+	end;
+	
+	OnTimer2000:
+	stopnpctimer;
+	if($@N_Mitemps_TD == 1 || $@N_Mitemps_TD == 2) {
+		getmapxy($@whereisball$,$@whereisballx,$@whereisbally,BL_NPC,"#ball");
+		viewpointmap "bg_td",1, 61, 78, 1, 0x0000FF;
+		viewpointmap "bg_td",1, 117,78, 2, 0xFF0000;
+		viewpointmap "bg_td",1,$@whereisballx,$@whereisbally,3,0xFFCC00;
+		initnpctimer;
+	}
+	end;
+}
