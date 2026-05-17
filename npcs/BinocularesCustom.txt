@@ -1,0 +1,71 @@
+// Binoculars Quest Custom
+
+moc_ruins,116,176,4	script	Alchemist::BINC	64,{
+	mes "[Marius]";
+	mes "Howdy, new customer!!";
+	mes "I know what you're gonna talk about. You want the Magic Glasses from me, riiiiight?";
+	next;
+	switch(select("What is that?:Manufacture:Ignore him")) {
+	case 1:
+		mes "[Marius]";
+		mes "Hmm~!";
+		mes "Well, the official name for them is ^3355FFBinoculars^000000! An optical device that works like a pair of field glasses, they're designed for simultaneous use by both eyes!";
+		next;
+		mes "[Marius]";
+		mes "They're made up of two small telescopes joined with a single focusing device. You can arrange the lenses to produce stereoscopic vision.";
+		next;
+		mes "[Marius]";
+		mes "So?";
+		mes "Ain't that";
+		mes "something, huh?";
+		mes "Muhahahahahaha!";
+		mes ". . . . .";
+		next;
+		mes "[Marius]";
+		mes "Hm? You don't seem to";
+		mes "believe what I just said?";
+		mes "Oh c'mon, jerk. It's real!!";
+		next;
+		mes "[Marius]";
+		mes "I will let you";
+		mes "know the items I need...";
+		mes "1 ^3355FFGeek Glasses^000000! 100 ^3355FFSteel^000000!";
+		mes "And ^3355FF50000 Zeny^000000!";
+		close;
+	case 2:
+		if ((countitem(2243) > 0) && (countitem(999) > 99) && (Zeny > 49999)) {
+			mes "[Marius]";
+			mes "Perfect, perfect !";
+			mes "Now my masterpiece will be complete!";
+			mes "Muhahahaha !";
+			next;
+			delitem 2243,1;  //Spinning_Eyes
+			delitem 999,100;  //Steel
+			set Zeny, Zeny-50000;
+			mes "[Marius]";
+			mes "Here you are!";
+			mes "Binoculars !";
+			getitem 2296,1; // Binoculars
+			next;
+			mes "[Marius]";
+			mes "Just remember...";
+			mes "Don't peep at something you shouldn't look at. Well, at least try not to.";
+			close;
+		}
+		else {
+			mes "[Marius]";
+			mes "Argggghhhhhhh!!";
+			mes "You didn't bring";
+			mes "enough items!!!!";
+			mes "How dare you";
+			mes "disgrace me!!!";
+			mes "Baaaadddd !!";
+			close;
+		}
+	case 3:
+		mes "[Marius]";
+		mes "Hey you~!";
+		mes "Now you're in front of Marius, an Alchemist among Alchemists. Ignoring me, eh? Come on, I'll beat your ass!";
+		close;
+	}
+}
