@@ -1,4 +1,4 @@
-// Binoculars Quest Custom
+// Binoculares Quest Custom
 
 moc_ruins,116,176,4	script	Alchemist::BINC	64,{
 	mes "[Marius]";
