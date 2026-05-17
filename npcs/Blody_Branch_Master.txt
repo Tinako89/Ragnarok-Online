@@ -1,3 +1,5 @@
+// NPC Creador de Blody Branch.
+
 prontera,60,140,5	script	Bloody Branch Master::Beisball122	47,{
 	mes "Hi Adventurer! Do you want to create a Bloody Branch?";
 	next;
@@ -41,7 +43,7 @@ prontera,60,140,5	script	Bloody Branch Master::Beisball122	47,{
 			mes "^3355FF300 Strong Branch^000000";
 			mes "^3355FF25 Poring Coin^000000";
 			mes "^3355FF10.000.000 Zenys^000000";
-			//mes "Con esos Items te entregaré una Bloody Branch.";
+			//mes "Con esos Items te entregarÃ© una Bloody Branch.";
 			close;
 		}
 	case 3:
