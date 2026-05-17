@@ -1,0 +1,59 @@
+/* MODIFICACIÓN DarbladErxX 							/*
+/* Israel Gonzalez Urruita 								/*
+/*						GM NAME:  MediaFire			/*
+/*						NAME:	   Israel Gonzalez Urrutia	/*
+/*						HOOTMAIL: darbladerxx@hotmail.com	/*
+/*						fACEBOOK: facebook.com/Darbladerxx	/*
+/*											/*
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::/*
+prontera,151,185,7	script	Gift Shop::PremiumShopGift	803,{
+	mes .name$;
+	mes "Tenes "+countitem(.tcg_item)+" Poring Coins.";
+	mes "¿Queres mirar los items?";
+	next;
+	if(select("Si:No") == 2) {
+	close;
+}
+	close2;
+	callshop "TCG_SHOP1",1;
+	npcshopattach "TCG_SHOP1";
+	dispbottom "Tenes "+countitem(.tcg_item)+" Poring Coins.";
+	end;
+
+OnBuyItem:
+	for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+	for(set @j,0; @j < getarraysize(.TCG_ITEMS); set @j,@j+2) {
+	if(.TCG_ITEMS[@j] == @bought_nameid[@i]) {
+	set @itemcost,(.TCG_ITEMS[(@j+1)]*@bought_quantity[@i]);
+	set @totalcost,(@totalcost+@itemcost);
+	break;
+}
+}
+}
+	if(@totalcost > countitem(.tcg_item)) {
+	dispbottom "No tenes suficientes Poring Coins.";
+}
+	else {
+	for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+	getitem @bought_nameid[@i],@bought_quantity[@i];
+}
+	delitem .tcg_item,@totalcost;
+	dispbottom "Gracias por tu compra.";
+	dispbottom "Tenes "+countitem(.tcg_item)+" Poring Coins.";
+}
+	set @totalcost,0;
+	deletearray @bought_nameid[0],128;
+	deletearray @bought_quantity[0],128;
+	end;
+
+OnInit:
+   npcshopdelitem "TCG_SHOP1",919;                   // Deja esto
+   set .name$,"[Gif Shop]";
+   set .tcg_item,7539;                               // Mete la Id de las Poring Coins
+   setarray .TCG_ITEMS[0],664,20,665,20,666,20,667,20,12025,20,12026,20,12104,75,12105,320,12106,500,12107,320,12108,15,12110,20,12111,40;       // Aca pones los items que quieras IdItem,Precio
+   for(set .@i,0; .@i < getarraysize(.TCG_ITEMS); set .@i,.@i+2) {
+   npcshopadditem "TCG_SHOP1",.TCG_ITEMS[.@i],.TCG_ITEMS[(.@i+1)];
+}
+}
+
+-	shop	TCG_SHOP1	-1,644:20

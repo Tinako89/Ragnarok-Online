@@ -1,0 +1,757 @@
+prontera,163,191,3	script	Reclutador#PvP::PvPW	992,{
+mes "[^CC0000Reclutador^000000]";
+mes "¿Que deseas hacer?.";
+next;
+switch(select("PvP Normal ^FF0000["+getmapusers("guild_vs3")+"]^000000:PvP No Pots ^FF0000["+getmapusers("pvp_n_1-5")+"]^000000:PvP Nightmare ^FF0000["+getmapusers("guild_vs2-1")+"]^000000:PvP 1 Vs 1 ^FF0000["+getmapusers("guild_vs2")+"]^000000:PvP No Buff ^FF0000["+getmapusers("pvp_n_1-3")+"]^000000:^FF712DVer Top 5 PvP^000000")) {
+//PVP Normal	
+	case 1:
+	switch (rand(1,5)) {
+		case 1: // Izquierda
+			warp "guild_vs3",19,51;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 2: // Arriba
+			warp "guild_vs3",49,82;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 3: // Abajo
+			warp "guild_vs3",50,20;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 4: // Derecha
+			warp "guild_vs3",81,50;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 5: // Ni idea
+			warp "guild_vs3",77,71;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			break;
+
+	} // End switch	
+	end;
+	
+	case 2:
+  	  	switch (rand(1,5)) {
+		case 1: // Izquierda
+			warp "pvp_n_1-5",65,99;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 2: // Abajo
+			warp "pvp_n_1-5",99,65;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 3: // Derecha
+			warp "pvp_n_1-5",134,100;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 4: // Arriba
+			warp "pvp_n_1-5",100,134;
+			atcommand "@undisguise "+@b[2];
+			break;
+			
+		case 5: // Aleatorio
+			warp "pvp_n_1-5",0,0;
+			atcommand "@undisguise "+@b[2];
+			break;
+	}
+	end;
+
+//PVP NIGHTMARE
+		case 3:
+		 	switch( rand(2) )
+			{
+			case 0: warp "guild_vs2-1",7,50;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			end;
+
+			case 1: warp "guild_vs2-1",92,49;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			end;
+}
+
+//PvP 1 Vs 1
+	case 4:
+	if(getmapusers("guild_vs2") == 2){
+	mes "Lo siento pero la sala esta llena.";
+	close;
+	} else {
+	}
+	switch( rand(4) )
+			{
+			case 0: warp "guild_vs2",7,50;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			end;
+
+				case 1: warp "guild_vs2",50,92;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			end;
+
+				case 2: warp "guild_vs2",50,7;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			end;
+
+				case 3: warp "guild_vs2",91,50;
+			sc_end SC_SPIRIT;
+			sc_end SC_ASSUMPTIO;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_SUFFRAGIUM;
+			sc_end SC_MAGNIFICAT;
+			sc_end SC_GOSPEL;
+			sc_end SC_BASILICA;
+			sc_end SC_MAGICPOWER;
+			sc_end SC_MARIONETTE;
+			sc_end SC_MARIONETTE2;
+			sc_end SC_DEVOTION;
+			sc_end SC_SACRIFICE;
+			sc_end SC_ENDURE;
+			sc_end SC_POEMBRAGI;
+			sc_end SC_ASSNCROS;
+			sc_end SC_APPLEIDUN;
+			sc_end SC_IMPOSITIO;
+			sc_end SC_ASPERSIO;
+			sc_end SC_KYRIE;
+			sc_end SC_GOSPEL;
+			sc_end SC_KAUPE;
+			sc_end SC_KAIZEL;
+			atcommand "@undisguise "+@b[2];
+			end;
+			}
+
+//PVP NO BUFF
+		case 5:	switch( rand(2) )
+			{
+				case 0: warp "pvp_n_1-3",100,61;
+				sc_end SC_ALL;
+				atcommand "@undisguise "+@b[2];
+				break;
+
+
+				case 1: warp "pvp_n_1-3",99,139;
+				sc_end SC_ALL;
+				atcommand "@undisguise "+@b[2];
+				break;
+
+			}
+
+/* Desabilitado por petición
+//Battleground	
+
+	case 6:
+	if( bg_logincount() > 0 )
+			{
+				mes "[^FFA500Battle Recruiter^000000]";
+				mes "Double Login is forbidden in Battlegrounds Maps";
+				close;
+			}
+	warp "arena_4",148,99;
+	atcommand "@undisguise "+@b[2];
+	end;
+
+*/
+
+//PVP TOP 5
+	case 6:
+	mes "[^FF0000Rank PvP^000000]";
+	mes "Top 1: ^0000FF" +$top1pvp$ +"^000000 muertes: ^FF0000" +$top1pvp +"^000000.";
+	mes "Top 2: ^0000FF" +$top2pvp$ +"^000000 muertes: ^FF0000" +$top2pvp +"^000000.";
+	mes "Top 3: ^0000FF" +$top3pvp$ +"^000000 muertes: ^FF0000" +$top3pvp +"^000000.";
+	mes "Top 4: ^0000FF" +$top4pvp$ +"^000000 muertes: ^FF0000" +$top4pvp +"^000000.";
+	mes "Top 5: ^0000FF" +$top5pvp$ +"^000000 muertes: ^FF0000" +$top5pvp +"^000000.";
+	close2;
+	end;
+}//End Switch
+end;
+	OnInit:
+	do {
+		delwaitingroom;
+		waitingroom "",0;
+		sleep 500; 
+		delwaitingroom;
+		waitingroom "PvP Normal [" +getmapusers("guild_vs3") +"]",0;
+		sleep 2500;
+		delwaitingroom;
+		waitingroom "",0;
+		sleep 500;
+		delwaitingroom;
+		waitingroom "PvP No Pots [" +getmapusers("pvp_n_1-5") +"]",0;
+		sleep 2500;
+		delwaitingroom;
+		waitingroom "",0;
+		sleep 500;
+		delwaitingroom;
+		waitingroom "PvP 1 vs 1 [" +getmapusers("guild_vs2") +"]",0;
+		sleep 2500; // Evites super infinity loop
+	} while(1); // End Loop
+
+} // End Script
+
+
+-	script	PvPAnnounce	-1,{
+OnPCKillEvent:
+getmapxy(.@mapa$,.@x,.@y,0);
+if (.@mapa$ != "guild_vs3") end;
+if (rid2name(killedrid) == strcharinfo(0)) {
+//mapannounce .@mapa$,"El jugador [" +strcharinfo(0) +"] se ha suicidado.",bc_blue;
+} else {
+//mapannounce .@mapa$,"El jugador [" +strcharinfo(0) +"] ha asesinado a [" +rid2name(killedrid) +"]",bc_blue;
+set Muertes, Muertes + 1;
+callfunc ("PvPRank",Muertes,strcharinfo(0));
+} // End if
+end;
+} // End Script
+
+-	script	MapLoad	-1,{
+OnPCLoadMapEvent:
+getmapxy (.@mapa$,.@x,.@y,0);
+if (.@mapa$ != "guild_vs3") end;
+dispbottom "[PvP Rank]: Has matado : " +Muertes +" en PvP.";
+end;
+} // End Script
+
+
+guild_vs2	mapflag	loadevent
+
+function	script	PvPRank	{
+set @mvptotal, getarg(0);
+set @nomb$, getarg(1);
+
+if (@mvptotal > $top1pvp) {
+if ($top1pvp$ == strcharinfo(0)) { // Si estamos en top 1
+// Simplemente seguimos contando
+set $top1pvp, @mvptotal;
+set $top1pvp$, @nomb$;
+} else { // Si alcanzamos el top 1
+// Almacenamos el antiguo top 1
+set @aux, $top1pvp;
+set @aux$, $top1pvp$;
+// Nos asignamos al top 1
+set $top1pvp, @mvptotal;
+set $top1pvp$, @nomb$;
+// El viejo top 1 ahora es top 2
+set $top2pvp, @aux;
+set $top2pvp$, @aux$;
+} // End if
+} else if (@mvptotal > $top2pvp) {
+if ($top2pvp$ == strcharinfo(0)) { // Si estamos en top 2
+// Seguimos contando las muertes del top 2
+set $top2pvp, @mvptotal;
+set $nomb2, @nomb$;
+} else { // Si alcanzamos el top 2
+// Almacenamos el antiguo top 2
+set @aux, $top2pvp;
+set @aux$, $top2pvp$;
+// Nos asignamos al top 2
+set $top2pvp, @mvptotal;
+set $top2pvp$, @nomb$;
+// El viejo top 2 ahora es top 3
+set $top3pvp, @aux;
+set $top3pvp$, @aux$;
+} // End if
+} else if (@mvptotal > $top3pvp) {
+if ($top3pvp$ == strcharinfo(0)) { // Si estamos en top 3
+// Seguimos contando el top 3
+set $top3pvp, @mvptotal;
+set $top3pvp$, @nomb$;
+} else { // Si alcanzamos el top 3
+// Almacenamos el antiguo top 3
+set @aux, $top3pvp;
+set @aux$, $top3pvp$;
+// Nos asignamos al top 3
+set $top3pvp, @mvptotal;
+set $top3pvp$, @nomb$;
+// El viejo top 3 ahora es top 4
+set $top4pvp, @aux;
+set $top4pvp$, @aux$;
+} // End if
+} else if (@mvptotal > $top4pvp) {
+if ($top4pvp$ == strcharinfo(0)) { // Si estamos en top 4
+// Seguimos contando el top 4
+set $top4pvp, @mvptotal;
+set $top4pvp$, @nomb$;
+} else { // Si alcanzamos el top 4
+// Almacenamos el antiguo top 4
+set @aux, $top4pvp;
+set @aux$, $top4pvp$;
+// Nos asignamos al top 4
+set $top4pvp, @mvptotal;
+set $top4pvp$, @nomb$;
+// El viejo top 4 es ahora top 5
+set $top5pvp, @aux;
+set $top5pvp$, @aux$;
+} // End if
+} else if (@mvptotal > $top5pvp) {
+if ($top5pvp$ == strcharinfo(0)) { // Si estamos en top 5
+// Seguimos contando el top5
+set $top5pvp, @mvptotal;
+set $nomb5, @nomb$;
+} else { // Si alcanzamos el top 5
+// Directamente nos sobreescribimos en el top 5
+set $top5pvp, @mvptotal;
+set $top5pvp$, @nomb$;
+} // End if
+} // End if
+return;
+} // End function
+
+
+
+//Sonidos
+//******************************************************************************************************************************************
+
+-	script	DOTAPVP	-1,{
+OnInit:
+// Config
+	set .sound, 3; // soundeffect : 0 - disable, 1 - play soundeffect to all players on map, 2 - play soundeffect to an area around the killer, 3 - play soundeffect to killer only
+	set .ownage, 0; // ownage announcement : 0 - disable, 1 - party owns, 2 - guild owns
+	set .announce, 1; // make announce to : 0 - global, 1 - map
+	set .announcemap, 0; // announce the map name in the announcement ? : 0 - off, 1 - on
+
+	set .announcekill, 1; // announce who pawn who's head : 0 - off, 1- on
+	set .msg_die, 0; // show message who kill you when die : 0 - off, 1- on
+	set .msg_kill, 0; // show message you kill who when killed someone : 0 - off, 1- on
+
+	set .gmnokill, 0; // GMs are not suppose to kill players. A GM with <this number> level or higher will do nothing. IF set to 60, GM60 and above kill any player will not get anything : 0 - off
+
+	set .killingspree, 3;
+	set .dominating, 4;
+	set .megakill, 5;
+	set .unstoppable, 6;
+	set .wickedsick, 7;
+	set .monsterkill, 8;
+	set .godlike, 10;
+	set .holyshit, 12;
+	set .continue, 1; // after beyond-godlike, every <this number> kills will make announcement again
+
+	set .owned, 5; // how many times the party/guild has to kill to announce ownage
+	set .owncontinue, 1; // after ownage, every <this number> party/guild cumulative kills will make ownage announce again
+
+	setarray .maptrigger$, // only these maps will trigger this script
+		//"all", // comment this line to only trigger this script on these listed maps
+		"guild_vs1",
+		"guild_vs2",
+		"guild_vs3",
+		"guild_vs4",
+		"guild_vs5";
+
+	// anti-sit-killer system
+	// a player must kill another player with this minimum <this number> level to get the announcement and in the ladder.
+	// Otherwise only have streak ended announcement and killed player's streak reset.
+	// Its possible for a level 1 novice to kill a level 55 player and he/she will still get in the ladder
+	// but a level 55 kill a level 1 player will get nothing
+	// 0 - off this system ( default is 55, pk setting )
+	set .lvltokill, 0;
+
+	// when a player kill another same player <this number> times in a row, the player is warp back to save point.
+	// and the player's streak and ownage count will deduct accordingly
+	// 0 - off this system
+	set .counttopunish, 6;
+
+	// minimum level range to kill another player
+	// eg. when set to 20, player level 99 needs to kill another player with minimum level of 79 to get announcement and increase the kill rank.
+	// but a player with base level 50 kills a level 99 will also get the announcement
+	// higher base level cannot kill lower level, but lower level can kill higher level
+	// 0 - off this system
+	set .minlvlrange, 0;
+
+// Config ends ------------------------------------------------------------------------------------------
+
+//	to prevent bug happen
+	if ( .ownage < 0 || .ownage > 2 ) set .ownage, 0;
+	if ( .announce < 0 || .announce > 1 ) set .announce,0;
+	if ( .continue < 1 ) set .continue, 1;
+	if ( .owncontinue < 1 ) set .owncontinue, 1;
+	if ( .gmnokill <= 0 ) set .gmnokill, 100;
+	if ( .lvltokill <= 1 ) set .lvltokill, 0;
+	if ( .counttopunish <= 1 ) set .counttopunish, 0;
+	set .maptriggersize, getarraysize(.maptrigger$);
+	end;
+
+//	script start
+OnPCKillEvent:
+	if ( getgmlevel() >= .gmnokill ) end;
+	getmapxy .@map$, .@x, .@y, 0;
+	if ( .maptrigger$ != "all" ) {
+		for ( set .@i, 0; .@i < .maptriggersize; set .@i, .@i +1 ) {
+			if ( .@map$ == .maptrigger$[.@i] ) break;
+		}
+		if ( .@i == .maptriggersize ) end;
+	}
+	attachrid killedrid;
+		if ( killerrid != getcharid(3) && ( .msg_die || .msg_kill ) ) {
+			if ( .msg_die ) message strcharinfo(0),"You have been killed by "+ rid2name(killerrid);
+			if ( .msg_kill ) message rid2name(killerrid),"You just killed "+ strcharinfo(0);
+		}
+		if ( @PlayersKilledStreak >= .holyshit )
+			set .@streakname$,"Beyond Godlike";
+		else if ( @PlayersKilledStreak >= .godlike )
+			set .@streakname$,"Godlike";
+		else if ( @PlayersKilledStreak >= .monsterkill )
+			set .@streakname$,"Monster Kill";
+		else if ( @PlayersKilledStreak >= .wickedsick )
+			set .@streakname$,"Wicked Sick";
+		else if ( @PlayersKilledStreak >= .unstoppable )
+			set .@streakname$,"Unstoppable";
+		else if ( @PlayersKilledStreak >= .megakill )
+			set .@streakname$,"Mega-kill";
+		else if ( @PlayersKilledStreak >= .dominating )
+			set .@streakname$,"Dominating";
+		else if ( @PlayersKilledStreak >= .killingspree )
+			set .@streakname$,"Killing Spree";
+	if ( @PlayersKilledStreak >= .killingspree && killerrid == getcharid(3) )
+		announce strcharinfo(0) +" has ended "+( (sex)?"him":"her" )+" own "+ .@streakname$ +"["+ @PlayersKilledStreak +"] streak "+( (.announcemap)?("at "+ .@map$):""),16|.announce;
+	else if ( @PlayersKilledStreak >= .killingspree )
+		announce rid2name(killerrid) +" a terminado la racha de "+ strcharinfo(0) +" - "+ .@streakname$ +"["+ @PlayersKilledStreak +"] "+( (.announcemap)?("at "+ .@map$):""),16|.announce;
+	else if ( .announcekill && killerrid != getcharid(3) )
+		announce "["+ rid2name(killerrid) +"] a matado a ["+ strcharinfo(0) +"] "+( (.announcemap)?("at "+ .@map$):""),16|.announce;
+	set @PlayersKilledStreak,0;
+	set @dota_multikills,0;
+	if ( .ownage && getcharid(.ownage) ) {
+		setd ".dotaown_"+ getcharid(.ownage), 0;
+		set .@killedgroup, getcharid(.ownage);
+	}
+	if ( killerrid == getcharid(3) || baselevel < .lvltokill ) end;
+	if ( .minlvlrange ) set .@killedlvl, baselevel;
+	attachrid killerrid;
+	if ( .minlvlrange && .@killedlvl + .minlvlrange < baselevel ) end;
+	if ( .counttopunish ) {
+		if ( @sitkillminute != gettime(2) ) {
+			deletearray @sitkillid, 128;
+			deletearray @sitkilltimes, 128;
+			set @sitkillminute, gettime(2);
+		}
+		set .@sitkillsize, getarraysize(@sitkillid);
+		for ( set .@i,0; .@i < .@sitkillsize; set .@i, .@i +1 ) {
+			if ( @sitkillid[.@i] != killedrid ) continue;
+			else {
+				set @sitkilltimes[.@i], @sitkilltimes[.@i] +1 ;
+				if ( @sitkilltimes[.@i] >= .counttopunish ) {
+					warp "SavePoint",0,0;
+					announce strcharinfo(0) +" , Stop killing "+ rid2name(killedrid) + " !!!",0;
+					debugmes strcharinfo(0) +" is sit-killing "+ rid2name(killedrid) +" for "+ @sitkilltimes[.@i] + " times";
+					logmes "is sit-killing "+ rid2name(killedrid) +" for "+ @sitkilltimes[.@i] +" times";
+					set @PlayersKilledStreak, @PlayersKilledStreak +1 - .counttopunish;
+					set PlayersKilled, PlayersKilled +1 - .counttopunish;
+					if ( .ownage && getcharid(.ownage) )
+						setd ".dotaown_"+ getcharid(.ownage), getd(".dotaown_"+ getcharid(.ownage) ) +1 - .counttopunish;
+					end;
+				}
+				break;
+			}
+		}
+		if ( .@i == .@sitkillsize ) {
+			set @sitkillid[.@i], killedrid;
+			set @sitkilltimes[.@i], 1;
+		}
+	}
+	set @PlayersKilledStreak, @PlayersKilledStreak + 1;
+	set PlayersKilled, PlayersKilled + 1;
+		if ( @PlayersKilledStreak == .killingspree )
+			setarray .@streakname$,"killingspree.wav"," KILLING SPREE","!";
+		else if ( @PlayersKilledStreak == .dominating )
+			setarray .@streakname$,"dominating.wav"," DOMINATING","!";
+		else if ( @PlayersKilledStreak == .megakill )
+			setarray .@streakname$,"megakill.wav"," MEGA KILL","!";
+		else if ( @PlayersKilledStreak == .unstoppable )
+			setarray .@streakname$,"unstoppable.wav"," UNSTOPPABLE","!!";
+		else if ( @PlayersKilledStreak == .wickedsick )
+			setarray .@streakname$,"wickedsick.wav"," WICKED SICK","!!";
+		else if ( @PlayersKilledStreak == .monsterkill )
+			setarray .@streakname$,"monsterkill.wav"," MONSTER KILL","!!";
+		else if ( @PlayersKilledStreak == .godlike )
+			setarray .@streakname$,"godlike.wav"," GODLIKE","!!!";
+		else if ( @PlayersKilledStreak >= .holyshit && ( (@PlayersKilledStreak - .holyshit) % .continue == 0 ) )
+			setarray .@streakname$,"holyshit.wav","is BEYOND GODLIKE",". Someone KILL "+( (sex)?"HIM":"HER" ) +"!!!!!!";
+	if ( .@streakname$[1] != "" ) {
+		announce strcharinfo(0) +" "+ .@streakname$[1] +"["+ @PlayersKilledStreak +"] "+( (.announcemap)?("at "+ .@map$):"") + .@streakname$[2],16|.announce;
+		if ( .sound == 1 ) soundeffectall .@streakname$[0],0,.@map$;
+		else if ( .sound == 2 ) soundeffectall .@streakname$[0],0;
+		else if ( .sound == 3 ) soundeffect .@streakname$[0],0;
+	}
+	set @dota_multikills, @dota_multikills + 1;
+	deltimer "DOTAPVP::OnStreakReset";
+	addtimer 18000,"DOTAPVP::OnStreakReset";
+	if ( .ownage ) {
+		set .@sideid, getcharid(.ownage);
+		if ( .@sideid != .@killedgroup ) setd ".dotaown_"+ .@sideid, getd(".dotaown_"+ .@sideid ) + 1;
+	}
+	set .@dota_multikills, @dota_multikills;
+	set .@origin, getcharid(3);
+	sleep 1500;
+	if ( .@sideid && .ownage && .@sideid != .@killedgroup && getd(".dotaown_"+ .@sideid) >= .owned && ( ( getd(".dotaown_"+ .@sideid) - .owned ) % .owncontinue == 0 ) ) {
+		if ( .announce ) mapannounce .@map$, "The "+( (.ownage == 1)?"party":"guild" )+" ["+( (.ownage == 1)?getpartyname(.@sideid):getguildname(.@sideid) )+"] is OWNING["+ getd(".dotaown_"+ .@sideid) +"] !!!",16;
+		else announce "The "+( (.ownage == 1)?"party":"guild" )+" ["+( (.ownage == 1)?getpartyname(.@sideid):getguildname(.@sideid) )+"] is OWNING["+ getd(".dotaown_"+ .@sideid) +"] !!!",16;
+		if ( .sound == 1 ) soundeffectall "ownage.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "ownage.wav",0;
+		else if ( .sound == 3 && attachrid(.@origin) ) soundeffect "ownage.wav",0;
+	}
+	sleep 1250;
+	if ( !attachrid(.@origin) ) end;
+	if ( .@dota_multikills == 2 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" just got a Double Kill !",16;
+		else announce strcharinfo(0) +" just got a Double Kill !",16;
+		if ( .sound == 1 ) soundeffectall "doublekill.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "doublekill.wav",0;
+		else if ( .sound == 3 ) soundeffect "doublekill.wav",0;
+	}
+	else if ( .@dota_multikills == 3 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" just got a Triple Kill !!!",16;
+		else announce strcharinfo(0) +" just got a Triple Kill !!!",16;
+		if ( .sound == 1 ) soundeffectall "triplekill.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "triplekill.wav",0;
+		else if ( .sound == 3 ) soundeffect "triplekill.wav",0;
+	}
+	else if ( .@dota_multikills == 4 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" just got a Ultra Kill !!!",16;
+		else announce strcharinfo(0) +" just got a Ultra Kill !!!",16;
+		if ( .sound == 1 ) soundeffectall "ultrakill.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "ultrakill.wav",0;
+		else if ( .sound == 3 ) soundeffect "ultrakill.wav",0;
+	}
+	else if ( .@dota_multikills >= 5 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" is on a Rampage !!!",16;
+		else announce strcharinfo(0) +" is on a Rampage !!!",16;
+		if ( .sound == 1 ) soundeffectall "rampage.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "rampage.wav",0;
+		else if ( .sound == 3 ) soundeffect "rampage.wav",0;
+	}
+	end;
+OnWhisperGlobal:
+	dispbottom "Your current Streak : "+ @PlayersKilledStreak;
+	dispbottom "Your total Kills		  : "+ PlayersKilled;
+	if ( .ownage && getcharid(.ownage) )
+		dispbottom "Your "+( (.ownage ==1)?"party":"guild" )+" Own		: "+ getd(".dotaown_"+ getcharid(.ownage) );
+	end;
+OnStreakReset:
+	set @dota_multikills, 0;
+	end;
+}
+
+/* DUPLICADOS */
+morocc.gat,143,90,5	duplicate(PvP)	Reclutador#1	992

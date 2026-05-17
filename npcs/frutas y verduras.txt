@@ -1,0 +1,1 @@
+alexandria.gat,139,146,0	shop	Frutas y Verduras	90,522:8500,512:15,513:15,515:15,516:15,535:15

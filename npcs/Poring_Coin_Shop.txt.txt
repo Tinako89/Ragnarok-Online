@@ -1,0 +1,53 @@
+-	shop	bronze_coins	-1,31000:1000
+
+prontera,155,177,8	script	Poring Coins	949,{
+	mes .name$;
+	mes "Tenes "+countitem(.tcg_item)+" Poring Coins.";
+	mes "¿Queres mirar los items?";
+	next;
+	if(select("Si:No") == 2) {
+	close;
+}
+	close2;
+	callshop "TCG_SHOP1",1;
+	npcshopattach "TCG_SHOP1";
+	dispbottom "Tenes "+countitem(.tcg_item)+" Poring Coins.";
+	end;
+
+OnBuyItem:
+	for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+	for(set @j,0; @j < getarraysize(.TCG_ITEMS); set @j,@j+2) {
+	if(.TCG_ITEMS[@j] == @bought_nameid[@i]) {
+	set @itemcost,(.TCG_ITEMS[(@j+1)]*@bought_quantity[@i]);
+	set @totalcost,(@totalcost+@itemcost);
+	break;
+}
+}
+}
+	if(@totalcost > countitem(.tcg_item)) {
+	dispbottom "No tenes suficientes Poring Coins.";
+}
+	else {
+	for(set @i,0; @i < getarraysize(@bought_nameid); set @i,@i+1) {
+	getitem @bought_nameid[@i],@bought_quantity[@i];
+}
+	delitem .tcg_item,@totalcost;
+	dispbottom "Gracias por tu compra.";
+	dispbottom "Tenes "+countitem(.tcg_item)+" Poring Coins.";
+}
+	set @totalcost,0;
+	deletearray @bought_nameid[0],128;
+	deletearray @bought_quantity[0],128;
+	end;
+
+OnInit:
+   npcshopdelitem "TCG_SHOP1",919;                   // Deja esto
+   set .name$,"[Poring Coins Trader]";
+   set .tcg_item,7539;                               // Mete la Id de las Poring Coins
+   setarray .TCG_ITEMS[0],31001,1000,31002,1000,31003,1000,31004,1000,31005,1000,31006,1000,31007,1000,31008,1000,31009,1000,31010,1000,31011,1000,31012,1000,31013,1000,31014,1000,31015,1000,31016,1000,31017,1000,31018,1000,31019,1000,31020,1000,31021,1000;       // Aca pones los items que quieras IdItem,Precio
+   for(set .@i,0; .@i < getarraysize(.TCG_ITEMS); set .@i,.@i+2) {
+   npcshopadditem "TCG_SHOP1",.TCG_ITEMS[.@i],.TCG_ITEMS[(.@i+1)];
+}
+}
+
+-	shop	TCG_SHOP1	949,31000:1000

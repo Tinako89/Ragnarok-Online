@@ -1,0 +1,826 @@
+//===== eAthena Script =======================================
+//= Warper Karlita
+//===== By: ==================================================
+//= DarbladErxX (Asgard,MediaFire,YuSuKe (Israel Gonzalez Urrutia)
+//===== www.facebook.com/DarbladErxX ==========================================
+//= darbladerxx@hotmail.com	
+//= leyenda_humana@hotmail.com
+//= GM Asgard, Mediafire, YuSuKe
+//===== Descripcion: =========================================
+//= Kafra Multiusos
+//= modificacion echa para...
+//===== Descripcion =========================================
+//= Kafra multiusos
+//= -- Te lleva a todos los sitios especificos
+//= -- Vende, renta, da save, etc
+//===============================================================
+prontera.gat,160,191,4	script	Karlita::Warper	117,{
+set .curar, 0; // 1 - Curar al usar || 0 - No curar al usar
+set .nombre$, "[^0000FFKarlita^000000]"; // Nombre NPC
+cutin "kafra_01",2;
+mes .nombre$;
+if (.curar) percentheal 100,100;
+mes "Hola ^5882FA"+strcharinfo(0)+"^000000.";
+mes "En Qué Puedo Ayudarte??";
+next;
+mes .nombre$;
+mes "¿A dónde quieres viajar?";
+mes "O que servicios deseas usar?";
+menu	"^5959FF>^000000 Ciudades",town,"^5959FF>^000000 Dungeons",dungeon;
+
+open:
+	mes "[^ff0405Karlita^000000]";
+	mes "Ahora mismo te abro el almacén, ¡hasta luego!";
+	close2;
+	cutin "",255;
+	openstorage;
+	end;
+			
+spointx:
+	mes .nombre$;
+	getmapxy .@m$,.@x,.@y,0;
+       mes "Muy bien.";
+	mes "A partir de ahora este lugar quedará guardado como tu Punto de Inicio.";
+	save .@m$,.@x,.@y;
+	specialeffect2 500;
+	close2;
+	cutin "",255;
+	emotion 12;
+	end;
+
+lastwarp:
+	if (warpmap$ == "") {
+		mes .nombre$;
+		mes "No has visitado ningún mapa conmigo.";
+		close;
+	cutin "",255;
+	} // End if
+	close2;
+	warp ""+warpmap$+".gat",warpmapx,warpmapy;
+	end;
+
+town:
+menu 	"Prontera City - Capital of Rune Midgard ^5959FF["+getmapusers("prontera")+"]^000000",wprontera,
+	"Alberta ^5959FF["+getmapusers("alberta")+"]^000000",walberta,
+	"Aldebaran ^5959FF["+getmapusers("aldebaran")+"]^000000",waldebaran,
+	"Amatsu - Land of Destiny ^5959FF["+getmapusers("amatsu")+"]^000000",wamatsu,
+	"Ayothaya ^5959FF["+getmapusers("ayothaya")+"]^000000",wayot,
+	"Brasilis ^5959FF["+getmapusers("brasilis")+"]^000000", wbrasilis,
+	"Comodo - Beach Town ^5959FF["+getmapusers("comodo")+"]^000000",wcomodo,
+	"Einbech - Mining Village ^5959FF["+getmapusers("einbech")+"]^000000",weinbech,
+	"Einbroch - City of Steel ^5959FF["+getmapusers("einbroch")+"]^000000",weinbroch,
+	"Geffen ^5959FF["+getmapusers("geffen")+"]^000000",wgeffen,
+	"Gonryun - Hermit Land ^5959FF["+getmapusers("gonryun")+"]^000000",wgonryun,
+	"Hugel - Quaint Garden Village ^5959FF["+getmapusers("hugel")+"]^000000",whugel,
+	"Izlude Town ^5959FF["+getmapusers("izlude")+"]^000000",wizlude,
+	"Jawaii - Moneymoon Island ^5959FF["+getmapusers("jawaii")+"]^000000",wjawaii,
+	"Lighthalzen - City of Prosperity ^5959FF["+getmapusers("lighthalzen")+"]^000000",wlighthalzen,
+	"Louyang - The Highland ^5959FF["+getmapusers("louyang")+"]^000000",wlouyang,
+	"Lutie - Snow Village ^5959FF["+getmapusers("xmas")+"]^000000",wxmas,
+	"Manuk ^5959FF["+getmapusers("manuk")+"]^000000",wmanuk,
+	"Midgarts Expedition Camp ^5959FF["+getmapusers("mid_camp")+"]^000000",wmidcamp,
+	"Morroc ^5959FF["+getmapusers("morocc")+"]^000000",wmorroc,
+	"Moscovia ^5959FF["+getmapusers("moscovia")+"]^000000",wmoscovia,
+	"Niflheim - Realm of the Dead ^5959FF["+getmapusers("niflheim")+"]^000000",wniflheim,
+	"Payon Town ^5959FF["+getmapusers("payon")+"]^000000",wpayon,
+	"Rachel - Arunafelz Study Nation ^5959FF["+getmapusers("rachel")+"]^000000",wafeltz,
+	"Splendide ^5959FF["+getmapusers("splendide")+"]^000000",wsplendide,
+	"Umbala - Wootan Tribes Village ^5959FF["+getmapusers("umbala")+"]^000000",wumbala,
+	"Veins - Canyon Village ^5959FF["+getmapusers("veins")+"]^000000",wveins,
+	"Yuno - Schwarzwald Republic ^5959FF["+getmapusers("yuno")+"]^000000",wyuno;
+
+dungeon:
+menu	"Abyss Lake Dungeon",wabyss,
+	"Amatsu Dungeon",ama,
+	"Ant Hell",ant,
+	"Ayothaya Ancient Shrine",wayodun,
+	"Beach Dungeon",beach,
+	"Bio Laboratory",wlhzdun,
+	"Brasilis's Dungeon",wbradun,
+	"Byalan Island Dungeon",byalan,
+	"Clock Tower",clock,
+	"Coal Mine / Mjolnir Dead Pit",coal,
+	"Dimensional Gorge",wfielspec,
+	"Einbroch Mine Dungeon",weindun,
+	"Geffen Dungeon",geffen,
+	"Gefenia",gefenia,
+	"Glast Heim",glast,
+	"Gonryun Dungeon",gon,
+	"Hidden Temple / Labyrinth Forest",hidden,
+	"Ice Cave",iced,
+	"Juperos Ruins",wjuper,
+	"Kiel Robot Factory",wkieldun,
+	"Lou Yang Dungeon",wloudun,
+	"Magma Dungeon",magma,
+	"Moscovia Dungeon",mosk,
+	"Nameless Island & Abbey Dungeon",wabbey,
+	"Nidhogg's Dungeon",dnyd,
+	"Odin Temple",wodint,
+	"Orc Dungeon",orc,
+	"Payon Dungeon",payon,
+	"Prontera Culvert",culvert,
+	"Pyramids",pyramids,
+	"Rachel Sanctuary",rachels,
+	"Sphinx",sphinx,
+	"Sunken Ship / Treasure Island",sunken,
+	"Thanatos Tower",wthat,
+	"Thors Volcano Dungeon",wthor,
+	"Toy Factory",toy,
+	"Turtle Island Dungeon",turtle,
+	"Umbala Dungeons",wumdun;
+sitiosesp:
+switch(select("Merchants ^5959FF["+getmapusers("market")+"]^000000:Mercado Zeny ^5959FF["+getmapusers("maintown")+"]^000000:Mercado Cash ^5959FF["+getmapusers("itemmall")+"]^000000:Alexandria Plaza ^5959FF["+getmapusers("alexandria")+"]^000000:Main Town ^5959FF["+getmapusers("maintown")+"]^000000:Halloween Town ^5959FF["+getmapusers("Hallow01")+"]^000000:Hello Kitty Room ^5959FF["+getmapusers("ishee_room")+"]^000000:La Isla de Neko ^5959FF["+getmapusers("neko_isle")+"]"))
+{
+	case 1:
+		warp "market",100,110;		callfunc "LastMapSave";
+		end;
+	case 2:
+		warp "maintown",62,157;		callfunc "LastMapSave";
+		end;
+	case 3:
+		warp "itemmall",179,52;		callfunc "LastMapSave";
+		end;
+	case 4:
+		warp "alexandria",150,152;		callfunc "LastMapSave";
+		end;
+	case 5:
+		warp "maintown",125,92;		callfunc "LastMapSave";
+		end;
+	case 6:
+		warp "Hallow01",105,106;		callfunc "LastMapSave";
+		end;
+	case 7:
+		warp "ishee_room",49,65;		callfunc "LastMapSave";
+		end;
+	case 8:
+		warp "neko_isle",83,137;		callfunc "LastMapSave";
+		end;
+}
+end;
+//-------------------------------
+//          Woe
+//-------------------------------
+woex:
+switch(select("WoE Jueves Prontera ^5959FF["+getmapusers("prt_gld")+"]^000000:WoE Sabado Geffen ^5959FF["+getmapusers("gef_fild13")+"]^000000:WoE Domingo 2.0 ^5959FF["+getmapusers("sch_gld")+"]^000000"))
+{
+	case 1:
+		warp "prt_gld",160,82;		callfunc "LastMapSave";
+		end;
+	case 2:
+		warp "gef_fild13",189,274;		callfunc "LastMapSave";
+		end;
+	case 3:
+		warp "sch_gld",294,100;		callfunc "LastMapSave";
+		end;
+	//case 4:
+		//warp "quiz_02",234,382;		callfunc "LastMapSave";
+		//end;
+}
+end;
+
+//-------------------------------
+//        kaframultiusos
+//-------------------------------
+kafra:
+set .@name$, "^FF0000[Karlita]^000000";
+mes .@name$;
+	mes "Hola ^5882FA"+strcharinfo(0)+"^000000.";
+	mes "En Qué Puedo Ayudarte??";
+	menu
+	"Job Master",job,
+	"Reset",reset,
+	"Platinum Skill",platinum,
+	"Rentador Universal",rental;
+
+//-------------------------------
+//        itemshop
+//-------------------------------
+items:
+	mes "^FF0000[Karlita]^000000";
+	mes "Consumibles Universales.";
+	mes "Cierra esta ventana para accesar a la tienda, Suerte!!";
+	close2;
+	callshop "consumibles_shop2",0;
+	end;
+
+//-------------------------------
+//          Dungeons
+//-------------------------------
+
+wabyss:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("abyss_01")+"]^000000",dabyss1;
+	//"Nivel 2 ^5959FF["+getmapusers("abyss_02")+"]^000000",dabyss2;
+	//"Nivel 3 ^5959FF["+getmapusers("abyss_03")+"]^000000",dabyss3;
+	
+ama:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("ama_dun01")+"]^000000",dama1;
+	//"Nivel 2 ^5959FF["+getmapusers("ama_dun02")+"]^000000",dama2;
+	//"Nivel 3 ^5959FF["+getmapusers("ama_dun03")+"]^000000",dama3;
+
+ant:
+	mes "[Warp NPC]";
+	mes "Selecciona un Nivel.";
+	next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("anthell01")+"]^000000",danthell1;
+	//"Nivel 2 ^5959FF["+getmapusers("anthell02")+"]^000000",danthell2;
+
+wayodun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("ayo_dun01")+"]^000000",dayodun1;
+	//"Nivel 2 ^5959FF["+getmapusers("ayo_dun02")+"]^000000",dayodun2;
+	
+beach:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	//"Nivel 1 ^5959FF["+getmapusers("beach_dun")+"]^000000",dbeach1,
+	"Ruande the Northern Cave ^5959FF["+getmapusers("beach_dun2")+"]^000000",dbeach2,
+	"Mao, the East Cave ^5959FF["+getmapusers("beach_dun3")+"]^000000",dbeach3;	
+
+wlhzdun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("lhz_dun01")+"]^000000",dlhzdun1;
+	//"Nivel 2 ^5959FF["+getmapusers("lhz_dun02")+"]^000000",dlhzdun2;
+	//"Nivel 3 ^5959FF["+getmapusers("lhz_dun03")+"]^000000",dlhzdun3;	
+	
+wbradun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("bra_dun01")+"]^000000",dbradun1;
+	//"Nivel 2 ^5959FF["+getmapusers("bra_dun02")+"]^000000",dbradun2;	
+	
+byalan:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("iz_dun00")+"]^000000",dbyalan1;
+	//"Nivel 2 ^5959FF["+getmapusers("iz_dun01")+"]^000000",dbyalan2,
+	//"Nivel 3 ^5959FF["+getmapusers("iz_dun02")+"]^000000",dbyalan3,
+	//"Nivel 4 ^5959FF["+getmapusers("iz_dun03")+"]^000000",dbyalan4,
+	//"Nivel 5 ^5959FF["+getmapusers("iz_dun04")+"]^000000",dbyalan5;	
+	
+clock:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1F ^5959FF["+getmapusers("c_tower1")+"]^000000",dclock1;
+	//"Nivel 2F ^5959FF["+getmapusers("c_tower2")+"]^000000",dclock2,
+	//"Nivel 3F ^5959FF["+getmapusers("c_tower3")+"]^000000",dclock3,
+	//"Nivel 4F ^5959FF["+getmapusers("c_tower4")+"]^000000",dclock4,
+	//"Nivel B1 ^5959FF["+getmapusers("alde_dun01")+"]^000000",dalde1,
+	//"Nivel B2 ^5959FF["+getmapusers("alde_dun02")+"]^000000",dalde2,
+	//"Nivel B3 ^5959FF["+getmapusers("alde_dun03")+"]^000000",dalde3,
+	//"Nivel B4 ^5959FF["+getmapusers("alde_dun04")+"]^000000",dalde4;	
+	
+coal:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("mjo_dun01")+"]^000000",dcoal1;
+	//"Nivel 2 ^5959FF["+getmapusers("mjo_dun02")+"]^000000",dcoal2,
+	//"Nivel 3 ^5959FF["+getmapusers("mjo_dun03")+"]^000000",dcoal3;	
+	
+wfielspec:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("moc_fild21")+"]^000000",fspec1;
+	//"Nivel 2 ^5959FF["+getmapusers("moc_fild22")+"]^000000",fspec2;
+	
+weindun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("ein_dun01")+"]^000000",deindun1;
+	//"Nivel 2 ^5959FF["+getmapusers("ein_dun02")+"]^000000",deindun2;	
+	
+geffen:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("gef_dun00")+"]^000000",dgeffen1;
+	//"Nivel 2 ^5959FF["+getmapusers("gef_dun01")+"]^000000",dgeffen2,
+	//"Nivel 3 ^5959FF["+getmapusers("gef_dun02")+"]^000000",dgeffen3,
+	//"Nivel 4 ^5959FF["+getmapusers("gef_dun03")+"]^000000",dgeffen4;	
+
+gefenia:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("gefenia01")+"]^000000",dgefenia1;
+	//"Nivel 2 ^5959FF["+getmapusers("gefenia02")+"]^000000",dgefenia2,
+	//"Nivel 3 ^5959FF["+getmapusers("gefenia03")+"]^000000",dgefenia3,
+	//"Nivel 4 ^5959FF["+getmapusers("gefenia04")+"]^000000",dgefenia4;	
+	
+glast:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Entrada ^5959FF["+getmapusers("glast_01")+"]^000000",dglastent;
+	//"Castle 1 ^5959FF["+getmapusers("gl_cas01")+"]^000000",dglastcast1,
+	//"Castle 2 ^5959FF["+getmapusers("gl_cas02")+"]^000000",dglastcast2,
+	//"Chivalry 1 ^5959FF["+getmapusers("gl_knt01")+"]^000000",dglastchiv1,
+	//"Chivalry 2 ^5959FF["+getmapusers("gl_knt02")+"]^000000",dglastchiv2,
+	//"Churchyard ^5959FF["+getmapusers("gl_church")+"]^000000",dglastyard,
+	//"Culvert 1 ^5959FF["+getmapusers("gl_sew01")+"]^000000",dglastcul1,
+	//"Culvert 2 ^5959FF["+getmapusers("gl_sew02")+"]^000000",dglastcul1,
+	//"Culvert 3 ^5959FF["+getmapusers("gl_sew03")+"]^000000",dglastcul3,
+	//"Culvert 4 ^5959FF["+getmapusers("gl_sew04")+"]^000000",dglastcul4,
+	//"St.Abbey ^5959FF["+getmapusers("gl_chyard")+"]^000000",dglastchur,
+	//"Staircase Dungeon ^5959FF["+getmapusers("gl_step")+"]^000000",dglaststep,
+	//"Underground Cave 1 ^5959FF["+getmapusers("gl_dun01")+"]^000000",dglastcave1,
+	//"Underground Cave 2 ^5959FF["+getmapusers("gl_dun02")+"]^000000",dglastcave2,
+	//"Underground Prison 1 ^5959FF["+getmapusers("gl_prison")+"]^000000",dglastpris1,
+	//"Underground Prison 2 ^5959FF["+getmapusers("gl_prison1")+"]^000000",dglastpris2;
+	
+gon:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("gon_dun01")+"]^000000",dgon1;
+	//"Nivel 2 ^5959FF["+getmapusers("gon_dun02")+"]^000000",dgon2;
+	//"Nivel 3 ^5959FF["+getmapusers("gon_dun03")+"]^000000",dgon3;	
+	
+hidden:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("prt_maze01")+"]^000000",dhidden1;
+	//"Nivel 2 ^5959FF["+getmapusers("prt_maze02")+"]^000000",dhidden2;
+	//"Nivel 3 ^5959FF["+getmapusers("prt_maze03")+"]^000000",dhidden3;
+
+iced:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("ice_dun01")+"]^000000",diced1;
+	//"Nivel 2 ^5959FF["+getmapusers("ice_dun02")+"]^000000",diced2,
+	//"Nivel 3 ^5959FF["+getmapusers("ice_dun03")+"]^000000",diced3,
+	//"Nivel 4 ^5959FF["+getmapusers("ice_dun04")+"]^000000",diced4;
+	
+wjuper:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("juperos_01")+"]^000000",djuperos1;
+	//"Nivel 2 ^5959FF["+getmapusers("juperos_02")+"]^000000",djuperos3;
+	//"Core ^5959FF["+getmapusers("jupe_core")+"]^000000",djuperos2;	
+	
+wkieldun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("kh_dun01")+"]^000000",dkieldun1;
+	//"Nivel 2 ^5959FF["+getmapusers("kh_dun02")+"]^000000",dkieldun2;
+
+wloudun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("lou_dun01")+"]^000000",dloudun1;
+	//"Nivel 2 ^5959FF["+getmapusers("lou_dun02")+"]^000000",dloudun2;
+	//"Suei Long Gon ^5959FF["+getmapusers("lou_dun03")+"]^000000",dloudun3;	
+	
+magma:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("mag_dun01")+"]^000000",dmagma1;
+	//"Nivel 2 ^5959FF["+getmapusers("mag_dun02")+"]^000000",dmagma2;
+	
+mosk:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu	"Nivel 1 ^5959FF["+getmapusers("mosk_dun01")+"]^000000",mosk1;
+	//"Nivel 2 ^5959FF["+getmapusers("mosk_dun02")+"]^000000",mosk2;
+	//"Nivel 3 ^5959FF["+getmapusers("mosk_dun03")+"]^000000",mosk3;	
+	
+wabbey:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("abbey01")+"]^000000",dabbey1;
+	//"Nivel 2 ^5959FF["+getmapusers("abbey02")+"]^000000",dabbey2,
+	//"Nivel 3 ^5959FF["+getmapusers("abbey03")+"]^000000",dabbey3;
+
+dnyd:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 Dungeon ^5959FF["+getmapusers("nyd_dun01")+"]^000000",dnyd1;
+	//"Nivel 2 Dungeon ^5959FF["+getmapusers("nyd_dun02")+"]^000000",dnyd2,
+	//"Nivel 1 Next 1 ^5959FF["+getmapusers("2@nyd")+"]^000000",dnyd3,
+	//"Nivel 2 Next 2 ^5959FF["+getmapusers("2@nyd")+"]^000000",dnyd4,
+	//"Nydhogg's Laberinth ^5959FF["+getmapusers("2@nyd")+"]^000000",dnyd5;
+	
+wodint:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("odin_tem01")+"]^000000",wodtemp1;
+	//"Nivel 2 ^5959FF["+getmapusers("odin_tem02")+"]^000000",wodtemp2;
+	//"Nivel 3 ^5959FF["+getmapusers("odin_tem03")+"]^000000",wodtemp3;	
+	
+orc:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("orcsdun01")+"]^000000",dorc1;
+	//"Nivel 2 ^5959FF["+getmapusers("orcsdun02")+"]^000000",dorc2;	
+	
+payon:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("pay_dun00")+"]^000000",dpayon1;
+	//"Nivel 2 ^5959FF["+getmapusers("pay_dun01")+"]^000000",dpayon2,
+	//"Nivel 3 ^5959FF["+getmapusers("pay_dun02")+"]^000000",dpayon3,
+	//"Nivel 4 ^5959FF["+getmapusers("pay_dun03")+"]^000000",dpayon4;
+	//"Nivel 5 ^5959FF["+getmapusers("pay_dun04")+"]^000000",dpayon5;
+	
+culvert:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("prt_sewb1")+"]^000000",dculvert1;
+	//"Nivel 2 ^5959FF["+getmapusers("prt_sewb2")+"]^000000",dculvert2,
+	//"Nivel 3 ^5959FF["+getmapusers("prt_sewb3")+"]^000000",dculvert3;
+	//"Nivel 4 ^5959FF["+getmapusers("prt_sewb4")+"]^000000",dculvert4;
+	
+pyramids:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel F1 ^5959FF["+getmapusers("moc_pryd01")+"]^000000",dpyramids1;
+	//"Nivel F2 ^5959FF["+getmapusers("moc_pryd02")+"]^000000",dpyramids2,
+	//"Nivel F3 ^5959FF["+getmapusers("moc_pryd03")+"]^000000",dpyramids3,
+	//"Nivel F4 ^5959FF["+getmapusers("moc_pryd04")+"]^000000",dpyramids4,
+	//"Nivel B1 ^5959FF["+getmapusers("moc_pryd05")+"]^000000",dpyramidsb1;
+	//"Nivel B2 ^5959FF["+getmapusers("moc_pryd06")+"]^000000",dpyramidsb2;	
+	
+rachels:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("ra_san01")+"]^000000",drachel1;
+	//"Nivel 2 ^5959FF["+getmapusers("ra_san02")+"]^000000",drachel2,
+	//"Nivel 3 ^5959FF["+getmapusers("ra_san03")+"]^000000",drachel3,
+	//"Nivel 4 ^5959FF["+getmapusers("ra_san04")+"]^000000",drachel4;	
+	//"Nivel 5 ^5959FF["+getmapusers("ra_san05")+"]^000000",drachel5;	
+	
+sphinx:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("in_sphinx1")+"]^000000",dsphinx1;
+	//"Nivel 2 ^5959FF["+getmapusers("in_sphinx2")+"]^000000",dsphinx2,
+	//"Nivel 3 ^5959FF["+getmapusers("in_sphinx3")+"]^000000",dsphinx3,
+	//"Nivel 4 ^5959FF["+getmapusers("in_sphinx4")+"]^000000",dsphinx4;
+	//"Nivel 5 ^5959FF["+getmapusers("in_sphinx5")+"]^000000",dsphinx5;	
+	
+sunken:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("treasure01")+"]^000000",dsunken1;
+	//"Nivel 2 ^5959FF["+getmapusers("treasure02")+"]^000000",dsunken2;	
+	
+wthat:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+	next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("tha_t01")+"]^000000",dthat1;
+	//"Nivel 2 ^5959FF["+getmapusers("tha_t02")+"]^000000",dthat2,
+	//"Nivel 3 ^5959FF["+getmapusers("tha_t03")+"]^000000",dthat3,
+	//"Nivel 4 ^5959FF["+getmapusers("tha_t04")+"]^000000",dthat4,
+	//"Nivel 5 ^5959FF["+getmapusers("tha_t05")+"]^000000",dthat5,
+	//"Nivel 6 ^5959FF["+getmapusers("tha_t06")+"]^000000",dthat6,
+	//"Nivel 7 ^5959FF["+getmapusers("tha_t07")+"]^000000",dthat7,
+	//"Nivel 8 ^5959FF["+getmapusers("tha_t08")+"]^000000",dthat8,
+	//"Nivel 9 ^5959FF["+getmapusers("tha_t09")+"]^000000",dthat9,
+	//"Nivel 10 ^5959FF["+getmapusers("tha_t10")+"]^000000",dthat10,
+	//"Nivel 11 ^5959FF["+getmapusers("tha_t11")+"]^000000",dthat11,
+	//"Nivel 12 ^5959FF["+getmapusers("tha_t12")+"]^000000",dthat12;	
+	
+wthor:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("thor_v01")+"]^000000",dthor1;
+	//"Nivel 2 ^5959FF["+getmapusers("thor_v02")+"]^000000",dthor2;
+	//"Nivel 3 ^5959FF["+getmapusers("thor_v03")+"]^000000",dthor3;	
+	
+toy:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("xmas_dun01")+"]^000000",dtoy1;
+	//"Nivel 2 ^5959FF["+getmapusers("xmas_dun02")+"]^000000",dtoy2;	
+
+turtle:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Entrada ^5959FF["+getmapusers("tur_dun01")+"]^000000",dturtleent;
+	//"Nivel 1 ^5959FF["+getmapusers("tur_dun02")+"]^000000",dturtle1,
+	//"Nivel 2 ^5959FF["+getmapusers("tur_dun03")+"]^000000",dturtle2;
+	//"Nivel 3 ^5959FF["+getmapusers("tur_dun04")+"]^000000",dturtle3;
+
+wumdun:
+mes "[Warp NPC]";
+mes "Selecciona un Nivel.";
+next;
+menu 	"Nivel 1 ^5959FF["+getmapusers("um_dun01")+"]^000000",dumdun1;
+	//"Nivel 2 ^5959FF["+getmapusers("um_dun02")+"]^000000",dumdun2,
+	//"Yggdrasil ^5959FF["+getmapusers("yggdrasil01")+"]^000000",dyggdrasil1;
+
+//-------------------------------
+//          Town Warps
+//-------------------------------
+
+wafeltz:	warp "rachel.gat",129,141;		callfunc "LastMapSave";
+walberta:	warp "alberta.gat",28,234;		callfunc "LastMapSave";
+waldebaran:	warp "aldebaran.gat",140,127;		callfunc "LastMapSave";
+wamatsu:	warp "amatsu.gat",198,84;		callfunc "LastMapSave";
+wayot:		warp "ayothaya.gat",149,117;		callfunc "LastMapSave";
+wcomodo:	warp "comodo.gat",189,157;		callfunc "LastMapSave";
+weinbech:	warp "einbech.gat",70,95;		callfunc "LastMapSave";
+weinbroch:	warp "einbroch.gat",64,200;		callfunc "LastMapSave";
+whugel:		warp "hugel.gat",96,145;		callfunc "LastMapSave";
+wlighthalzen:	warp "lighthalzen.gat",158,92;		callfunc "LastMapSave";
+wgonryun:	warp "gonryun.gat",156,122;		callfunc "LastMapSave";
+wgeffen:	warp "geffen.gat",119,59;		callfunc "LastMapSave";
+wizlude:	warp "izlude.gat",128,114;		callfunc "LastMapSave";
+wxmas:		warp "xmas.gat",147,134;		callfunc "LastMapSave";
+wjawaii:	warp "jawaii.gat",249,127;		callfunc "LastMapSave";
+wmorroc:	warp "morocc.gat",151,100;		callfunc "LastMapSave";
+wmoscovia:		warp "moscovia.gat",223,196;		callfunc "LastMapSave";
+wniflheim:	warp "niflheim.gat",193,185;		callfunc "LastMapSave";
+wpayon:		warp "payon.gat",176,107;		callfunc "LastMapSave";
+wprontera:	warp "prontera.gat",156,191;		callfunc "LastMapSave";
+wyuno:		warp "yuno.gat",158,181;			callfunc "LastMapSave";
+wumbala:	warp "umbala.gat",123,129;		callfunc "LastMapSave";
+wlouyang:	warp "louyang.gat",217,102;		callfunc "LastMapSave";
+wveins:		warp "veins.gat",216,123;		callfunc "LastMapSave";
+wmidcamp:	warp "mid_camp.gat",219,238;	callfunc "LastMapSave";
+wmanuk:	warp "manuk.gat",260,175;	callfunc "LastMapSave";
+wsplendide:	warp "splendide.gat", 200,153;	callfunc "LastMapSave";
+wbrasilis:	warp "brasilis.gat", 195,219;	callfunc "LastMapSave";
+
+//-------------------------------
+//        Dungeon Warps
+//-------------------------------
+
+
+dkieldun1:	warp "kh_dun01.gat",28,226;	callfunc "LastMapSave";
+dkieldun2:	warp "kh_dun02.gat",41,198;	callfunc "LastMapSave";
+djuperos1:	warp "juperos_01.gat",53,247;	callfunc "LastMapSave";
+djuperos3:	warp "juperos_02.gat",37,63;	callfunc "LastMapSave";
+djuperos2:	warp "jupe_core.gat",150,285;	callfunc "LastMapSave";
+dumdun1:	warp "um_dun01.gat",42,31;	callfunc "LastMapSave";
+dumdun2:	warp "um_dun01.gat",48,30;	callfunc "LastMapSave";
+dyggdrasil1:	warp "yggdrasil01",48,64;	callfunc "LastMapSave";
+dloudun1:	warp "lou_dun01.gat",218,196;	callfunc "LastMapSave";
+dloudun2:	warp "lou_dun02.gat",282,20;	callfunc "LastMapSave";
+dloudun3:	warp "lou_dun03.gat",165,38;	callfunc "LastMapSave";
+dayodun1:	warp "ayo_dun01.gat",275,19;	callfunc "LastMapSave";
+dayodun2:	warp "ayo_dun02.gat",24,26;	callfunc "LastMapSave";
+dbradun1:	warp "bra_dun01.gat",87,47;	callfunc "LastMapSave";
+dbradun2:	warp "bra_dun02.gat",262,262;	callfunc "LastMapSave";
+deindun1:	warp "ein_dun01.gat",22,14;	callfunc "LastMapSave";
+deindun2:	warp "ein_dun02.gat",292,290;	callfunc "LastMapSave";
+dlhzdun1:	warp "lhz_dun01.gat",150,288;	callfunc "LastMapSave";
+dlhzdun2:	warp "lhz_dun02.gat",150,18;	callfunc "LastMapSave";
+dlhzdun3:	warp "lhz_dun03.gat",140,134;	callfunc "LastMapSave";
+dlhzdun4:	warp "lhz_dun04.gat",140,137;	callfunc "LastMapSave";
+dabyss1:	warp "abyss_01.gat",263,273;	callfunc "LastMapSave";
+dabyss2:	warp "abyss_02.gat",275,270;	callfunc "LastMapSave";
+dabyss3:	warp "abyss_03.gat",116,27;	callfunc "LastMapSave";
+dthat1:		warp "tha_t01.gat",150,39;	callfunc "LastMapSave";
+dthat2:		warp "tha_t02.gat",150,136;	callfunc "LastMapSave";
+dthat3:		warp "tha_t03.gat",220,158;	callfunc "LastMapSave";
+dthat4:		warp "tha_t04.gat",59,143;	callfunc "LastMapSave";
+dthat5:		warp "tha_t05.gat",62,11;	callfunc "LastMapSave";
+dthat6:		warp "tha_t06.gat",89,221;	callfunc "LastMapSave";
+dthat7:		warp "tha_t07.gat",35,166;	callfunc "LastMapSave";
+dthat8:		warp "tha_t08.gat",93,148;	callfunc "LastMapSave";
+dthat9:		warp "tha_t09.gat",29,107;	callfunc "LastMapSave";
+dthat10:	warp "tha_t10.gat",159,138;	callfunc "LastMapSave";
+dthat11:	warp "tha_t11.gat",19,20;	callfunc "LastMapSave";
+dthat12:	warp "tha_t12.gat",130,52;	callfunc "LastMapSave";
+danthell1:	warp "anthell01.gat",35,262;	callfunc "LastMapSave";
+danthell2:	warp "anthell02.gat",168,170;	callfunc "LastMapSave";
+dbeach1:	warp "beach_dun.gat",266,67;	callfunc "LastMapSave";
+dbeach2:	warp "beach_dun2.gat",255,244;	callfunc "LastMapSave";
+dbeach3:	warp "beach_dun3.gat",23,260;	callfunc "LastMapSave";
+dbyalan1:	warp "iz_dun00.gat",168,168;	callfunc "LastMapSave";
+dbyalan2:	warp "iz_dun01.gat",253,252;	callfunc "LastMapSave";
+dbyalan3:	warp "iz_dun02.gat",236,204;	callfunc "LastMapSave";
+dbyalan4:	warp "iz_dun03.gat",32,63;	callfunc "LastMapSave";
+dbyalan5:	warp "iz_dun04.gat",26,27;	callfunc "LastMapSave";
+dalde1:		warp "alde_dun01.gat",297,25;	callfunc "LastMapSave";
+dalde2:		warp "alde_dun02.gat",127,169;	callfunc "LastMapSave";
+dalde3:		warp "alde_dun03.gat",277,178;	callfunc "LastMapSave";
+dalde4:		warp "alde_dun04.gat",268,74;	callfunc "LastMapSave";
+dclock1:	warp "c_tower1.gat",199,159;	callfunc "LastMapSave";
+dclock2:	warp "c_tower2.gat",148,283;	callfunc "LastMapSave";
+dclock3:	warp "c_tower3.gat",65,147;	callfunc "LastMapSave";
+dclock4:	warp "c_tower4.gat",56,155;	callfunc "LastMapSave";
+dcoal1:		warp "mjo_dun01.gat",52,17;	callfunc "LastMapSave";
+dcoal2:		warp "mjo_dun02.gat",381,343;	callfunc "LastMapSave";
+dcoal3:		warp "mjo_dun03.gat",302,262;	callfunc "LastMapSave";
+dculvert1:	warp "prt_sewb1.gat",131,247;	callfunc "LastMapSave";
+dculvert2:	warp "prt_sewb2.gat",19,19;	callfunc "LastMapSave";
+dculvert3:	warp "prt_sewb3.gat",180,169;	callfunc "LastMapSave";
+dculvert4:	warp "prt_sewb4.gat",100,92;	callfunc "LastMapSave";
+dgeffen1:	warp "gef_dun00.gat",104,99;	callfunc "LastMapSave";
+dgeffen2:	warp "gef_dun01.gat",115,236;	callfunc "LastMapSave";
+dgeffen3:	warp "gef_dun02.gat",106,132;	callfunc "LastMapSave";
+dgeffen4:	warp "gef_dun03.gat",203,200;	callfunc "LastMapSave";
+dglastent:	warp "glast_01.gat",370,304;	callfunc "LastMapSave";
+dglastcast1:	warp "gl_cas01.gat",199,29;	callfunc "LastMapSave";
+dglastcast2:	warp "gl_cas02.gat",104,25;	callfunc "LastMapSave";
+dglastchiv1:	warp "gl_knt01.gat",150,15;	callfunc "LastMapSave";
+dglastchiv2:	warp "gl_knt02.gat",157,287;	callfunc "LastMapSave";
+dglastyard:	warp "gl_chyard.gat",147,15;	callfunc "LastMapSave";
+dglastcul1:	warp "gl_sew01.gat",258,255;	callfunc "LastMapSave";
+dglastcul2:	warp "gl_sew02.gat",108,291;	callfunc "LastMapSave";
+dglastcul3:	warp "gl_sew03.gat",171,283;	callfunc "LastMapSave";
+dglastcul4:	warp "gl_sew04.gat",68,277;	callfunc "LastMapSave";
+dglastchur:	warp "gl_church.gat",156,7;	callfunc "LastMapSave";
+dglaststep:	warp "gl_step.gat",12,7;	callfunc "LastMapSave";
+dglastcave1:	warp "gl_dun01.gat",133,271;	callfunc "LastMapSave";
+dglastcave2:	warp "gl_dun02.gat",224,274;	callfunc "LastMapSave";
+dglastpris1:	warp "gl_prison.gat",14,70;	callfunc "LastMapSave";
+dglastpris2:	warp "gl_prison1.gat",150,14;	callfunc "LastMapSave";
+dhidden1:	warp "prt_maze01.gat",176,7;	callfunc "LastMapSave";
+dhidden2:	warp "prt_maze02.gat",93,21;	callfunc "LastMapSave";
+dhidden3:	warp "prt_maze03.gat",23,8;	callfunc "LastMapSave";
+diced1:		warp "ice_dun01.gat",157,14;	callfunc "LastMapSave";
+diced2:		warp "ice_dun02.gat",151,155;	callfunc "LastMapSave";
+diced3:		warp "ice_dun03.gat",149,22;	callfunc "LastMapSave";
+diced4:		warp "ice_dun04.gat",33,158;	callfunc "LastMapSave";
+dmagma1:	warp "mag_dun01.gat",126,68;	callfunc "LastMapSave";
+dmagma2:	warp "mag_dun02.gat",47,30;	callfunc "LastMapSave";
+dorc1:		warp "orcsdun01.gat",32,170;	callfunc "LastMapSave";
+dorc2:		warp "orcsdun02.gat",21,185;	callfunc "LastMapSave";
+dpayon1:	warp "pay_dun00.gat",21,183;	callfunc "LastMapSave";
+dpayon2:	warp "pay_dun01.gat",19,33;	callfunc "LastMapSave";
+dpayon3:	warp "pay_dun02.gat",19,63;	callfunc "LastMapSave";
+dpayon4:	warp "pay_dun03.gat",155,159;	callfunc "LastMapSave";
+dpayon5:	warp "pay_dun04.gat",201,204;	callfunc "LastMapSave";
+dpyramids1:	warp "moc_pryd01.gat",192,9;	callfunc "LastMapSave";
+dpyramids2:	warp "moc_pryd02.gat",10,192;	callfunc "LastMapSave";
+dpyramids3:	warp "moc_pryd03.gat",100,92;	callfunc "LastMapSave";
+dpyramids4:	warp "moc_pryd04.gat",181,11;	callfunc "LastMapSave";
+dpyramidsb1:	warp "moc_pryd05.gat",94,96;	callfunc "LastMapSave";
+dpyramidsb2:	warp "moc_pryd06.gat",192,8;	callfunc "LastMapSave";
+dsphinx1:	warp "in_sphinx1.gat",288,9;	callfunc "LastMapSave";
+dsphinx2:	warp "in_sphinx2.gat",149,81;	callfunc "LastMapSave";
+dsphinx3:	warp "in_sphinx3.gat",210,54;	callfunc "LastMapSave";
+dsphinx4:	warp "in_sphinx4.gat",10,222;	callfunc "LastMapSave";
+dsphinx5:	warp "in_sphinx5.gat",100,99;	callfunc "LastMapSave";
+dsunken1:	warp "treasure01.gat",69,24;	callfunc "LastMapSave";
+dsunken2:	warp "treasure02.gat",102,27;	callfunc "LastMapSave";
+dtoy1:		warp "xmas_dun01.gat",205,15;	callfunc "LastMapSave";
+dtoy2:		warp "xmas_dun02.gat",129,133;	callfunc "LastMapSave";
+dturtleent:	warp "tur_dun01.gat",154,49;	callfunc "LastMapSave";
+dturtle1:	warp "tur_dun02.gat",148,261;	callfunc "LastMapSave";
+dturtle2:	warp "tur_dun03.gat",132,189;	callfunc "LastMapSave";
+dturtle3:	warp "tur_dun04.gat",100,192;	callfunc "LastMapSave";
+dama1:		warp "ama_dun01.gat",228,11;	callfunc "LastMapSave";
+dama2:		warp "ama_dun02.gat",34,41;	callfunc "LastMapSave";
+dama3:		warp "ama_dun03.gat",119,14;	callfunc "LastMapSave";
+dgon1:		warp "gon_dun01.gat",153,53;	callfunc "LastMapSave";
+dgon2:		warp "gon_dun02.gat",28,113;	callfunc "LastMapSave";
+dgon3:		warp "gon_dun03.gat",68,16;	callfunc "LastMapSave";
+dgefenia1:	warp "gefenia01.gat",40,103;	callfunc "LastMapSave";
+dgefenia2:	warp "gefenia02.gat",203,34;	callfunc "LastMapSave";
+dgefenia3:	warp "gefenia03.gat",266,168;	callfunc "LastMapSave";
+dgefenia4:	warp "gefenia04.gat",130,272;	callfunc "LastMapSave";
+dgldun1:	warp "prt_gld",160,97;	callfunc "LastMapSave";
+dgldun2:	warp "gef_fild13",174,252;	callfunc "LastMapSave";
+dgldun3:	warp "alde_gld",186,154;	callfunc "LastMapSave";
+dgldun4:	warp "pay_gld",285,257;	callfunc "LastMapSave";
+casino:		warp "cmd_in02.gat",179,129;	callfunc "LastMapSave";
+dthor1:		warp "thor_v01.gat",21,228;	callfunc "LastMapSave";
+dthor2:		warp "thor_v02.gat",75,205;	callfunc "LastMapSave";
+dthor3:		warp "thor_v03.gat",34,272;	callfunc "LastMapSave";
+drachel1:	warp "ra_san01.gat",140,11;	callfunc "LastMapSave";
+drachel2:	warp "ra_san02.gat",32,21;	callfunc "LastMapSave";
+drachel3:	warp "ra_san03.gat",10,149;	callfunc "LastMapSave";
+drachel4:	warp "ra_san04.gat",204,218;	callfunc "LastMapSave";
+drachel5:	warp "ra_san05.gat",150,9;	callfunc "LastMapSave";
+dabbey1:	warp "abbey01.gat",51,14;	callfunc "LastMapSave";
+dabbey2:	warp "abbey02.gat",150,11;	callfunc "LastMapSave";
+dabbey3:	warp "abbey03.gat",120,10;	callfunc "LastMapSave";
+dsealed1:	warp "monk_test.gat",306,143;	callfunc "LastMapSave";
+dnyd1:	warp "nyd_dun01",61,239;	callfunc "LastMapSave";
+dnyd2:	warp "nyd_dun02",60,271;	callfunc "LastMapSave";
+dnyd3:	warp "1@nyd",32,45;	callfunc "LastMapSave";
+dnyd4:	warp "2@nyd",200,326;	callfunc "LastMapSave";
+dnyd5:	warp "2@nyd",377,131;	callfunc "LastMapSave";
+wodtemp1:	warp "odin_tem01",97,145;	callfunc "LastMapSave";
+wodtemp2:	warp "odin_tem02",28,180;	callfunc "LastMapSave";
+wodtemp3:	warp "odin_tem03",247,40;	callfunc "LastMapSave";
+mosk1:	warp "mosk_dun01",210,43;	callfunc "LastMapSave";
+mosk2:	warp "mosk_dun02",164,31;	callfunc "LastMapSave";
+mosk3:	warp "mosk_dun03",31,135;	callfunc "LastMapSave";
+ddis1:	    warp "dic_dun01",33,212;	callfunc "LastMapSave";
+ddis2:	    warp "dic_dun02",102,142;	callfunc "LastMapSave";
+fdisca1:	warp "dic_fild01",150,278;	callfunc "LastMapSave";
+fdisca2:	warp "dic_fild02",71,369;	callfunc "LastMapSave";
+fmanuk1:	warp "man_fild01",43,254;	callfunc "LastMapSave";
+fmanuk2:	warp "man_fild02",71,369;	callfunc "LastMapSave";
+fspec1:	warp "moc_fild21",31,195;	callfunc "LastMapSave";
+fspec2:	warp "moc_fild22",35,195;	callfunc "LastMapSave";
+fsple1:	    warp "spl_fild02",306,8;	callfunc "LastMapSave";
+fsple2:	    warp "spl_fild03",99,369;	callfunc "LastMapSave";
+fdew1:	    warp "dew_dun01",176,86;	callfunc "LastMapSave";
+fdew2:	    warp "dew_dun02",298,29;	callfunc "LastMapSave";
+fmad1:	    warp "mal_dun01",33,230;	callfunc "LastMapSave";
+		
+OnInit:
+	setarray .@m0$[0], "A","g","e","n","t","e",".",".",".";
+	setarray .@m1$[0], "E","s","p","e","c","i","a","l",".",".",".";
+	do {
+		if (.@i == 2) // El contador cuenta los arrays que hay gracias a los datos dinámicos
+			set .@i, 0;
+		// Efecto nº 1 - Añadir una palabra nueva a la anterior
+		for (set .@c, 0; .@c < getarraysize(getd(".@m" + .@i + "$")); set .@c, .@c + 1) { // Estructura repetitiva controlada por contador
+			set .@f$, .@f$ + getd(".@m" + .@i + "$[" + .@c + "]");
+			waitingroom .@f$,0;
+			sleep 150;
+			delwaitingroom;
+		} // End loop
+		/*// Efecto nº 2 - Hacer una animación de aparición y vacío
+		for (set .@c, 0; .@c < 6; set .@c, .@c + 1) { // Estructura repetitiva controlada por contador
+			waitingroom "",0;
+			sleep 250;
+			delwaitingroom;
+			waitingroom .@f$,0;
+			sleep 250;
+			delwaitingroom;
+		} // End loop*/
+		waitingroom .@f$,0;
+		sleep 500; // 3 segundos cambio de mensaje
+		set .@f$, "";
+		delwaitingroom;
+		set .@i, .@i + 1; // Estructura repetitiva controlada por contador
+	} while(1);
+	end;
+}
+
+
+function	script	LastMapSave	{
+getmapxy(warpmap$,warpmapx,warpmapy,0,strcharinfo(0));
+end;
+} // End function
+
+
+alberta.gat,39,240,4	duplicate(Warper)	Karlita#2-1	117
+aldebaran.gat,130,119,5	duplicate(Warper)	Karlita#3-1	117
+alexandria,149,155,5	duplicate(Warper)	Karlita#4-1	117
+amatsu.gat,202,93,4	duplicate(Warper)	Karlita#5-1	117
+ayothaya.gat,144,121,5	duplicate(Warper)	Karlita#6-1	117
+brasilis.gat,192,224,5	duplicate(Warper)	Karlita#7-1	117
+comodo.gat,194,158,4	duplicate(Warper)	Karlita#8-1	117
+einbech.gat,67,100,5	duplicate(Warper)	Karlita#9-1	117
+einbroch.gat,69,202,4	duplicate(Warper)	Karlita#10-1	117
+geffen.gat,124,74,4	duplicate(Warper)	Karlita#11-1	117
+gonryun.gat,154,126,5	duplicate(Warper)	Karlita#12-1	117
+hugel.gat,89,151,5	duplicate(Warper)	Karlita#13-1	117
+izlude.gat,132,122,4	duplicate(Warper)	Karlita#14-1	117
+jawaii.gat,246,131,4	duplicate(Warper)	Karlita#15-1	117
+lighthalzen.gat,159,102,5	duplicate(Warper)	Karlita#16-1	117
+louyang.gat,217,106,5	duplicate(Warper)	Karlita#17-1	117
+xmas.gat,142,136,5	duplicate(Warper)	Karlita#18-1	117
+maintown,124,96,4	duplicate(Warper)	Karlita#19-1	117
+manuk.gat,255,184,5	duplicate(Warper)	Karlita#20-1	117
+mid_camp,224,239,4	duplicate(Warper)	Karlita#21-1	117
+morocc.gat,148,102,5	duplicate(Warper)	Karlita#22-1	117
+moscovia.gat,217,199,5	duplicate(Warper)	Karlita#23-1	117
+niflheim,187,188,5	duplicate(Warper)	Karlita#24-1	117
+payon.gat,182,110,4	duplicate(Warper)	Karlita#25-1	117
+rachel.gat,129,145,4	duplicate(Warper)	Karlita#26-1	117
+splendide.gat,202,155,4	duplicate(Warper)	Karlita#27-1	117
+umbala.gat,115,130,5	duplicate(Warper)	Karlita#28-1	117
+veins,222,129,4	duplicate(Warper)	Karlita#29-1	117
+yuno.gat,167,187,4	duplicate(Warper)	Karlita#30-1	117
+market,111,117,3	duplicate(Warper)	Karlita#31-1	117
+Hallow01,101,112,5	duplicate(Warper)	Karlita#32-1	117
+ishee_room,49,71,4	duplicate(Warper)	Karlita#33-1	117
+neko_isle,79,142,5	duplicate(Warper)	Karlita#34-1	117
+maintown,75,167,4	duplicate(Warper)	Karlita#35-1	117
