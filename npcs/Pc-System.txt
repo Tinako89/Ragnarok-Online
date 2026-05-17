@@ -1,0 +1,98 @@
+/* MODIFICACIÓN DarbladErxX 								/*
+/* Israel Gonzalez Urruita 								/*
+/*						GM NAME:  MediaFire			/*
+/*						NAME:	   Israel Gonzalez Urrutia	/*
+/*						HOOTMAIL: darbladerxx@hotmail.com	/*
+/*						fACEBOOK: facebook.com/Darbladerxx	/*
+/*											/*
+/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+
+/* Hat Maker System */
+
+itemmall,181,84,4,7539	sshop	Head Gear Shop A	112,5557:1500,5466:2000,5500:2000,5465:2000,5554:3000,5308:3000,5477:2000,5512:1300,5513:1300,5514:1300,5515:1300,5545:1300,5546:1300,5549:1300,5550:1300,5569:1300,5570:1300,5581:1300,5582:1300,5598:1300,5599:1300:5148:800,5180:800,5190:500,5200:500,5209:500,5302:500,5336:800,5337:800,5338:800,5339:800,5346:800,5352:800,5412:800,5438:800,5439:800,5440:800,5441:800,5203:800,5422:800,5426:800,5427:800,5107:800,5191:800
+itemmall,178,84,4,7539	sshop	Head Gear Shop B	113,5213:1500,5214:1500,5319:1500,5334:1500,5230:1500,5231:1500,5232:1500,5233:1500,5234:1500,5421:2500,5252:1700,5253:1700,5263:1700,5270:1500,5294:1500,5365:1500,5385:1500,5409:6000,5495:6000,5361:8000,5491:8000,5288:1500,5401:1500,5539:5000,5314:8000,5471:10000,5293:10000,5311:8000
+itemmall,175,84,4,7539	sshop	Head Gear Shop C	114,5374:80000,5518:80000,5225:12000,5594:55000,5574:55000,5597:55000,5596:55000,5192:10000,5462:15000,5463:15000,5490:20000,5423:80000,5564:30000,5483:15000,5800:55000,5325:15000,5480:15000,5383:15000,5376:30000,5506:10000,5507:10000,5137:12000,5377:15000,5171:15000,5453:45000,5452:80000
+itemmall,172,84,4,7539	sshop	Head Gear Shop D	115,5464:2000,5181:2000,5132:2000,5273:2000,5187:2000,5274:2000,5275:2000,5276:2000,5567:2000,5593:2000,5283:2200,5292:2200,5312:2200,5358:2000,5565:2200,5417:2200,5138:2200,5226:2000,5277:2200,5324:2200,5362:2000,5372:2200,5373:2200,5313:2500,5378:2000,5467:2000,5547:2000,5142:2000,5278:2000,5364:2000,5393:2000
+itemmall,170,86,4,7539	sshop	Head Gear Shop E	116,5211:3000,5340:3000,5341:4000,5342:4000,5343:4000,5344:4000,5345:4000,5421:4000,5357:5000,5420:6000,5375:5000,5503:7000,5585:5000,5822:6000,5210:8000,5430:8000,5389:8000
+
+
+/* Pet Shop */
+
+itemmall,194,76,3,7539	sshop	Poring Armor Pet Shop	909,10022:250,10023:250,10024:250,10025:250,10026:250,10027:250,10028:250,10029:250,10030:250,10031:250,10032:250,10033:250,10034:250,10035:250,10036:250,10037:250,10038:250
+itemmall,194,74,3,7539	sshop	Poring Pets Shop A	909,9039:1500,9038:1000,9028:1500,9037:1000,9036:1000,9035:1000,9034:1000,9033:1000,9032:1000,9031:1000,9030:1000,9029:1000
+itemmall,194,72,3,7539	sshop	Poring Pets Shop B	909,9056:1000,9055:1000,9054:1000,9053:1000,9052:1000,9051:1000,9050:1000,9049:1000,9048:1000,9047:1000,9046:1000,9045:1000,9044:1000,9043:1000,9042:1000,9041:1000,9040:1000
+itemmall,194,70,3,7539	sshop	Poring Pets Shop C	909,6115:1,7821:1,7822:1,7823:1,7824:1,6111:1,6098:1,6108:1,6100:1,6104:1,6113:1,6110:1,6112:1,6099:1,6105:1,6106:1,6109:1,6107:1,6097:1,6096:1,6114:1
+
+
+/* SYSTEM CASH SHOP */
+/* SYSTEMA CAMBIADO DE CASH POR PORING COIN* /
+/* MOD PARA SERGIO RAGNAROK>OKANI-RO */
+
+
+itemmall,1,1,3,7539	sshop	PoringS_GiftBox	111,644:20,664:20,665:20,666:20,667:20,12025:20,12026:20,12104:75,12105:320,12106:500,12107:320,12108:15,12110:20,12111:40
+
+prontera,151,185,7	script	Gift Shop::PremiumShopGift	803,{
+	mes "[^FFA500Gift Shop^000000]";
+	mes "Una sección buena para comprar regalos para toda ocasión.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "PoringS_GiftBox",0;
+	end;
+}
+
+
+itemmall,1,1,3,7539	sshop	CashShop_Potions	111,12118:20,12119:20,12120:20,12121:20,12257:20,12274:20,12275:20,12298:100,12299:50,13830:30,13831:30,13832:30,13833:30,14536:50,14538:100,13995:10,13989:10,14004:10,13759:100,13760:100,13761:100,13762:100
+
+itemmall,174,66,3	script	Potions Shop::PremiumShopPotions	749,{
+	mes "[^FFA500Potions Shop^000000]";
+	mes "La sección de Alquimia contiene una buena variedad de pociones.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "CashShop_Potions",0;
+	end;
+}
+
+itemmall,1,1,3,7539	sshop	CashShop_Foods	111,682:30,683:30,684:50,12122:30,12123:30,12124:40,12198:20,12205:100,12203:100,12202:100,12204:100,12206:100,12207:100,12247:10,12706:100,12707:100,12708:100
+
+itemmall,185,66,5	script	Food Shop::PremiumShopFood	886,{
+	mes "[^FFA500Food Shop^000000]";
+	mes "Disfruta de estos platillos especiales que aumentaran tus cualidades en la batalla.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "CashShop_Foods",0;
+	end;
+}
+
+itemmall,1,1,3,7539	sshop	CashShop_Accesory	111,2765:900,2766:900,2767:900,2768:900,2769:900,2770:900,2771:900,2638:2000,2639:2000,2663:3000,2664:3000,2665:3000,2666:3000,2667:3000,2673:3000,2682:4000,2683:4000,2684:4000,2685:4000,2640:8000,2708:15000
+
+itemmall,174,77,1	script	Accesory Shop::PremiumShopAccesory	828,{
+	mes "[^FFA500Accesory Shop^000000]";
+	mes "Ah!, te gustan los accesorios y joyería. Que Bien.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "CashShop_Accesory",0;
+	end;
+}
+
+itemmall,1,1,3,7539	sshop	CashShop_Scrolls	111,12114:20,12115:20,12116:20,12117:20
+
+itemmall,180,63,4	script	Scroll Shop::PremiumShopScroll	64,{
+	mes "[^FFA500Scroll Shop^000000]";
+	mes "Amante de la Magia, estos scrolls te ayudarán en la batalla.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "CashShop_Scrolls",0;
+	end;
+}
+
+itemmall,1,1,3,7539	sshop	CashShop_Special	111,13758:300,12210:300,7776:600,7621:300,12209:100,12211:100,12212:50,12214:1000,14527:30,14582:30,14583:30,14584:30,14585:30
+
+itemmall,170,71,2	script	Special Shop::PremiumShopSpecial	861,{
+	mes "[^FFA500Special Shop^000000]";
+	mes "Esta es la lista de artículos especiales, herramientas muy utiles para todo momento.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "CashShop_Special",0;
+	end;
+}

@@ -1,0 +1,93 @@
+//= ==== eAthena/rAthena/bAthena/3CeAM/Hercules/Aegis Script ========== =\\
+//= NPC de Donaciones                                                    \\
+//= ==== By: ========================================================== =\\
+//= Aglao/Esthar (aglaophotisro@gmail.com) - Miguel Angel Crespo Paz     \\
+//= Copyright © 2016 - Aglaosoft C.A. - Todos los derechos reservados.   \\
+//= ==== Current Version: ============================================= =\\
+//= Version: 1.0                                                         \\
+//= ==== Compatible With: ============================================= =\\
+//= eAthena/rAthena/bAthena/3CeAM/Hercules/Aegis SVN SQL y TXT           \\
+//= ==== Description: ================================================= =\\
+//= NPC de Donaciones disponibles.                                       \\
+//= =================================================================== =\\
+
+prontera.gat,151,190,4	script	Donaciones#01::donabrd	837,{
+	delwaitingroom;
+	goto L_chat;	
+	//------------------Aquí va tu contenido----------------------
+	
+	
+	
+	
+	
+	
+	
+	//--------------------Fin del contenido-----------------------	
+	end;	
+	
+	
+	
+OnInit:
+	goto L_chat;
+	end;
+
+L_chat:
+setarray .message$,
+	"Okani RO",
+	"Donaciones";
+set .message_size,getarraysize( .message$ );
+while( .message_size ){
+	delwaitingroom; 
+	waitingroom ""+.message$[ rand( .message_size ) ],0;
+	sleep 1000;
+}
+end;
+
+}
+
+morocc.gat,165,94,4	duplicate(donabrd)	Donaciones#02	837
+geffen.gat,112,68,4	duplicate(donabrd)	Donaciones#03	837
+payon.gat,181,109,4	duplicate(donabrd)	Donaciones#04	837
+payon.gat,168,232,4	duplicate(donabrd)	Donaciones#05	837
+alberta.gat,198,150,4	duplicate(donabrd)	Donaciones#06	837
+alberta.gat,125,59,4	duplicate(donabrd)	Donaciones#07	837
+izlude.gat,124,147,4	duplicate(donabrd)	Donaciones#08	837
+aldebaran.gat,132,124,4	duplicate(donabrd)	Donaciones#09	837
+xmas.gat,143,136,4	duplicate(donabrd)	Donaciones#10	837
+comodo.gat,214,150,4	duplicate(donabrd)	Donaciones#11	837
+comodo.gat,196,161,4	duplicate(donabrd)	Donaciones#12	837
+yuno.gat,163,47,4	duplicate(donabrd)	Donaciones#13	837
+yuno.gat,157,177,4	duplicate(donabrd)	Donaciones#14	837
+amatsu.gat,200,90,4	duplicate(donabrd)	Donaciones#15	837
+gonryun.gat,164,122,4	duplicate(donabrd)	Donaciones#16	837
+umbala.gat,86,160,4	duplicate(donabrd)	Donaciones#17	837
+umbala.gat,135,133,4	duplicate(donabrd)	Donaciones#18	837
+niflheim.gat,21,158,4	duplicate(donabrd)	Donaciones#19	837
+niflheim.gat,196,192,4	duplicate(donabrd)	Donaciones#20	837
+louyang.gat,224,47,4	duplicate(donabrd)	Donaciones#21	837
+louyang.gat,218,111,4	duplicate(donabrd)	Donaciones#22	837
+new_1-1.gat,58,116,4	duplicate(donabrd)	Donaciones#23	837
+sec_pri.gat,59,62,4	duplicate(donabrd)	Donaciones#24	837
+sec_pri.gat,34,62,4	duplicate(donabrd)	Donaciones#25	837
+jawaii.gat,252,127,4	duplicate(donabrd)	Donaciones#26	837
+ayothaya.gat,155,120,4	duplicate(donabrd)	Donaciones#27	837
+ayothaya.gat,212,174,4	duplicate(donabrd)	Donaciones#28	837
+einbroch.gat,71,206,4	duplicate(donabrd)	Donaciones#29	837
+lighthalzen.gat,166,101,4	duplicate(donabrd)	Donaciones#30	837
+einbech.gat,79,97,4	duplicate(donabrd)	Donaciones#31	837
+einbech.gat,57,36,4	duplicate(donabrd)	Donaciones#32	837
+hugel.gat,90,143,4	duplicate(donabrd)	Donaciones#33	837
+rachel.gat,134,108,4	duplicate(donabrd)	Donaciones#34	837
+veins.gat,223,115,4	duplicate(donabrd)	Donaciones#35	837
+moscovia.gat,231,194,4	duplicate(donabrd)	Donaciones#36	837
+mid_camp.gat,204,288,4	duplicate(donabrd)	Donaciones#37	837
+manuk.gat,268,175,4	duplicate(donabrd)	Donaciones#38	837
+splendide.gat,192,183,4	duplicate(donabrd)	Donaciones#39	837
+brasilis.gat,191,228,4	duplicate(donabrd)	Donaciones#40	837
+dicastes01.gat,190,190,6	duplicate(donabrd)	Donaciones#41	837
+mora.gat,113,169,6	duplicate(donabrd)	Donaciones#42	837
+dewata.gat,193,197,6	duplicate(donabrd)	Donaciones#43	837
+malangdo.gat,163,140,6	duplicate(donabrd)	Donaciones#44	837
+malaya.gat,287,327,6	duplicate(donabrd)	Donaciones#45	837
+eclage.gat,286,294,4	duplicate(donabrd)	Donaciones#46	837
+payon.gat,173,223,4	duplicate(donabrd)	Donaciones#47	837

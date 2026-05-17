@@ -1,0 +1,182 @@
+prontera,142,180,5	script	Battle Recruiter::Melvin	430,{ 
+    stopnpctimer;
+    delwaitingroom;
+	waitingroom "BG: "+bg_get_data($@BG_Team1, 0) + " vs " + bg_get_data($@BG_Team2, 0)+" / PvP: "+(getmapusers("guild_vs3")+getmapusers("guild_vs2")), 0;
+	initnpctimer;
+	mes "[ ^ffa500Battle Recruiter^000000 ]";
+	mes "Hola, ^ef6b00" + strcharinfo(o) + "^000000.";
+	mes "Yo te puedo llevar a nuestras salas de batalla donde puedes luchar contra otros usuarios.";
+	mes "¿Dónde quieres que te lleve?";    switch( select("^FF0000(" + bg_get_data($@BG_Team1, 0) + ")^000000 vs ^0000FF(" + bg_get_data($@BG_Team2, 0) + ")^000000 -- ^de0000Salas de Battleground^000000 --",
+		       "^000080[" + (getmapusers("guild_vs3")) + " users] ^ff6b00PvP - Sala 1",
+			"^000080[" + (getmapusers("guild_vs2")) + " users] ^ff6b00PvP - Sala 2",
+		       "^8B0000[" + (getmapusers("2009rwc_04")) + " users] ^ff0000GvG Arena"))
+      {
+         case 1: // Battleground info Board
+			warp "bat_room",154,150;
+			break;
+         case 2:	
+          			sc_end sc_all;
+          			switch( rand(4) )
+			{
+				case 0: warp "guild_vs3",14,51; break;
+				case 1: warp "guild_vs3",85,51; break;
+				case 2: warp "guild_vs3",51,14; break;
+				case 3: warp "guild_vs3",49,85; break;
+			}
+			break;
+	  case 3:	
+            sc_end sc_all;
+            switch( rand(4) )
+			{
+				case 0: warp "guild_vs2",49,82; break;
+				case 1: warp "guild_vs2",49,17; break;
+				case 2: warp "guild_vs2",17,49; break;
+				case 3: warp "guild_vs2",82,49; break;
+			}
+			break;
+	  case 4:	
+            sc_end sc_all;
+            switch( rand(4) )
+			{
+				case 0: warp "guild_vs4",49,8; break;
+				case 1: warp "guild_vs4",49,91; break;
+				case 2: warp "guild_vs4",7,49; break;
+				case 3: warp "guild_vs4",91,49; break;
+			}
+			break;
+      }
+      close;
+      
+OnInit:
+OnTimer3000:
+    stopnpctimer;
+	delwaitingroom;
+	waitingroom "BG: "+bg_get_data($@BG_Team1, 0) + " vs " + bg_get_data($@BG_Team2, 0)+" / PvP: "+(getmapusers("guild_vs3")+getmapusers("guild_vs2")), 0;
+	initnpctimer;
+    end;
+    
+      
+}
+
+-	script	PVP_Warper_Out	-1,{
+	mes "[^FFA500Battle Support^000000]";
+	mes "Good day, adventurer.";
+	mes "Do you want to leave the Battle?";
+	
+	if( select("^0000FFBack to the City:^FF0000I will stay to the end!!^000000") == 2 )
+	{
+		mes "That's the spirit of a True Warrior!!";
+		close;
+	}
+
+	getmapxy .@map$, .@cx, .@cy, 0; // Current Char Position
+	getmapxy .@mapn$, .@cxn, .@cyn, 1; // Current NPC Position
+			
+	set .@x1, .@cxn - 2;
+	set .@x2, .@cxn + 2;
+	set .@y1, .@cyn - 2;
+	set .@y2, .@cyn + 2;
+	if( .@cx < .@x1 || .@cx > .@x2 || .@cy < .@y1 || .@cy > .@y2 )
+	{
+		mes "Please come closer...";
+		mes "I can't take you out of the battle.";
+		close;
+	}
+	
+	sc_end SC_CLOAKING;
+	sc_end SC_HIDING;
+	sc_end SC_CHASEWALK;
+	sc_end SC_BASILICA;
+	sc_end SC_KAUPE;
+	dispbottom "You will leave in";
+	dispbottom "3...";
+	sleep2 1000;
+	dispbottom "2...";
+	sleep2 1000;
+	dispbottom "1...";
+	sleep2 1000;
+	npctalk "" + strcharinfo(0) + " is leaving the battlefield";
+
+	warp "SavePoint", 0, 0;
+	end;
+}
+
+guild_vs2	mapflag	nopenalty
+guild_vs2	mapflag	nosave	SavePoint
+guild_vs2	mapflag	nowarp
+guild_vs2	mapflag	noteleport
+guild_vs2	mapflag	nomemo
+guild_vs2	mapflag	pvp
+guild_vs2	mapflag	loadevent
+guild_vs2	mapflag	noreturn
+guild_vs2	mapflag	nobranch
+guild_vs2	mapflag	pvp_noguild
+guild_vs2	mapflag	restricted	100
+guild_vs2	mapflag	allow_bg_items
+
+guild_vs3	mapflag	nopenalty
+guild_vs3	mapflag	nosave	SavePoint
+guild_vs3	mapflag	nowarp
+guild_vs3	mapflag	noteleport
+guild_vs3	mapflag	nomemo
+guild_vs3	mapflag	pvp
+guild_vs3	mapflag	loadevent
+guild_vs3	mapflag	noreturn
+guild_vs3	mapflag	nobranch
+guild_vs3	mapflag	pvp_noguild
+guild_vs3	mapflag	allow_bg_items
+
+
+guild_vs4	mapflag	nopenalty
+guild_vs4	mapflag	nosave	SavePoint
+guild_vs4	mapflag	nowarp
+guild_vs4	mapflag	noteleport
+guild_vs4	mapflag	nomemo
+guild_vs4	mapflag	gvg_castle
+guild_vs4	mapflag	loadevent
+guild_vs4	mapflag	noreturn
+guild_vs4	mapflag	nobranch
+guild_vs4	mapflag	pvp_noguild
+guild_vs4	mapflag	allow_bg_items
+
+//guild_vs1,31,68,5	duplicate(PVP_Warper_Out)	Battle Support#1	413
+//guild_vs1,68,31,1	duplicate(PVP_Warper_Out)	Battle Support#2	417
+guild_vs2,49,92,4	duplicate(PVP_Warper_Out)	Battle Support#3	417
+guild_vs2,7,49,6	duplicate(PVP_Warper_Out)	Battle Support#4	417
+guild_vs2,49,7,10	duplicate(PVP_Warper_Out)	Battle Support#5	417
+guild_vs2,92,49,6	duplicate(PVP_Warper_Out)	Battle Support#6	417
+guild_vs3,30,69,5	duplicate(PVP_Warper_Out)	Battle Support#7	413
+guild_vs3,69,30,1	duplicate(PVP_Warper_Out)	Battle Support#8	417
+//guild_vs4,31,68,5	duplicate(PVP_Warper_Out)	Battle Support#9	413
+//guild_vs4,68,31,1	duplicate(PVP_Warper_Out)	Battle Support#10	417
+//guild_vs5,31,66,5	duplicate(PVP_Warper_Out)	Battle Support#11	413
+//guild_vs5,64,32,1	duplicate(PVP_Warper_Out)	Battle Support#12	417
+
+morocc,146,99,6	duplicate(Melvin)	Battle Recruiter#2	430
+ayothaya,144,111,5	duplicate(Melvin)	Battle Recruiter#3	430
+geffen,129,69,3	duplicate(Melvin)	Battle Recruiter#4	430
+umbala,117,135,5	duplicate(Melvin)	Battle Recruiter#5	430
+payon,165,99,6	duplicate(Melvin)	Battle Recruiter#6	430
+alberta,104,60,5	duplicate(Melvin)	Battle Recruiter#7	430
+izlude,123,84,5	duplicate(Melvin)	Battle Recruiter#9	430
+xmas,153,110,4	duplicate(Melvin)	Battle Recruiter#10	430
+comodo,148,178,5	duplicate(Melvin)	Battle Recruiter#11	430
+amatsu,209,124,3	duplicate(Melvin)	Battle Recruiter#12	430
+gonryun,166,109,3	duplicate(Melvin)	Battle Recruiter#13	430
+yuno,165,80,3 	duplicate(Melvin)	Battle Recruiter#14	430
+nif_in,26,80,6	duplicate(Melvin)	Battle Recruiter#15	430
+louyang,210,98,5	duplicate(Melvin)	Battle Recruiter#16	430
+einbroch,52,187,0	duplicate(Melvin)	Battle Recruiter#17	430
+lighthalzen,153,84,5	duplicate(Melvin)	Battle Recruiter#18	430
+einbech,80,125,5	duplicate(Melvin)	Battle Recruiter#19	430
+rachel,123,117,5	duplicate(Melvin)	Battle Recruiter#20	430
+veins,210,135,6	duplicate(Melvin)	Battle Recruiter#21	430
+moscovia,218,197,5	duplicate(Melvin)	Battle Recruiter#22	430
+hugel,91,139,5	duplicate(Melvin)	Battle Recruiter#23	430
+brasilis,191,175,5	duplicate(Melvin)	Battle Recruiter#24	430
+dicastes01,190,181,5	duplicate(Melvin)	Battle Recruiter#25	430
+aldebaran,131,119,5	duplicate(Melvin)	Battle Recruiter#26	430
+jawaii,185,235,5	duplicate(Melvin)	Battle Recruiter#27	430
+manuk,271,230,5	duplicate(Melvin)	Battle Recruiter#28	430
+splendide,165,165,5	duplicate(Melvin)	Battle Recruiter#29	430
+mid_camp,202,290,5	duplicate(Melvin)	Battle Recruiter#30	430

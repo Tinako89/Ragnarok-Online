@@ -9,9 +9,9 @@
 		if (getgmlevel() >= 50) {
 		
 			mes .@nombre$;
-			mes "Bienvenido a las busquedas avanzadas de Partys ¿Qué deseas hacer?.";
+			mes "Welcome to the party announce system!. Please, do not make any offensive announce.";
 			next;
-			switch(select("Moderar:Usar NPC como Usuario:Salir")) {
+			switch(select("Moderar:Usar NPC como usuario:Salir")) {
 				case 2:
 					break;
 				
@@ -604,7 +604,7 @@ if(.timedelay == 0){
         
     delwaitingroom;
     if(.party == 0)
-        waitingroom "Registra una Party",0;
+        waitingroom "Registra una party!",0;
     else 
         waitingroom $@announce_ttl$[.pos],0;
     
@@ -690,48 +690,30 @@ OnDeletePetition:
 }
 
 
-prontera.gat,140,182,6	duplicate(BPartys)	Buscador Party#1	831
-//morocc.gat,153,97,9	duplicate(BPartys)	Buscador Party#2	831
-//ayothaya.gat,221,180,4	duplicate(BPartys)	Buscador Party#3	831
-//geffen.gat,112,63,4	duplicate(BPartys)	Buscador Party#33	831
-//umbala.gat,83,157,4	duplicate(BPartys)	Buscador Party#4	831
-//alberta.gat,33,240,4	duplicate(BPartys)	Buscador Party#5	831
-//aldebaran.gat,147,129,4	duplicate(BPartys)	Buscador Party#6	831
-//izlude.gat,133,120,4	duplicate(BPartys)	Buscador Party#7	831
-//xmas.gat,155,136,4	duplicate(BPartys)	Buscador Party#8	831
-//comodo.gat,193,158,4	duplicate(BPartys)	Buscador Party#9	831
-//amatsu.gat,102,154,3	duplicate(BPartys)	Buscador Party#10	831
-//gonryun.gat,152,122,1	duplicate(BPartys)	Buscador Party#12	831
-//yuno.gat,167,187,4	duplicate(BPartys)	Buscador Party#35	831
-//nif_in.gat,205,179,5	duplicate(BPartys)	Buscador Party#13	831
-//louyang.gat,221,106,4	duplicate(BPartys)	Buscador Party#14	831
-//hugel.gat,98,166,4	duplicate(BPartys)	Buscador Party#15	831
-//payon.gat,192,104,4	duplicate(BPartys)	Buscador Party#16	831
-//einbech.gat,205,127,4	duplicate(BPartys)	Buscador Party#17	831
-//rachel.gat,105,133,2	duplicate(BPartys)	Buscador Party#18	831
-//veins.gat,223,136,4	duplicate(BPartys)	Buscador Party#19	831
-//splendide.gat,206,153,4	duplicate(BPartys)	Buscador Party#20	831
-//moscovia.gat,230,199,4	duplicate(BPartys)	Buscador Party#21	831
-//einbroch.gat,55,206,1	duplicate(BPartys)	Buscador Party#22	831
-//lighthalzen.gat,158,100,4	duplicate(BPartys)	Buscador Party#23	831
-//brasilis.gat,190,221,2	duplicate(BPartys)	Buscador Party#24	831
-//dewata.gat,206,184,4	duplicate(BPartys)	Buscador Party#25	831
-//dicastes01.gat,194,194,4	duplicate(BPartys)	Buscador Party#26	831
-//alexandria.gat,165,153,4	duplicate(BPartys)	Buscador Party#27	831
-//manuk.gat,271,236,9	duplicate(BPartys)	Buscador Party#28	831
-//payon.gat,145,230,9	duplicate(BPartys)	Buscador Party#29	831
-//prontera.gat,146,104,2	duplicate(BPartys)	Buscador Party#30	831
-//prontera.gat,46,212,1	duplicate(BPartys)	Buscador Party#31	831
-//prontera.gat,263,212,4	duplicate(BPartys)	Buscador Party#32	831
-//malaya.gat,222,204,2	duplicate(BPartys)	Buscador Party#34	831
-//alberta.gat,129,53,7	duplicate(BPartys)	Buscador Party#36	831
-//sec_in01.gat,129,83,2	duplicate(BPartys)	Buscador Party#37	831
-//p_track01.gat,73,22,7	duplicate(BPartys)	Buscador Party#38	831
-//quiz_02.gat,299,241,2	duplicate(BPartys)	Buscador Party#39	831
-//cmd_fild07.gat,272,126,3	duplicate(BPartys)	Buscador Party#40	831
-//moc_para01.gat,24,22,7	duplicate(BPartys)	Buscador Party#41	831
-lroom00.gat,114,63,2	duplicate(BPartys)	Buscador Party#42	831
-
-
-
-
+prontera.gat,163,185,4	duplicate(BPartys)	Buscador Party#1	831
+morocc.gat,168,82,4	duplicate(BPartys)	Buscador Party#2	831
+ayothaya.gat,150,123,4	duplicate(BPartys)	Buscador Party#3	831
+geffen.gat,127,68,4	duplicate(BPartys)	Buscador Party#31	831
+umbala.gat,83,157,4	duplicate(BPartys)	Buscador Party#4	831
+alberta.gat,120,68,4	duplicate(BPartys)	Buscador Party#5	831
+aldebaran.gat,131,122,5	duplicate(BPartys)	Buscador Party#6	831
+izlude.gat,136,116,4	duplicate(BPartys)	Buscador Party#7	831
+xmas.gat,156,126,4	duplicate(BPartys)	Buscador Party#8	831
+comodo.gat,197,157,4	duplicate(BPartys)	Buscador Party#9	831
+amatsu.gat,211,124,3	duplicate(BPartys)	Buscador Party#10	831
+gonryun.gat,156,127,4	duplicate(BPartys)	Buscador Party#12	831
+yuno.gat,161,92,4	duplicate(BPartys)	Buscador Party#35	831
+nif_in.gat,29,21,4	duplicate(BPartys)	Buscador Party#13	831
+louyang.gat,215,108,4	duplicate(BPartys)	Buscador Party#14	831
+hugel.gat,103,149,4	duplicate(BPartys)	Buscador Party#15	831
+payon.gat,179,112,4	duplicate(BPartys)	Buscador Party#16	831
+einbech.gat,79,99,4	duplicate(BPartys)	Buscador Party#17	831
+rachel.gat,137,102,4	duplicate(BPartys)	Buscador Party#18	831
+veins.gat,205,133,8	duplicate(BPartys)	Buscador Party#19	831
+splendide.gat,172,164,4	duplicate(BPartys)	Buscador Party#20	831
+moscovia.gat,237,194,4	duplicate(BPartys)	Buscador Party#21	831
+einbroch.gat,59,196,4	duplicate(BPartys)	Buscador Party#22	831
+lighthalzen.gat,159,102,4	duplicate(BPartys)	Buscador Party#23	831
+brasilis.gat,190,220,4	duplicate(BPartys)	Buscador Party#24	831
+dewata.gat,194,202,4	duplicate(BPartys)	Buscador Party#25	831
+dicastes01.gat,203,169,3	duplicate(BPartys)	Buscador Party#26	831

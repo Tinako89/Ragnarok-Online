@@ -1,0 +1,46 @@
+prontera,169,180,4	script	Stylist	503,{
+setarray .@s[1], 1, 6, 7;	// Estilos.
+	setarray .@m[1], 68, 263, 553;	// Max estilo (Peinado, Color cabello, Color ropa).
+	set .@n$, "^2b86b5Estilista^000000";
+	mes .@n$;
+	mes "Hola "+ strcharinfo(0) +".";
+	mes "Has venido aqui para cambiar tu apariencia?";
+	mes "Si es asi! estas en el lugar indicado.";
+	mes "Que es lo que te gustaria cambiar?";
+	next;
+	set .@a, select ( "^FF0000Peinado^000000", "^9933ccColor de Cabello^000000", "^00CC00Color de Ropa^000000" );
+	mes .@n$;
+	mes "Bien, y de donde deseas partir?";
+	next;
+	set .@b, select ( "^FF4500Desde 0^000000", "Desde mi estilo actual", "Desde un numero especifico" );
+	mes .@n$;
+	if ( .@b == 3 ) {
+		mes "Desde que numero te gustaria comenzar?";
+		input .@n;
+		next;
+		mes .@n$;
+	}
+	else set .@n, ( ( .@b == 1 ) ? 0 : getlook ( .@s[.@a] ) );
+	mes "Bien, ya podemos partir.";
+	next ;
+	while ( .@c != 3 ) {
+		mes .@n$;
+		setlook .@s[.@a], .@n;
+		mes "Cambiando: ^37708e"+ ( ( .@a == 1 ) ? "Peinado" : ( ( .@a == 2 ) ? "Color del cabello" : "Color de ropa" ) );
+		mes "^000000Estilo actual: ^e83333"+ .@n +"^000000";
+		set .@a$, ( ( .@r == 1 ) ? "Anterior [^e83c00"+ ( ( .@n - 1 == (-1) ) ? .@m[.@a] : .@n - 1 ) +"^000000]" : "Siguiente [^e83c00"+ ( .@n + 1 ) +"^000000]" );
+		set .@c, select ( .@a$, ( ( .@r == 1 ) ? "Siguiente [^e83c00"+ ( .@n + 1 ) +"^000000]" : "Anterior [^e83c00"+ ( ( .@n - 1 == (-1) ) ? .@m[.@a] : .@n - 1 ) +"^000000]" ), "Me quedo con este" );
+		if ( ( .@c == 1 && .@r == 1 ) || ( .@c == 2 && .@r == 0 ) ) set .@n, .@n - 1;
+		else set .@n, .@n + 1;
+		if ( .@n < 0 ) set .@n, .@m[.@a];
+		if ( .@n > .@m[.@a] ) set .@n, 0;
+		if ( .@c == 2 && .@r == 0 ) set .@r, 1;
+		else if ( .@c == 2 && .@r == 1 ) set .@r, 0;
+	}
+	mes .@n$;
+	mes "Que bien has quedado!";
+	mes "Que pases un buen dia.";
+	  close2 ;
+   cutin "job_alche_vincent",255;
+	close ;
+}

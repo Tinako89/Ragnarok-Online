@@ -1,0 +1,15 @@
+//Alexandria Warps
+alexandria,158,152,0	warp	alex01	1,1,alexa_in,90,144
+alexa_in,90,142,0	warp	alex02	1,1,alexandria,158,149,0
+alexa_in,99,151,0	warp	alex03	1,1,alexa_in,181,94
+alexa_in,178,94,0	warp	alex04	1,1,alexa_in,96,151
+alexandria,142,171,0	warp	alex05	1,1,alexa_in,88,288
+alexa_in,88,284,0	warp	alex06	1,1,alexandria,144,168,0
+alexa_in,95,287,0	warp	alex07	1,1,alexandria,140,172,0
+alexandria,138,175,0	warp	alex08	1,1,alexa_in,95,290
+alexandria,168,172,0	warp	alex09	1,1,alexa_in,223,303
+alexa_in,220,303,0	warp	alex10	1,1,alexandria,166,170,0
+alexa_in,231,294,0	warp	alex11	1,1,alexa_in,229,224,0
+alexa_in,229,227,0	warp	alex12	1,1,alexa_in,231,297,0
+alexa_in,218,215,0	warp	alex13	1,1,alexandria,181,162,0
+alexandria,184,162,0	warp	alex14	1,1,alexa_in,221,215,0

@@ -1,0 +1,225 @@
+prontera.gat,150,150,5	script	Veterinario	119,{
+mes "[Veterinario]";
+mes " Hola strcharinfo(0)";
+mes "veo que te gustaria aprender de los Pets";
+Next;
+
+mes "Bien, dime de cual te gustaria aprender";
+menu,"poring",poring,"Dops",drops,"Poporing",poporing,"Chonchon",chon,"steel ChonChon",steel,"Hunter Fly",hunter,"Spore",spore,"Poison Spore",poison,"Lunatic",lunatic,"Picky",picky,"Peco Peco",peco,"Savage Bebe",savage,"Deset Wolf Puppy",desert,"Rocker",rocker,"Metaller",metaller,"Smokie",smokie,"Yoyo",yoyo,"Isis",isis,"Munak",munak,"Bon Gun",bon,"Sohee",sohee,"Baphomet Jr.",bapho,"Deviruchi",deviruchi,"Dokkaebi",Dokkaebi,"Orc Warrior",orc,"Petite",petite,"Alice",alice,"Zealotus",zealotus;
+
+poring:
+mes "[Veterinario]";
+mes "Come Apple Juice";
+mes "Le gusta cargar con un BackPack";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+dops:
+mes "[Veterinario]";
+mes "Come Yellow herb";
+mes "Le gusta cargar con un backpack";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+poporing:
+mes "[Veterinario]";
+mes "Come green herb";
+mes "Le gusta carga con un backpack";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+chon:
+mes "[Veterinario]";
+mes "Come Pet food";
+mes "Le gusta cargar con un Monster Oxygen Mask";
+Next;
+mes "Que tengas un buen día srtcharinfo(0)";
+Close;
+
+Steel:
+mes "[Veterinario]";
+mes "Come Iron Ore";
+mes "Le gusta cargar con un Monster Oxygen Mask";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+hunter:
+mes "[Veterinario]";
+mes "Come Red Gemstone";
+mes "Le gusta carga con un Monster Oxygen Mask";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+spore:
+mes "[Veterinario]";
+mes "Come Pet food";
+mes "Le gusta carga con un Bark Shorts";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+poison:
+mes "[Veterinario]";
+mes "Come pet food";
+mes "Le gusta carga con un Bark Shorts";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+lunatic:
+mes "[Veterinario]";
+mes "Come Carrot juice";
+mes "Le gusta carga con un Silk Ribbon";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+picky:
+mes "[Veterinario]";
+mes "Come Red herb";
+mes "Le gusta carga con un Tiny Egg Shell";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+peco:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Battered Pot";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+savage:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Green Lace";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+desert:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Transparent Head Protector";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+rocker:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Rocker Glasses";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+metaller:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Rocker Glasses";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+smokie:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Red Scarf";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+yoyo:
+mes "[Veterinario]";
+mes "Come Banana Juice";
+mes "Le gusta carga con un Monkey Circlet";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+isis:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Queen's Hair Ornament";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+munak:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Punisher";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+bon:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Grave Keeper's Sword";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+sohee:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Golden Bell";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+bapho:
+mes "[Veterinario]";
+mes "Come Honey";
+mes "Le gusta carga con un Skull Helm";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+deviruchi:
+mes "[Veterinario]";
+mes "Come Shoot";
+mes "Le gusta carga con un Pacifier";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+dokkaebi:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Wig";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+petite:
+mes "[Veterinario]";
+mes "Come Pet Food";
+mes "Le gusta carga con un Stellar hairpin";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+alice:
+mes "[Veterinario]";
+mes "Come White Potion";
+mes "Este monstruo aun no se conoce con que objeto se siente mas comodo, pero se dice que le gusta tener una manta";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+
+zealotus:
+mes "[Veterinario]";
+mes "Come Inmortal Heart";
+mes "Este Monstruo no carga con ningún objeto";
+Next;
+mes "Que tengas un buen día strcharinfo(0)";
+Close;
+}

@@ -1,0 +1,583 @@
+// NorthWest -----------------------------------------------------------------
+amatsu,191,130,5	script	Kafra Employee	721,{
+
+opciones:
+	cutin "kafra_07",2;
+if (Sex == 1){
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Bienvenido "+strcharinfo(0)+"";
+	mes " ";
+	mes "¿Qué deseas hacer?";
+	goto opciones2;}
+
+if (Sex == 0){
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Bienvenida "+strcharinfo(0)+"";
+	mes " ";
+	mes "¿Qué deseas hacer?";
+	goto opciones2;}
+
+opciones2:
+next;
+menu "Save Point",guardar,"Open Storage",almacen,"Banker",bank,"Platinium Skill",platinium,"Rent",alquilar,"Cancel",nada;
+
+guardar:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "This service allows you to return here, after you get out of combat.";
+next;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Do you wanna change your save point to this one?";
+	mes " ";
+	mes " ";
+	mes " ";
+if (LocalKafra == 1) mes "Save Point: ^0000CC" + getsavepoint(0);
+next;
+menu "Save",gaceptar,"Don't Save",nada;
+close;
+
+gaceptar:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Your save point has been changed to this place.";
+set LocalKafra,1;
+getmapxy .@m$,.@x,.@y,0;
+save .@m$,.@x,.@y;
+specialeffect2 500;
+specialeffect2 18;
+close2;
+cutin "", 255;
+end;
+
+almacen:
+	if(basicskillcheck() && getskilllv(1) < 6)goto nobasic;
+	if (#KafraPass > 0){
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Before opening your storage, tell me your password.";
+input @KafraContr;
+next;
+if (#KafraPass == @KafraContr)goto almacenON;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Wrong password.";
+next;
+goto nada;
+close;}
+	almacenON:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Opening "+strcharinfo(0)+" storage...";
+close2;
+cutin "", 255;
+set RESRVPTS,RESRVPTS+rand(1,10);
+openstorage;
+end;
+
+galmacen:
+	if(BaseLevel < 80) goto galmlv;
+	if(basicskillcheck() && getskilllv(1) < 6)goto nobasic;
+	if(Zeny <500) goto nodinero;
+
+	if (#KafraPass > 0){
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Before opening your storage, tell me your password.";
+input @KafraContr;
+next;
+if (#KafraPass == @KafraContr)goto galmacenON;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Wrong password.";
+next;
+goto nada;
+close;}
+	galmacenON:
+	if (guildopenstorage() == 1)goto usandogstorage;
+	if (guildopenstorage() == 2)goto singuild;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Opening "+strcharinfo(2)+"storage...";
+next;
+cutin "", 255;
+set Zeny,Zeny -500;
+set RESRVPTS,RESRVPTS+rand(1,30);
+guildopenstorage();
+close;
+
+galmlv:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "You need to be at least level 80 to acces the Guild Storage";
+close;
+
+nada:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "See you soon.";
+close2;
+	cutin "", 255;
+end;
+
+usandogstorage:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "I'm sorry "+strcharinfo(0)+" but someone from"+strcharinfo(2)+" is already using this storage.";
+next;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "You can try again later.";
+close2;
+	cutin "", 255;
+end;
+
+alquilar:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	if(Zeny <800) goto nodinero2;
+	mes "Choose one of the following options:";
+	switch(select("Cart:Falcon:Peco")) {
+		case 1:
+			if((BaseClass == Job_Merchant || BaseJob == Job_SuperNovice) && checkcart() == 0 && getskilllv("MC_PUSHCART")>0) {
+				set Zeny,Zeny -800;
+				setcart;
+				close2;
+				cutin "", 255;
+				end;
+			}else{
+				mes " ";
+				mes "I'm sorry " + strcharinfo(0) + ", please check you have the requirements needed to rent a Cart.";
+				close2;
+				cutin "", 255;
+				end;
+			}
+		case 2:
+			if(BaseJob != Job_Archer && BaseClass == Job_Archer && checkfalcon() == 0 && getskilllv("HT_FALCON")>0) {
+				set Zeny,Zeny -800;
+				setfalcon;
+				close2;
+				cutin "", 255;
+				end;
+			}else{
+				mes " ";
+				mes "I'm sorry " + strcharinfo(0) + ", please check you have the requirements needed to rent a Falcon.";
+				close2;
+				cutin "", 255;
+				end;
+			}					
+		case 3:
+			if (BaseJob != Job_Swordman && BaseClass == Job_Swordman && checkriding() == 0 && getskilllv("KN_RIDING")>0) {
+				set Zeny,Zeny -800;
+				setriding;
+				close2;
+				cutin "", 255;
+				end;
+			}else{
+				mes " ";
+				mes "I'm sorry " + strcharinfo(0) + ", please check you have the requirements to rent a Peco Peco.";
+				close2;
+				cutin "", 255;
+				end;
+}
+}
+
+singuild:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "I can't open any Guild Storage if you don't have any Guild.";
+close2;
+	cutin "", 255;
+end;
+
+nobasic:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "I'm sorry, but you need to have your ^0000CCBasic Skills^000000 at least at level 6 to be able to use this service.";
+close2;
+	cutin "", 255;
+end;
+
+nodinero2:
+	mes "I'm sorry but you don't have enough Zenny to use this service.";
+close2;
+	cutin "", 255;
+close;
+
+nodinero:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "i'm sorry but you don't have enough Zenny to use this service.";
+close2;
+	cutin "", 255;
+close;
+
+platinium:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "I can give you the Platinum Skills of your job.";
+	mes " ";
+	mes "Would you like to learn them?";
+	next;
+	if (select("Yes:No") == 2) {
+	mes "[^CC0000 Kafra Employee ^000000]";
+		mes "Have a nice day.";
+		close2;
+		cutin "", 255;
+		close;
+	}
+	skill 142,1,0; // First Aid
+	if (BaseClass == Job_Novice) {
+		skill 143,1,0; // Play Dead
+	} else if (BaseClass == Job_Swordman) {
+		skill 144,1,0; // Moving HP-Recovery
+		skill 145,1,0; // Fatal Blow
+		skill 146,1,0; // Auto Berserk
+	} else if (BaseClass == Job_Mage) {
+		skill 157,1,0; // Energy Coat
+	} else if (BaseClass == Job_Archer) {
+		skill 147,1,0; // Arrow Crafting
+		skill 148,1,0; // Arrow Repel
+	} else if (BaseClass == Job_Merchant) {
+		skill 153,1,0; // Cart Revolution
+		skill 154,1,0; // Change Cart
+		skill 155,1,0; // Crazy Uproar
+	} else if (BaseClass == Job_Thief) {
+		skill 149,1,0; // Sand Attack
+		skill 150,1,0; // Back Slide
+		skill 151,1,0; // Find Stone
+		skill 152,1,0; // Stone Fling
+	} else if (BaseClass == Job_Acolyte) {
+		skill 156,1,0; // Holy Light
+	}
+
+	if (Class == Job_Knight || Class == Job_Lord_Knight) {
+		skill 1001,1,0; // Charge Attack
+		skill 144,1,0; // Moving HP-Recovery
+		skill 145,1,0; // Fatal Blow
+		skill 146,1,0; // Auto Berserk
+	} else if (Class == Job_Crusader || Class == Job_Paladin) {
+		skill 1002,1,0; // Shrink
+		skill 144,1,0; // Moving HP-Recovery
+		skill 145,1,0; // Fatal Blow
+		skill 146,1,0; // Auto Berserk
+	} else if (Class == Job_Wizard || Class == Job_High_Wizard) {
+		skill 1006,1,0; // Sight Blaster
+		skill 157,1,0; // Energy Coat
+	} else if (Class == Job_Sage || Class == Job_Professor) {
+		skill 157,1,0; // Energy Coat
+		skill 1007,1,0; // Create Elemental Converter
+		skill 1008,1,0; // Elemental Change Water
+		skill 1017,1,0; // Elemental Change Earth
+		skill 1018,1,0; // Elemental Change Fire
+		skill 1019,1,0; // Elemental Change Wind
+	} else if (Class == Job_Hunter || Class == Job_Sniper) {
+		skill 147,1,0; // Arrow Crafting
+		skill 148,1,0; // Arrow Repel
+		skill 1009,1,0; // Phantasmic Arrow
+	} else if (Class == Job_Bard || Class == Job_Clown) {
+		skill 147,1,0; // Arrow Crafting
+		skill 148,1,0; // Arrow Repel
+		skill 1010,1,0; // Pang Voice
+	} else if (Class == Job_Dancer || Class == Job_Gypsy) {
+		skill 147,1,0; // Arrow Crafting
+		skill 148,1,0; // Arrow Repel
+		skill 1011,1,0; // Wink of Charm
+	} else if (Class == Job_Blacksmith || Class == Job_Whitesmith) {
+		skill 153,1,0; // Cart Revolution
+		skill 154,1,0; // Change Cart
+		skill 155,1,0; // Crazy Uproar
+		skill 1012,1,0; // Unfair Trick
+		skill 1013,1,0; // Greed
+	} else if (Class == Job_Alchemist || Class == Job_Creator) {
+		skill 153,1,0; // Cart Revolution
+		skill 154,1,0; // Change Cart
+		skill 155,1,0; // Crazy Uproar
+		skill 238,1,0; // Bioethics
+	} else if (Class == Job_Assassin || Class == Job_Assassin_Cross) {
+		skill 149,1,0; // Sand Attack
+		skill 150,1,0; // Back Slide
+		skill 151,1,0; // Find Stone
+		skill 152,1,0; // Stone Fling
+		skill 1003,1,0; // Sonic Acceleration
+		skill 1004,1,0; // Throw Venom Knife
+	} else if (Class == Job_Rogue || Class == Job_Stalker) {
+		skill 149,1,0; // Sand Attack
+		skill 150,1,0; // Back Slide
+		skill 151,1,0; // Find Stone
+		skill 152,1,0; // Stone Fling
+		skill 1005,1,0; // Close Confine
+	} else if (Class == Job_Priest || Class == Job_High_Priest) {
+		skill 1014,1,0; // Redemptio
+		skill 156,1,0; // Holy Light
+	} else if (Class == Job_Monk || Class == Job_Champion) {
+		skill 156,1,0; // Holy Light
+		skill 1015,1,0; // Ki Translation
+		skill 1016,1,0; // Ki Explosion
+	}
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Enjoy your new skills!";
+	close2;
+	cutin "", 255;
+	close;
+
+otros:
+menu "Check Kafra Points",ptoskafra,"Security Service",seguridad,"Special Service 18+",nuke,"Cancel",opciones;
+
+nuke:	
+	cutin "", 255;
+	atcommand "@die";
+	emotion e_lv, 1;
+	emotion e_kis, 0;
+	specialeffect2 183;
+	close;
+
+ptoskafra:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Our Kafra Corporation gives our costumers points for using our services.";
+next;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "You have a total of "+RESRVPTS+" points.";
+next;
+goto otros;
+close;
+
+seguridad:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "With this service we allow you to protect your storage with a password.";
+next;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Do you want to add a password?";
+next;
+menu "Add password (5000 Zeny)",apass,"Modify password (5000 Zeny)",mpass,"Erase password",epass,"Cancel",otros;
+
+apass:
+if(Zeny <5000) goto nodinero;
+if (#KafraPass == 0)goto apass2;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "There is already a defined password, you can't add another one.";
+next;
+goto seguridad;
+close;
+
+apass2:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Choose your new password";
+	mes " ";
+	mes "^0000CCAvoid your new password beginning with 0.^000000";
+input @KafraContr;
+next;
+if (@KafraContr > 99999) goto maxdigitos;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Do you choose ^0000CC"+@KafraContr+"^000000 as your new password?";
+next;
+menu "Accept",acepass,"Cancel",seguridad;
+
+acepass:
+	set #KafraPass,@KafraContr;	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Password has been defined.";
+	set RESRVPTS,RESRVPTS+rand(1,40);
+	set Zeny,Zeny -5000;
+next;
+goto nada;
+close;
+
+mpass:
+if(Zeny <10000) goto nodinero;
+if (#KafraPass == 0)goto nomodi;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Before modifyin the password, tell me your actual password.";
+input @KafraContr;
+next;
+if (#KafraPass == @KafraContr)goto apass2;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Wrong password.";
+next;
+goto nada;
+close;
+
+epass:
+if (#KafraPass == 0)goto nomodi;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Before erasing the password, tell me your actual password.";
+input @KafraContr;
+next;
+if (#KafraPass == @KafraContr)goto epass2;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Wrong password.";
+next;
+goto nada;
+close;
+
+epass2:
+	set #KafraPass,0;
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "Your password has been erased.";
+next;
+goto seguridad;
+close;
+
+
+nomodi:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "You can't modify the password, since you don't have any yet.";
+next;
+goto seguridad;
+close;
+
+maxdigitos:
+	mes "[^CC0000 Kafra Employee ^000000]";
+	mes "The maximum number of digits for a password is 5.";
+next;
+goto apass2;
+
+guildstorage:
+			query_sql "SELECT guild_lv FROM guild WHERE guild_id = "+getcharid(2), .@guild_lv;
+			if (.@guild_lv < 12) {
+			mes "[^CC0000 Kafra Employee ^000000]";
+			mes "Your Guild needs at least level 12 to use this service.";
+				close2;
+				cutin "", 255;
+				end;
+			} else {
+    			callfunc("G_Storage_Pass",getcharid(2),strcharinfo(0) );
+			if(guildopenstorage() == 1){
+				mes "[^CC0000 Kafra Employee ^000000]";
+				mes "I'm sorry, but another member of the guild is using the storage";
+				mes "at this moment. Please, wait until the person had finished.";
+				close2;
+				cutin "", 255;
+				end;
+				}
+			cutin "", 255;
+			close;
+
+bank:
+	function	FailMessage;
+	function	Transaction;
+	function	Display;
+
+	// == Configurations =========================================
+	set .@mz, 1000000000;	// Server Max Zeny (Default: 1000000000)
+	set .@n$, "[^CC0000 Kafra Employee ^000000]";	// NPC Name
+	// ===========================================================
+	
+	mes .@n$;
+	mes "Greetings!";
+	mes "How can I help you?";
+	mes " ";
+	mes "Balance: " + Display(#savings);
+	set .@menu$, "Withdraw:Deposit";
+	set .@j, select ( .@menu$ ) - 1;
+	explode(.@menu$,.@menu$,":"); 	
+	next;
+	mes .@n$;
+	mes "How much would you like to " + .@menu$[.@j] + "?";
+	input .@amt,0,.@mz;
+	if ( .@amt == 0 )
+	{
+		next;
+		mes .@n$;
+		mes "^FF0000Invalid input...^000000";
+		cutin "", 255;
+		close;
+	}
+	next;
+	mes .@n$;
+	mes .@menu$[.@j] + ": " + Display(.@amt);
+	mes " ";
+	mes (.@j!=2)?"Would you like to proceed?":"Thank you!";
+	if ( select ( "Yes:No" ) == 2 ) { cutin "", 255; close; }
+	next;
+	mes .@n$;
+	if ( FailMessage(.@j,.@amt,.@mz) != "" )
+	{
+		mes "^FF0000" +@msg$+ "^000000";
+		set @msg$, "";
+		cutin "", 255;
+		close;
+	}
+	Transaction(.@j,.@amt);
+	mes .@menu$[.@j] + " successful!";
+	cutin "", 255;
+	close;
+
+	function	FailMessage	{
+	
+		switch (getarg(0))
+		{
+			Case 0:	// Withdraw
+				if ( getarg(2) < (Zeny + getarg(1)) ) set @msg$, "You can't hold that much Zeny.";
+				if ( #savings < getarg(1) ) set @msg$, "You have insufficient amount of Zeny in your bank account.";
+				cutin "", 255;
+				break;
+				
+			Case 1:	// Deposit
+				if ( Zeny < getarg(1) ) set @msg$, "You have insufficient amount of Zeny on hand.";
+				cutin "", 255;
+				break;
+		}
+		return @msg$;
+	
+	}
+	
+	function	Transaction	{
+	
+		switch (getarg(0))
+		{
+			Case 0:	// Withdraw
+				set Zeny, Zeny + getarg(1);
+				set #savings, #savings - getarg(1);
+				cutin "", 255;
+				break;
+				
+			Case 1:	// Deposit
+				set Zeny, Zeny - getarg(1);
+				set #savings, #savings + getarg(1);
+				cutin "", 255;
+				break;
+		}
+		return;
+		
+	}
+
+	function	Display	{
+
+		set .@d$, getarg(0);
+		for ( set .@i, getstrlen(.@d$) - 3; .@i > 0; set .@i, .@i - 3 )
+			set .@d$, insertchar(.@d$,",",.@i);
+		set .@d$, "^0000FF" +.@d$+ "^000000 z";
+		return .@d$;
+
+	}
+	
+}
+}
+ 
+
+// NPC: CLONES KAFRAS Optimizadas 27 kafras en 1 sola
+
+alberta,28,229,0	duplicate(Kafra Employee)	Kafra Employee#2	721
+alberta,113,60,6	duplicate(Kafra Employee)	Kafra Employee#3	721
+aldeba_in,96,181,4	duplicate(Kafra Employee)	Kafra Employee#4	721
+aldebaran,131,111,5	duplicate(Kafra Employee)	Kafra Employee#5	721
+ayothaya,144,119,5	duplicate(Kafra Employee)	Kafra Employee#6	721
+comodo,145,176,5	duplicate(Kafra Employee)	Kafra Employee#7	721
+cmd_fild07,136,134,5	duplicate(Kafra Employee)	Kafra Employee#8	721
+einbech,76,124,5	duplicate(Kafra Employee)	Kafra Employee#9	721
+einbroch,60,187,0	duplicate(Kafra Employee)	Kafra Employee#11	721
+geffen,116,73,5	duplicate(Kafra Employee)	Kafra Employee#12	721
+geffen,203,123,2	duplicate(Kafra Employee)	Kafra Employee#13	721
+gonryun,166,119,3	duplicate(Kafra Employee)	Kafra Employee#14	721
+hugel,91,148,5	duplicate(Kafra Employee)	Kafra Employee#15	721
+izlude,119,95,5	duplicate(Kafra Employee)	Kafra Employee#16	721
+lighthalzen,153,102,5	duplicate(Kafra Employee)	Kafra Employee#17	721
+louyang,210,106,5	duplicate(Kafra Employee)	Kafra Employee#18	721
+xmas,142,125,5	duplicate(Kafra Employee)	Kafra Employee#19	721
+morocc,159,93,4	duplicate(Kafra Employee)	Kafra Employee#10	721
+morocc,55,12,4	duplicate(Kafra Employee)	Kafra Employee#20	721
+moscovia,216,192,5	duplicate(Kafra Employee)	Kafra Employee#21	721
+nif_in,36,84,3	duplicate(Kafra Employee)	Kafra Employee#22	721
+payon,181,104,4	duplicate(Kafra Employee)	Kafra Employee#23	721
+payon,175,226,4	duplicate(Kafra Employee)	Kafra Employee#24	721
+pay_arche,55,123,0	duplicate(Kafra Employee)	Kafra Employee#25	721
+prontera,164,175,3	duplicate(Kafra Employee)	Kafra Employee#26	721
+prontera,152,326,3	duplicate(Kafra Employee)	Kafra Employee#27	721
+prontera,151,29,0	duplicate(Kafra Employee)	Kafra Employee#28	721
+prontera,29,207,6	duplicate(Kafra Employee)	Kafra Employee#29	721
+prontera,282,200,2	duplicate(Kafra Employee)	Kafra Employee#30	721
+prontera,146,89,6	duplicate(Kafra Employee)	Kafra Employee#31	721
+rachel,123,112,5	duplicate(Kafra Employee)	Kafra Employee#32	721
+umbala,118,143,5	duplicate(Kafra Employee)	Kafra Employee#33	721
+veins,208,130,5	duplicate(Kafra Employee)	Kafra Employee#34	721
+yuno,150,90,5	duplicate(Kafra Employee)	Kafra Employee#35	721
+yuno,327,108,4	duplicate(Kafra Employee)	Kafra Employee#36	721
+yuno,277,221,4	duplicate(Kafra Employee)	Kafra Employee#37	721
+brasilis,191,186,5	duplicate(Kafra Employee)	Kafra Employee#38	721
+dicastes01,192,176,5	duplicate(Kafra Employee)	Kafra Employee#39	721
+jawaii,186,242,5	duplicate(Kafra Employee)	Kafra Employee#40	721
+manuk,269,225,5	duplicate(Kafra Employee)	Kafra Employee#41	721
+splendide,163,154,5	duplicate(Kafra Employee)	Kafra Employee#42	721
+mid_camp,204,287,5	duplicate(Kafra Employee)	Kafra Employee#43	721

@@ -14,7 +14,7 @@
 //= -- Te lleva a todos los sitios especificos
 //= -- Vende, renta, da save, etc
 //===============================================================
-prontera.gat,160,191,4	script	Karlita::Warper	117,{
+prontera.gat,160,191,4	script	Marian::Warper	117,{
 set .curar, 0; // 1 - Curar al usar || 0 - No curar al usar
 set .nombre$, "[^0000FFMarian^000000]"; // Nombre NPC
 cutin "kafra_01",2;
@@ -26,7 +26,7 @@ next;
 mes .nombre$;
 mes "¿A dónde quieres viajar?";
 mes "O que servicios deseas usar?";
-menu	"^5959FF>^000000 Last Warp ^5959FF["+getmapusers(warpmap$)+"]^000000",lastwarp,"^5959FF>^000000 Ciudades",town,"^5959FF>^000000 Dungeons",dungeon,"^5959FF>^000000 Castillos de WoE",woex,"5959FF>^000000 Guardar",spointx,"5959FF>^000000 Storage",open;
+menu	"^5959FF>^000000 Last Warp ^5959FF["+getmapusers(warpmap$)+"]^000000",lastwarp,"^5959FF>^000000 Ciudades",town,"^5959FF>^000000 Dungeons",dungeon,"^5959FF>^000000 Sitios Especiales",sitiosesp,"^5959FF>^000000 Castillos de WoE",woex,"^000000 Guardar",spointx,"^000000 Storage",open;
 
 
 open:
@@ -157,6 +157,52 @@ switch(select("Merchants ^5959FF["+getmapusers("market")+"]^000000:Mercado Zeny 
 		warp "neko_isle",83,137;		callfunc "LastMapSave";
 		end;
 }
+end;
+//-------------------------------
+//          Woe
+//-------------------------------
+woex:
+switch(select("WoE Jueves Prontera ^5959FF["+getmapusers("prt_gld")+"]^000000:WoE Sabado Geffen ^5959FF["+getmapusers("gef_fild13")+"]^000000:WoE Domingo 2.0 ^5959FF["+getmapusers("sch_gld")+"]^000000"))
+{
+	case 1:
+		warp "prt_gld",160,82;		callfunc "LastMapSave";
+		end;
+	case 2:
+		warp "gef_fild13",189,274;		callfunc "LastMapSave";
+		end;
+	case 3:
+		warp "sch_gld",294,100;		callfunc "LastMapSave";
+		end;
+	//case 4:
+		//warp "quiz_02",234,382;		callfunc "LastMapSave";
+		//end;
+}
+end;
+
+//-------------------------------
+//        kaframultiusos
+//-------------------------------
+kafra:
+set .@name$, "^FF0000[Marian]^000000";
+mes .@name$;
+	mes "Hola ^5882FA"+strcharinfo(0)+"^000000.";
+	mes "En Qué Puedo Ayudarte??";
+	menu
+	"Job Master",job,
+	"Reset",reset,
+	"Platinum Skill",platinum,
+	"Rentador Universal",rental;
+
+//-------------------------------
+//        itemshop
+//-------------------------------
+items:
+	mes "^FF0000[Marian]^000000";
+	mes "Consumibles Universales.";
+	mes "Cierra esta ventana para accesar a la tienda, Suerte!!";
+	close2;
+	callshop "consumibles_shop2",0;
+	end;
 
 //-------------------------------
 //          Dungeons
