@@ -1,0 +1,87 @@
+//===== EinherjarRO Scripts ================================== 
+//= Daily Prize, OnPCLoginEvent
+//===== By: ================================================== 
+//= Stolao
+//===== Current Version: ===================================== 
+//= 1.59
+//===== Compatible With: ===================================== 
+//= rAthena SVN
+//===== Description: ========================================= 
+//= A reward system for players who play more frequently
+//===== Comments: ============================================
+//= Maybe Make .MinWait an array mins,days,weeks,months,years;
+//===== Additional Comments: =================================
+//= For Older See Forums
+//= 1.51 Changed set .@g formula and move lower into script
+//= 1.52 Replace all disbottom -> message
+//= 1.53 Changed Format to Include minuets instead of just hours
+//= 1.54 Made Time till next rewards display dynamic
+//= 1.55 Changed a forgotten  .PointType$ -> getd(.@TT[1])
+//= 1.56 changed .@XT -> .@XT$
+//= 1.57 Added Atoi where nessisary
+//= 1.58 Fixed a swapped .@x and .@x+1
+//= 1.59 Serveral Edit Undocumented to fix
+//===== Contact Info: ========================================
+//= [Stolao] 
+//= Email: Taingram11@gmail.com
+//============================================================
+-	script	LOGINDRWN	-1,{
+OnPCLoginEvent:
+	
+	query_sql "SELECT COUNT(*) FROM `dailyreward_control` WHERE `uniqueid` IN (SELECT `last_unique_id` FROM `login` WHERE `account_id` = "+getcharid(3)+") OR `ip` IN (SELECT `last_ip` FROM `login` WHERE `account_id` = "+getcharid(3)+")",.@exist;
+	if(.@exist != 0) {
+		message strcharinfo(0),"[ Daily Rewards ]: Ya tienes la recompensa del día en una cuenta, debes esperar la próxima.";		
+	} else {
+		message strcharinfo(0),"[ Daily Rewards ]: Toma tu recompensa del día.";
+		query_sql "INSERT INTO `dailyreward_control` (`date`, `account_id`, `ip`, `uniqueid`) VALUES (NOW(), "+getcharid(3)+", '"+getcharip(getcharid(3))+"', "+get_unique_id()+")";
+		getitem 7539,3;	
+		getitem 673,3;	
+		getitem .RewardBox[rand(0,22)],1;
+		query_sql "SELECT `value` FROM `mapreg` WHERE `varname` = '$DAILYDAY'",.@valday;
+		cutin .Pic$[.@valday-1],4;
+	}
+	end;
+	
+OnClock0000:
+	//query_sql "SELECT `value` FROM `mapreg` WHERE `varname` = '$DAILYDAY'",.@valday;
+	set $DAILYDAY,$DAILYDAY+1;
+	if(.@valday >= 28) set $DAILYDAY,1;
+	//if(.@valday >= 28) query_sql "UPDATE `mapreg` SET `value` = 1 WHERE `varname`  FROM `dailyreward_control`";	
+	//else query_sql "UPDATE `mapreg` SET `value` = `value`+1 WHERE `varname`  FROM `dailyreward_control`";
+	query_sql "DELETE FROM `dailyreward_control`";
+	end;
+
+OnInit:
+	setarray .RewardBox,644,664,665,666,667,603,617,5000,12111,644,664,665,666,667,603,617,644,664,665,666,667,603,617;
+
+	setarray .Pic$,
+	"daily_01", //pic with day1 highlighted
+	"daily_02", //pic with day2 highlighted
+	"daily_03", //pic with day3 highlighted
+	"daily_04", //pic with day4 highlighted
+	"daily_05", //pic with day5 highlighted
+	"daily_06", //pic with day6 highlighted
+	"daily_07", //pic with day7 highlighted
+	"daily_08", //pic with day8 highlighted
+	"daily_09", //pic with day9 highlighted
+	"daily_10", //pic with day10 highlighted
+	"daily_11", //pic with day11 highlighted
+	"daily_12", //pic with day12 highlighted
+	"daily_13", //pic with day13 highlighted
+	"daily_14", //pic with day14 highlighted
+	"daily_15", //pic with day15 highlighted
+	"daily_16", //pic with day16 highlighted
+	"daily_17", //pic with day17 highlighted
+	"daily_18", //pic with day18 highlighted
+	"daily_19", //pic with day19 highlighted
+	"daily_20", //pic with day20 highlighted
+	"daily_21", //pic with day21 highlighted
+	"daily_22", //pic with day22 highlighted
+	"daily_23", //pic with day23 highlighted
+	"daily_24", //pic with day24 highlighted
+	"daily_25", //pic with day25 highlighted
+	"daily_26", //pic with day26 highlighted
+	"daily_27", //pic with day27 highlighted
+	"daily_28"; //pic with day28 highlighted	 
+	end;
+}

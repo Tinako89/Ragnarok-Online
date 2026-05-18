@@ -1,0 +1,142 @@
+Index: src/map/atcommand.c
+===================================================================
+--- src/map/atcommand.c	(revision 15419)
++++ src/map/atcommand.c	(working copy)
+@@ -8827,6 +8827,129 @@
+ 	return 0;
+ }
+ 
++/*==========================================
++* @jumptowhosell - warps to the cheapest shop.
++* Made by Vengence
++*------------------------------------------*/
++ACMD_FUNC(jumptowhosell)
++{
++	char item_name[100];
++	int item_id = 0, j, count = 0, sat_num = 0;
++	int s_type = 1; // search bitmask: 0-name,1-id, 2-card, 4-refine
++	int refine = 0,card_id = 0;
++	bool flag = 0; // place dot on the minimap?
++	struct map_session_data* pl_sd;
++	struct s_mapiterator* iter;
++	unsigned int MinPrice = battle_config.vending_max_value, MaxPrice = 0;
++	struct item_data *item_data;
++
++	nullpo_retr(-1, sd);
++	
++	if (!message || !*message) {
++		clif_displaymessage(fd, "Use: @jtws (<+refine> )(<item_id>)(<[card_id]>) or @jtws <name>");
++		return -1;
++	}
++
++	if (sscanf(message, "+%d %d[%d]", &refine, &item_id, &card_id) == 3){
++		s_type = 1+2+4;
++	}
++	else if (sscanf(message, "+%d %d", &refine, &item_id) == 2){
++		s_type = 1+4;
++	}
++	else if (sscanf(message, "+%d [%d]", &refine, &card_id) == 2){
++		s_type = 2+4;
++	}
++	else if (sscanf(message, "%d[%d]", &item_id, &card_id) == 2){
++		s_type = 1+2;
++	}
++	else if (sscanf(message, "[%d]", &card_id) == 1){
++		s_type = 2;
++	}
++	else if (sscanf(message, "+%d", &refine) == 1){
++		s_type = 4;
++	}
++	else if (sscanf(message, "%d", &item_id) == 1 && item_id == atoi(message)){
++	//names, that start on num are not working
++	//so implemented minumum item_id>500
++	//or better make item_id == atoi(message) ?
++		s_type = 1;
++	}
++	else if (sscanf(message, "%99[^\n]", item_name) == 1){
++		s_type = 1;
++		if ((item_data = itemdb_searchname(item_name)) == NULL){
++			clif_displaymessage(fd, "Not found item with this name");
++			return -1;
++		}
++		item_id = item_data->nameid;
++	}
++	else {
++		clif_displaymessage(fd, "Use: @jtws (<+refine> )(<item_id>)(<[card_id]>) or @jtws <name>");
++		return -1;
++	}
++
++
++	//check card
++	if(s_type & 2 && ((item_data = itemdb_exists(card_id)) == NULL || item_data->type != IT_CARD)){
++		clif_displaymessage(fd, "Not found a card with than ID");
++		return -1;
++	}
++	//check item
++	if(s_type & 1 && (item_data = itemdb_exists(item_id)) == NULL){
++		clif_displaymessage(fd, "Not found an item with than ID");
++		return -1;
++	}
++	//check refine
++	if(s_type & 4){
++		if (refine<0 || refine>10){
++			clif_displaymessage(fd, "Refine out of bounds: 0 - 10");
++			return -1;
++		}
++		/*if(item_data->type != IT_WEAPON && item_data->type != IT_ARMOR){
++			clif_displaymessage(fd, "Use refine only with weapon or armor");
++			return -1;
++		}*/
++	}
++
++	iter = mapit_getallusers();
++	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) )
++	{
++		if( pl_sd->vender_id ) //check if player is vending
++		{
++			for (j = 0; j < pl_sd->vend_num; j++) {
++				if(pl_sd->vending[j].value < MinPrice) MinPrice = pl_sd->vending[j].value;
++				if(pl_sd->vending[j].value > MaxPrice) MaxPrice = pl_sd->vending[j].value;
++				count++;
++				flag = 1;
++			}
++			if(flag && pl_sd->mapindex == sd->mapindex){
++				flag = 0;
++			}
++		}
++	}
++	mapit_free(iter);
++
++	if(count > 0) {
++				iter = mapit_getallusers();
++				for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) )
++				{
++					if( pl_sd->vender_id ) //check if player is vending
++					{
++						for (j = 0; j < pl_sd->vend_num; j++) {
++							if(pl_sd->vending[j].value == MinPrice)
++							{
++							pc_setpos(sd, pl_sd->mapindex, pl_sd->bl.x, pl_sd->bl.y, 3);
++							snprintf(atcmd_output,CHAT_SIZE_MAX, "Warped to %s", pl_sd->status.name);
++							clif_displaymessage(fd, atcmd_output);
++							}
++						}
++					}
++				}
++	} else
++		clif_displaymessage(fd, "Nobody is selling it now.");
++
++	return 0;
++}
++
+ /**
+  * Fills the reference of available commands in atcommand DBMap
+  **/
+@@ -9071,6 +9194,7 @@
+ 		{ "delitem",           60,60,     atcommand_delitem },
+ 		{ "charcommands",       1,1,      atcommand_commands },
+ 		{ "font",               1,1,      atcommand_font },
++		{ "jtws",           1,99,     atcommand_jumptowhosell }, //[Vengence]
+ 		/**
+ 		 * For Testing Purposes, not going to be here after we're done.
+ 		 **/
